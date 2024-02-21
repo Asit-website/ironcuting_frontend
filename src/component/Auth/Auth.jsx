@@ -1,7 +1,44 @@
-import React from 'react';
+import React,{useState} from 'react';
 import loginImage1 from "../../image/loginImage.png";
-
+import { useMain } from '../../hooks/useMain';
+import { useNavigate } from 'react-router-dom';
 const Auth = () => {
+    const {login,setUser} = useMain();
+    const navigate = useNavigate();
+    const [value, setValue] = useState({
+        email: '',
+        password: ''
+    });
+
+    const handleChange = (e) => {
+        setValue({ ...value, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const ans = await login(value);
+        console.log(ans);
+        // console.log(ans.)
+        // notify(ans.status, ans.message);
+        alert("login success")
+        if (ans.status) {
+            setUser(ans.user);
+            localStorage.setItem('iron_user', JSON.stringify(ans.user));
+            localStorage.setItem('iron_token', JSON.stringify({
+                token: ans.token,
+                rememberMe: document.getElementById('remember')?.checked,
+                expiry: new Date().getTime() + 24 * 60 * 60 * 1000 // 1 Day
+            }));
+            
+            if (ans.user.role === 'ADMIN') {
+                navigate('/dashboard');
+            }
+            else {
+                navigate('/');
+            }
+        }
+    }
     return (
         <div class="iron-login-man">
             <div class="iron-login-main">
