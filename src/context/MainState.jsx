@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import MainContext from "./MainContext";
 
-// const baseUrl = 'http://localhost:5000';
-const baseUrl = 'https://backend.bln.obtechenterprise.com';
+const baseUrl = 'http://localhost:5000';
+// const baseUrl = 'https://backend.bln.obtechenterprise.com';
 
 
 
@@ -30,7 +30,7 @@ const MainState = (props) => {
 
 
   return (
-    <MainContext.Provider value={{ login }}>
+    <MainContext.Provider value={{ login,setUser }}>
       {props.children}
     </MainContext.Provider>
   );

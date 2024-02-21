@@ -21,7 +21,7 @@ const Auth = () => {
         console.log(ans);
         // console.log(ans.)
         // notify(ans.status, ans.message);
-        alert("login success")
+        alert(ans.message)
         if (ans.status) {
             setUser(ans.user);
             localStorage.setItem('iron_user', JSON.stringify(ans.user));
@@ -35,7 +35,7 @@ const Auth = () => {
                 navigate('/dashboard');
             }
             else {
-                navigate('/');
+               alert("err")
             }
         }
     }
@@ -50,26 +50,26 @@ const Auth = () => {
                        <div class="login-page">
                            <h2>Log In</h2>
                            <div class="login-form-main">
-                               <form>
+                               <form onSubmit={handleSubmit}>
                                    <div class="login-form">
-                                       <label for="email">Email</label>
-                                       <input id="email" type="text" placeholder="Enter your email"/>
+                                       <label htmlFor="email">Email</label>
+                                       <input name='email' onChange={handleChange} id="email" type="email" value={value.email} placeholder="Enter your email"/>
                                    </div>
                                    <div class="login-form">
-                                       <label>password</label>
-                                       <input type="text" placeholder="Enter your password"/>
+                                       <label htmlFor='password'>password</label>
+                                       <input onChange={handleChange} name='password' value={value.password} id='password' type="password" placeholder="Enter your password"/>
                                    </div>
                                    <div class="forget-pass">
                                        <div class="check-remember">
-                                           <input type="checkbox" name="remember"/>
-                                           <label>Remember me</label>
+                                           <input id="remember" type="checkbox"/>
+                                           <label htmlFor='remember' >Remember me</label>
                                        </div>
                                        <div class="login-password">
                                            <span class="psw"><a href="#">Forgot password?</a></span>
                                        </div>
                                    </div>
                                    <div class="Login-btn">
-                                       <button type="button" class="Logbtn">Log in</button>
+                                       <button type="submit" class="Logbtn">Log in</button>
                                        <p>Terms of Use and Privacy Policy.</p>
                                    </div>
                                </form>
