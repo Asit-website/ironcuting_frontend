@@ -1,0 +1,45 @@
+.sideWrap{
+    max-width: 265px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 30px 0px;
+}
+.sideWrap .dashbord{
+ display: flex;
+ padding: 10px 20px;
+ gap: 10px;
+ width: 100%;
+ 
+ background: #4D32920D;
+ align-items: center;
+ 
+}
+.sideWrap .dashbord select{
+    width: 100%;
+    font-family: Gilroy-Medium;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0px;
+    text-align: left;
+    color: #464E59;
+    background-color: transparent;
+}
+.sideWrap .nanItem{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+  width: 100%;
+}
+.sideWrap .nanItem span{
+    font-family: Gilroy-Medium;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0px;
+    text-align: left;
+color: #464E59;    
+}

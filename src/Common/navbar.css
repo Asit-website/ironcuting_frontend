@@ -1,0 +1,42 @@
+.navBr_wrap{
+    width: 100%;
+    position: relative;
+    background-color: white;
+    z-index: 200;
+}
+
+.navBr_Cont{
+    max-width: 1440px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 30px 0px;
+    justify-content: space-between;
+ 
+}
+.navBr_Cont h2{
+    font-family: Gilroy-Medium;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    text-align: left;
+color: #060606;    
+}
+.navBr_Cont .createOBtn{
+    width: 144px;
+    height: 48px;
+    padding: 10px;
+    border-radius: 5px;
+background-color: #4D3292;
+    
+}
+.navBr_Cont .createOBtn span{
+    font-family: Gilroy-SemiBold;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    text-align: left;
+color: #FFFFFF;    
+
+}
