@@ -6,6 +6,7 @@ import Dashboard from './component/Auth/Dashboard';
 import MainState from './context/MainState';
 import Navbar from './Common/Navbar';
 import CreateOrder from './Pages/CreateOrder';
+import Selectround from './component/Selectround';
 
 function App() {
   return (
@@ -16,8 +17,9 @@ function App() {
        
           <Routes>
             <Route path='/' element={<Auth />} />
-            <Route path='/dashboard' element={<Dashboard />} />
-            <Route path="/createOrder" element={<CreateOrder /> } />
+            <Route path='/dashboard' element={<Dashboard/>}/>
+            <Route path="/createOrder" element={<CreateOrder/>}/>
+            <Route path="/selectround" element={<Selectround/>}/>
           </Routes>
         </Router>
       </MainState>
