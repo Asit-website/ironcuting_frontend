@@ -313,3 +313,68 @@
   text-align: center;
   /* gap: 60px; */
 }
+
+/* --------------------selectround page-------------------- */
+.selectround-main{
+  max-width: 1440px;
+  width: 100%;
+  display: block;
+  margin: auto;
+}
+
+.table-section{
+  background-color:rgb(249 250 251);
+  padding: 30px 40px;
+}
+.row-section-heading h1{
+  font-size: 24px;
+  /* line-height: 29.11px; */
+  font-weight: 400;
+  color: #060606;
+  padding-bottom: 20px;
+}
+.select-1st-row h2{
+  background-color: white;
+  padding: 8px 0px 11px 20px;
+  border-radius: 2px;
+}
+.select-1st-row-text h2{
+  font-size: 20px;
+  line-height: 29.11px;
+  font-weight: 400;
+  color: #060606;
+}
+.select-row-btn{
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 30px;
+}
+.select-row-btn-flex{
+  display: flex;
+  justify-content: center;
+  align-items:end;
+  gap:25px;
+}
+.select-row-btn-flex button{
+  width: 144px;
+  /* height: 48px; */
+  font-size: 18px;
+  line-height: 22.05px;
+  font-weight: 400;
+  color: #fff;
+  padding: 12px 0px;
+  border-radius: 5px;
+}
+.select-row-btn-flex #edit{
+  background-color: #E26E61;
+} 
+.select-row-btn-flex #print{
+  background-color:#35B872;
+} 
+#select-dash{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  gap: 70px;
+}
