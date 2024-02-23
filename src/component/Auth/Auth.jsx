@@ -10,6 +10,7 @@ const Auth = () => {
         password: ''
     });
 
+ 
     const handleChange = (e) => {
         setValue({ ...value, [e.target.name]: e.target.value });
     };
@@ -19,8 +20,7 @@ const Auth = () => {
 
         const ans = await login(value);
         console.log(ans);
-        // console.log(ans.)
-        // notify(ans.status, ans.message);
+
         alert(ans.message)
         if (ans.status) {
             setUser(ans.user);
@@ -39,6 +39,7 @@ const Auth = () => {
             }
         }
     }
+
     return (
         <div class="iron-login-man">
             <div class="iron-login-main">
