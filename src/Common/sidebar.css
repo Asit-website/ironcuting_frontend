@@ -1,5 +1,6 @@
 .sideWrap{
-    max-width: 265px;
+    min-width: 265px;
+    max-width: 270px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -18,8 +19,7 @@
 }
 .sideWrap .dashbord select{
     width: 100%;
-    font-family: Gilroy-Medium;
-    font-size: 18px;
+font-family: "Roboto", sans-serif;    font-size: 18px;
     font-weight: 400;
     line-height: 22px;
     letter-spacing: 0px;
@@ -35,8 +35,7 @@
   width: 100%;
 }
 .sideWrap .nanItem span{
-    font-family: Gilroy-Medium;
-    font-size: 18px;
+font-family: "Roboto", sans-serif;    font-size: 18px;
     font-weight: 400;
     line-height: 22px;
     letter-spacing: 0px;

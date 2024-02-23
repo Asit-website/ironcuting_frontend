@@ -165,51 +165,50 @@ function Dashboard() {
 
 </div>
 
-
-            </div>
+   </div>
 
             
 
-<div class="relative overflow-x-auto">
+<div class="relative overflow-x-auto px-[10px] ">
   
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500  dark:text-gray-400">
 
         <thead class="text-xs text-gray-700 uppercase  dark:text-gray-400">
             <tr>
-                <th scope="col" class="px-3 py-3">
+                <th scope="col" class="px-3 py-3 text-[#060606]">
                 client
                 </th>
-                <th scope="col" class="px-3 py-3">
+                <th scope="col" class="px-3 py-3 text-[#060606]">
                 Date
                 </th>
-                <th scope="col" class="px-3 py-3">
+                <th scope="col" class="px-3 py-3 text-[#060606]">
                 Type
                 </th>
-                <th scope="col" class="px-3 py-3">
+                <th scope="col" class="px-3 py-3 text-[#060606]">
                 iron quality
                 </th>
-                <th scope="col" class="px-3 py-3">
+                <th scope="col" class="px-3 py-3 text-[#060606]">
                 quantity
                 </th>
-                <th scope="col" class="px-3 py-3">
+                <th scope="col" class="px-3 py-3 text-[#060606]">
                 diameter
                 </th>
-                <th scope="col" class="px-3 py-3">
+                <th scope="col" class="px-3 py-3 text-[#060606]">
                 length
                 </th>
-                <th scope="col" class="px-3 py-3">
+                <th scope="col" class="px-3 py-3 text-[#060606]">
                 height
                 </th>
-                <th scope="col" class="px-3 py-3">
+                <th scope="col" class="px-3 py-3 text-[#060606]">
                 width
                 </th>
-                <th scope="col" class="px-3 py-3">
+                <th scope="col" class="px-3 py-3 text-[#060606]">
                 weight
                 </th>
-                <th scope="col" class="px-3 py-3">
+                <th scope="col" class="px-3 py-3 text-[#060606]">
                 Cutting Price
                 </th>
-                <th scope="col" class="px-3 py-3">
+                <th scope="col" class="px-3 py-3 text-[#060606]">
                 action
                 </th>
             </tr>
@@ -219,42 +218,42 @@ function Dashboard() {
               
               {
                 ansData.map((item ,index)=>(
-                  <tr key={index} class="bg-white  dark:border-gray-700 border-b border-gray-300">
+                  <tr key={index} class="bg-white border-b border-[#CED4DA]">
           
-                  <td class="px-3 py-4 ">
+                  <td class="px-3 py-4 text-[#293240] ansDataItem ">
                       {item.client}
                   </td>
-                  <td class="px-3 py-4">
+                  <td class="px-3 py-4 text-[#293240] ansDataItem">
                       {item.date}
                   </td>
-                  <td class="px-3 py-4">
+                  <td class="px-3 py-4 text-[#293240] ansDataItem">
                       {item.type}
                   </td>
-                  <td class="px-3 py-4">
+                  <td class="px-3 py-4 text-[#293240] ansDataItem">
                       {item.iron}
                   </td>
-                  <td class="px-3 py-4">
+                  <td class="px-3 py-4 text-[#293240] ansDataItem">
                       {item.quality}
                   </td>
-                  <td class="px-3 py-4">
+                  <td class="px-3 py-4 text-[#293240] ansDataItem">
                       {item.diameter}
                   </td>
-                  <td class="px-3 py-4">
+                  <td class="px-3 py-4 text-[#293240] ansDataItem">
                       {item.length}
                   </td>
-                  <td class="px-3 py-4">
+                  <td class="px-3 py-4 text-[#293240] ansDataItem">
                       {item.height}
                   </td>
-                  <td class="px-3 py-4">
+                  <td class="px-3 py-4 text-[#293240] ansDataItem">
                       {item.width}
                   </td>
-                  <td class="px-3 py-4">
+                  <td class="px-3 py-4 text-[#293240] ansDataItem">
                       {item.weight}
                   </td>
-                  <td class="px-3 py-4">
+                  <td class="px-3 py-4 text-[#293240] ansDataItem">
                       {item.cutting}
                   </td>
-                  <td class="px-3 py-4">
+                  <td class="px-3 py-4 text-[#293240] ansDataItem">
                       <img src={item.action} alt="" />
                   </td>
               </tr>
@@ -264,6 +263,7 @@ function Dashboard() {
        
         </tbody>
     </table>
+
 </div>
 
 

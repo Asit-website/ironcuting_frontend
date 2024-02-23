@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./navbar.css"
 
-function Navbar(){
+function Navbar({hideCreateOrder=false}){
 
      const navigate = useNavigate();
 
@@ -13,9 +13,14 @@ function Navbar(){
 
           <h2>Hi, Akash Negi</h2>
 
+          {
+               !hideCreateOrder && 
+
           <button onClick={()=>navigate("/createOrder")} className="createOBtn"><span>Create Order</span></button>
+          }
 
         </div>
+        
          </div>
     )
 }

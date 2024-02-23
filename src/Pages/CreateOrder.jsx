@@ -45,11 +45,10 @@ const removeForm = (index) => {
   setFormId((prev) => prev.filter((_, i) => i !== index));
 };
 
-console.log("form" ,formId);
     return (
         <div className="cretOrdrWrap">
 
-            <Navbar />
+            <Navbar hideCreateOrder={true} />
 
             <div className="CrtOrCont">
 
@@ -57,6 +56,7 @@ console.log("form" ,formId);
 
           <main className="mainOrdCon">
 
+             <div className="mainRcc">
 
            {
             formId.map((id , index)=>(
@@ -71,14 +71,12 @@ console.log("form" ,formId);
 
                <div className="allFields">
                   
-                   {/* single  */}
-                <label htmlFor="">
+                <label >
                     <p>CLIENT NAME</p>
                     <input  onChange={changeHandler} name="clientName" value={formData.clientName} type="text" />
                 </label>
 
-                   {/* single  */}
-                <label htmlFor="">
+                <label >
                     <p>TYPE</p>
                   <select onChange={changeHandler}  name="type"  id="">
 
@@ -89,28 +87,26 @@ console.log("form" ,formId);
                   </select>
                 </label>
 
-                   {/* single  */}
-                <label htmlFor="">
+                <label>
                     <p>IRON QUALITY</p>
                   <input onChange={changeHandler} value={formData.ironQuality} name="ironQuality" type="text" />
                 </label>
 
        {
         formData.type !== "FLAT" && 
-                <label htmlFor="">
+                <label >
                     <p>DIAMETER</p>
                   <input onChange={changeHandler} value={formData.diameter} name="diameter" type="text" />
                 </label>
                 }
 
 
-                   {/* single  */}
-                <label htmlFor="">
+                <label >
                     <p>QUANTITY</p>
                   <input onChange={changeHandler} value={formData.quantity} name="quantity" type="text" />
                 </label>
-                   {/* single  */}
-                <label htmlFor="">
+
+                <label >
                     <p>LENGTH</p>
                   <input onChange={changeHandler} value={formData.length} name="length" type="text" />
                 </label>
@@ -131,15 +127,12 @@ console.log("form" ,formId);
                 </label>
                 }
 
-
-                   {/* single  */}
-                <label htmlFor="">
+                <label >
                     <p>WEIGHT</p>
                   <input onChange={changeHandler} value={formData.weight} name="weight" type="text" />
                 </label>
 
-                   {/* single  */}
-                <label htmlFor="">
+                <label >
                     <p>CUTTING PRICE</p>
                   <input onChange={changeHandler} value={formData.cuttingPrice} name="cuttingPrice" type="text" />
                 </label>
@@ -159,6 +152,7 @@ console.log("form" ,formId);
             ))
            }
             
+            </div>
 
           </main>
 
