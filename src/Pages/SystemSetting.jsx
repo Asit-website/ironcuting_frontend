@@ -3,11 +3,12 @@ import Sidebar from "../Common/Sidebar";
 import "./systemSetting.css"
 import plusSet from "../image/plusSet.png"
 import rightSign from "../image/RightSign.png"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import rightBlack from "../image/blackRight.png"
 import sR1 from "../image/searchRi.png"
 import deleteS from "../image/deleteS.png"
 import editS from "../image/editS.png"
+import {useMain} from "../hooks/useMain"
 
 const leftData = [
    {
@@ -21,15 +22,51 @@ const leftData = [
    }
 ]
 
- const allType = [
-  "Round" , "Flat"
- ]
-
 function SystemSetting(){
 
      const [currentSystem , setCurrentSystem] = useState(0);
 
       const [openPopup , setOpenPopup] = useState(false);
+
+      const {getAllType , createType ,DeleteType} = useMain();
+
+      const [allType , setAllType] = useState([]);
+
+
+       const getTypeFuntion = async()=>{
+        const resp = await getAllType();
+        if(resp.status){
+            setAllType(resp?.allType);
+        }
+       }
+
+     useEffect(()=>{
+       getTypeFuntion();
+     },[])
+
+      const [Name , setName] = useState("");
+
+      const createHandler =async ()=>{
+         const resp = await createType({Name});
+          if(resp.status){
+            alert("Succesfuly Created");
+          }
+          else {
+            alert("Something went wrong");
+          }
+
+          setOpenPopup(false);
+      }
+
+      const deleteTypeHandler = async(id)=>{
+        const resp = await DeleteType({id});
+        if(resp.status){
+        alert("Successfuly deleted");
+        }
+        else {
+            alert("Something went wrong");
+        }
+      }
 
     return (
         <div className={`sysSetWrap  ${openPopup && "openPopup"}`}>
@@ -113,16 +150,16 @@ function SystemSetting(){
                      <div className="stmRtHIR">
 
 {
-    allType.map((item , index)=>(
-        <div key={index} className="singTtpe">
+    allType.map((item )=>(
+        <div key={item?._id} className="singTtpe">
                     {/* left */}
-                    <h2  className="STpeLi">{item}</h2>
+                    <h2  className="STpeLi">{item?.Name}</h2>
 
                     {/* right */}
                     <div className="STpeRi">
 
                         <img src={editS} alt="" />
-                        <img src={deleteS} alt="" />
+                        <img onClick={()=>deleteTypeHandler(item?._id)} src={deleteS} alt="" />
 
                     </div>
         </div>
@@ -160,7 +197,7 @@ function SystemSetting(){
 
                     <label className="enteNa" >
                         <p>Name</p>
-                        <input type="text" placeholder="Enter Name"  />
+                        <input required value={Name} onChange={(e)=>setName(e.target.value)} type="text" placeholder="Enter Name"  />
                     </label>
 
                     <hr />
@@ -169,7 +206,9 @@ function SystemSetting(){
                         <button onClick={()=>setOpenPopup(false)} className="canceBtn">
                         Cancel
                         </button>
-                        <button className="createBtn">
+                        <button 
+                        onClick={createHandler}
+                         className="createBtn">
                         Create
                         </button>
                     </div>
