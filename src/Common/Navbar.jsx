@@ -3,6 +3,8 @@ import "./navbar.css"
 
 function Navbar({hideCreateOrder=false}){
 
+     const user = JSON.parse(localStorage.getItem("iron_user"));
+
      const navigate = useNavigate();
 
     return (
@@ -11,7 +13,7 @@ function Navbar({hideCreateOrder=false}){
 
         <div className="navBr_Cont">
 
-          <h2>Hi, Akash Negi</h2>
+          <h2>Hi,{user?.name}</h2>
 
           {
                !hideCreateOrder && 
