@@ -10,64 +10,6 @@ import search from "../../image/search.png"
 import eye from "../../image/eye.png"
 import { useMain } from '../../hooks/useMain';
 
-const ansData = [
-  {
-    client:"Akash Negi" , 
-    date:"18 Feb 2024" ,
-    type:"Flat" , 
-    iron:"EN31" , 
-    quality:"16 piece" , 
-    diameter:`~` ,
-    length:"42”" , 
-     height:"30”" , 
-     width:"16”",
-     weight:"161 kg" , 
-     cutting:"210" , 
-     action:eye
-  },
-  {
-    client:"Akash Negi" , 
-    date:"18 Feb 2024" ,
-    type:"Flat" , 
-    iron:"EN31" , 
-    quality:"16 piece" , 
-    diameter:`~` ,
-    length:"42”" , 
-     height:"30”" , 
-     width:"16”",
-     weight:"161 kg" , 
-     cutting:"210" , 
-     action:eye
-  },
-  {
-    client:"Akash Negi" , 
-    date:"18 Feb 2024" ,
-    type:"Flat" , 
-    iron:"EN31" , 
-    quality:"16 piece" , 
-    diameter:`~` ,
-    length:"42”" , 
-     height:"30”" , 
-     width:"16”",
-     weight:"161 kg" , 
-     cutting:"210" , 
-     action:eye
-  },
-  {
-    client:"Akash Negi" , 
-    date:"18 Feb 2024" ,
-    type:"Flat" , 
-    iron:"EN31" , 
-    quality:"16 piece" , 
-    diameter:`~` ,
-    length:"42”" , 
-     height:"30”" , 
-     width:"16”",
-     weight:"161 kg" , 
-     cutting:"210" , 
-     action:eye
-  },
-]
 
 function Dashboard() {
   const {getOrders} = useMain();
@@ -81,6 +23,8 @@ function Dashboard() {
     setOrder(ans?.data);
     console.log(ans?.data)
   }
+
+  console.log("order" , order);
     return (
     
   <div className='dashWrap'>
@@ -241,31 +185,31 @@ function Dashboard() {
                       {item.type}
                   </td>
                   <td class="px-3 py-4 text-[#293240] ansDataItem">
-                      {item.iron}
+                      {item.ironQuality}
                   </td>
                   <td class="px-3 py-4 text-[#293240] ansDataItem">
-                      {item.quality}
+                      {item.quantity}
                   </td>
                   <td class="px-3 py-4 text-[#293240] ansDataItem">
-                      {item.diameter}
+                      {item.Diameter}
                   </td>
                   <td class="px-3 py-4 text-[#293240] ansDataItem">
-                      {item.length}
+                      {item.Length}
                   </td>
                   <td class="px-3 py-4 text-[#293240] ansDataItem">
-                      {item.height}
+                      {item.Height}
                   </td>
                   <td class="px-3 py-4 text-[#293240] ansDataItem">
-                      {item.width}
+                      {item.Width}
                   </td>
                   <td class="px-3 py-4 text-[#293240] ansDataItem">
-                      {item.weight}
+                      {item.Weight}
                   </td>
                   <td class="px-3 py-4 text-[#293240] ansDataItem">
-                      {item.cutting}
+                      {item.CuttingPrice}
                   </td>
                   <td class="px-3 py-4 text-[#293240] ansDataItem">
-                      <img src={item.action} alt="" />
+                      <img src={eye} alt="" />
                   </td>
               </tr>
                 ))
