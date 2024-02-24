@@ -140,10 +140,22 @@ const MainState = (props) => {
   const data = await resp.json();
   return data;
  }
+
+ const getOrders = async (id, query, page, perPage) => {
+  const resp = await fetch(`${baseUrl}/order/getOrders?id=${id}&query=${query}&page=${page}&perPage=${perPage}`, {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json',
+      'token': localStorage.getItem('iron_token')
+    }
+  });
+  const data = await resp.json();
+  return data;
+};
   
   return (
   
-      <MainContext.Provider value={{ login,setUser ,getAllType ,createType , DeleteType , createIronOrder ,getRoundCuttingPrice ,getFlatIronCutting}}>
+      <MainContext.Provider value={{ login,setUser ,getAllType ,createType , DeleteType , createIronOrder ,getRoundCuttingPrice ,getFlatIronCutting,getOrders}}>
       {props.children}
     </MainContext.Provider>
   );

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./dashboard.css"
 import Navbar from '../../Common/Navbar'
 import Sidebar from '../../Common/Sidebar'
@@ -8,7 +8,7 @@ import order3 from "../../image/order3.png"
 import order4 from "../../image/order4.png"
 import search from "../../image/search.png"
 import eye from "../../image/eye.png"
-
+import { useMain } from '../../hooks/useMain';
 
 const ansData = [
   {
@@ -70,7 +70,18 @@ const ansData = [
 ]
 
 function Dashboard() {
-  return (
+  const {getOrders} = useMain();
+  const [order,setOrder] = useState([]);
+  useEffect(()=>{
+      getData();
+  },[]);
+
+  const getData = async () =>{
+    const ans = await getOrders("","","","");
+    setOrder(ans?.data);
+    console.log(ans?.data)
+  }
+    return (
     
   <div className='dashWrap'>
 
@@ -217,14 +228,14 @@ function Dashboard() {
         <tbody>
               
               {
-                ansData.map((item ,index)=>(
+                order.map((item ,index)=>(
                   <tr key={index} class="bg-white border-b border-[#CED4DA]">
           
                   <td class="px-3 py-4 text-[#293240] ansDataItem ">
                       {item.client}
                   </td>
                   <td class="px-3 py-4 text-[#293240] ansDataItem">
-                      {item.date}
+                  {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth()+1}/{new Date(item?.Date).getFullYear()}
                   </td>
                   <td class="px-3 py-4 text-[#293240] ansDataItem">
                       {item.type}
