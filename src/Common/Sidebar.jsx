@@ -3,7 +3,7 @@ import dashImg from "../image/dashboard.png"
 import system from "../image/settings-sliders.png"
 import "./sidebar.css"
 import logout from "../image/logout.png"
-import { useNavigate } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 function Sidebar() {
     const navigate = useNavigate();
     return (
@@ -20,10 +20,10 @@ function Sidebar() {
             </div>
 
             {/* navItems  */}
-            <div className="nanItem">
+           <NavLink to="/systemSetting"><div className="nanItem">
                 <img src={system} alt="" />
                 <span>System Setting</span>
-            </div>
+            </div></NavLink>
             {/* navItems  */}
             <div onClick={() => {
                 localStorage.removeItem('b2b_user');

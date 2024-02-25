@@ -24,7 +24,7 @@ const MainState = (props) => {
   };
 
   const getAllType = async () => {
-    const token = localStorage.getItem('b2b_token');
+    const token = localStorage.getItem('iron_token');
     const resp = await fetch(`${baseUrl}/type/getAllType`, {
       method: 'GET',
       headers: {
@@ -38,7 +38,7 @@ const MainState = (props) => {
 
   const createType = async ({ Name }) => {
 
-    const token = localStorage.getItem('b2b_token');
+    const token = localStorage.getItem('iron_token');
 
     const resp = await fetch(`${baseUrl}/type/createType`, {
       method: 'POST',
@@ -53,7 +53,7 @@ const MainState = (props) => {
   }
 
   const DeleteType = async ({ id }) => {
-    const token = localStorage.getItem('b2b_token');
+    const token = localStorage.getItem('iron_token');
 
     const resp = await fetch(`${baseUrl}/type/deleteType/${id}`, {
       method: 'DELETE',
@@ -78,7 +78,7 @@ const MainState = (props) => {
       Weight,
       CuttingPrice } = formdata;
 
-    const token = localStorage.getItem('b2b_token');
+    const token = localStorage.getItem('iron_token');
 
     const resp = await fetch(`${baseUrl}/order/createOrder`, {
       method: 'POST',
@@ -106,7 +106,7 @@ const MainState = (props) => {
   const getRoundCuttingPrice = async ({ type, Diameter, Length, quantity }) => {
 
 
-    const token = localStorage.getItem('b2b_token');
+    const token = localStorage.getItem('iron_token');
 
     const resp = await fetch(`${baseUrl}/order/getCuttingPrice`, {
       method: 'POST',
@@ -126,7 +126,7 @@ const MainState = (props) => {
   const getFlatIronCutting = async ({ type, Height, Weight, quantity }) => {
 
 
-    const token = localStorage.getItem('b2b_token');
+    const token = localStorage.getItem('iron_token');
 
     const resp = await fetch(`${baseUrl}/order/getCuttingPrice`, {
       method: 'POST',
@@ -203,9 +203,22 @@ const MainState = (props) => {
 
   }
 
+  const deleteOrders = async (id) => {
+    const resp = await fetch(`${baseUrl}/order/deleteOrders/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+        'token': localStorage.getItem('iron_token')
+      }
+    });
+    const data = await resp.json();
+    return data;
+  };
+
+
   return (
 
-    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders }}>
+    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders }}>
       {props.children}
     </MainContext.Provider>
   );

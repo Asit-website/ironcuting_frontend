@@ -32,6 +32,12 @@ function SystemSetting(){
 
       const [allType , setAllType] = useState([]);
 
+      const [refreshFlag,setRefreshFlag] = useState(false);
+
+      useEffect(()=>{
+        getTypeFuntion();
+      },[refreshFlag])
+
 
        const getTypeFuntion = async()=>{
         const resp = await getAllType();
@@ -40,9 +46,7 @@ function SystemSetting(){
         }
        }
 
-     useEffect(()=>{
-       getTypeFuntion();
-     },[])
+    
 
       const [Name , setName] = useState("");
 
@@ -50,6 +54,7 @@ function SystemSetting(){
          const resp = await createType({Name});
           if(resp.status){
             alert("Succesfuly Created");
+            setRefreshFlag(!refreshFlag);
           }
           else {
             alert("Something went wrong");
@@ -62,6 +67,7 @@ function SystemSetting(){
         const resp = await DeleteType({id});
         if(resp.status){
         alert("Successfuly deleted");
+        setRefreshFlag(!refreshFlag);
         }
         else {
             alert("Something went wrong");

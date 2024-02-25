@@ -19,7 +19,7 @@ function App() {
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path="/createOrder" element={<CreateOrder /> } />
             <Route path='/systemSetting' element={<SystemSetting />}  />
-            <Route path='/selectRound' element={<Selectround />} />
+            <Route path='/selectRound/:id' element={<Selectround />} />
           </Routes>
         </Router>
       </MainState>

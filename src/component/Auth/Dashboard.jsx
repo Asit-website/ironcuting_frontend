@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useRef } from 'react'
 import "./dashboard.css"
 import Navbar from '../../Common/Navbar'
 import Sidebar from '../../Common/Sidebar'
@@ -10,19 +10,23 @@ import search from "../../image/search.png"
 import eye from "../../image/eye.png"
 import { useMain } from '../../hooks/useMain';
 import { useNavigate } from 'react-router-dom'
-
-
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import {useReactToPrint} from 'react-to-print'
 function Dashboard() {
   const navigate = useNavigate();
-  const { getOrders } = useMain();
+  const { getOrders,deleteOrders} = useMain();
   const [order, setOrder] = useState([]);
+  const [refreshFlag, setRefreshFlag] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const contonentPDF = useRef()
   const stylePeer = {
     display: open ? "none" : "block"
   }
   useEffect(() => {
     getData();
-  }, []);
+  }, [refreshFlag]);
 
   const getData = async () => {
     const ans = await getOrders("", "", "", "");
@@ -31,6 +35,44 @@ function Dashboard() {
   }
 
   console.log("order", order);
+
+  const deleteOrders1 = async (id) => {
+    confirmAlert({
+      title: 'Are you sure to delete this data?',
+      message: 'All related data to this will be deleted',
+      buttons: [
+        {
+          label: 'Yes, Go Ahead!',
+          style: {
+            background: "#FF5449"
+          },
+          onClick: async () => {
+            const ans = await deleteOrders(id);
+            console.log(ans);
+            if (ans.status) {
+              alert('delete');
+              // notify(ans.status, ans.message);
+              setRefreshFlag(!refreshFlag);
+            }
+            else {
+              alert('Something went wrong! ');
+            }
+          }
+        },
+        {
+          label: 'Cancel',
+
+          onClick: () => null
+        }
+      ]
+    });
+  };
+
+  const generatePdf = useReactToPrint({
+    content: () => contonentPDF.current,
+    documentTitle:"Order",
+    onAfterPrint:()=> alert("Data saved in PDF")
+  })
   return (
 
     <div className='dashWrap'>
@@ -130,7 +172,7 @@ function Dashboard() {
 
 
 
-            <div class="relative overflow-x-auto px-[10px] ">
+            <div  class="relative overflow-x-auto px-[10px] ">
 
               <table class="w-full text-sm text-left rtl:text-right text-gray-500  dark:text-gray-400">
 
@@ -222,7 +264,12 @@ function Dashboard() {
                             <p onClick={() => {
                               navigate(`/createOrder`, { state: { item } })
                             }}>Edit</p>
-                            <p>Delete</p>
+                            <p onClick={()=>{
+                              deleteOrders1(item._id)
+                            }}>Delete</p>
+                            <p onClick={()=>{
+                                   navigate(`/selectRound/${item._id}`)
+                                }}>View Details</p>
                           </div>
                         </td>
                       </tr>
@@ -232,6 +279,8 @@ function Dashboard() {
 
                 </tbody>
               </table>
+
+              {/* <button onClick={generatePdf}>pdf</button> */}
 
             </div>
 

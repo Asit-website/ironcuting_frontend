@@ -28,7 +28,7 @@ function CreateOrder() {
 
   const { getAllType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, updateOrders } = useMain();
 
-
+  
   const changeHandler = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -53,6 +53,10 @@ function CreateOrder() {
   const [allType, setAllType] = useState([]);
 
 
+  useEffect(() => {
+    getTypeFuntion();
+  }, []);
+
   const getTypeFuntion = async () => {
     const resp = await getAllType();
     if (resp.status) {
@@ -60,9 +64,7 @@ function CreateOrder() {
     }
   }
 
-  useEffect(() => {
-    getTypeFuntion();
-  }, []);
+ 
 
 
   const submitHandler = async (e) => {
@@ -268,7 +270,7 @@ function CreateOrder() {
 
                     <label >
                       <p>TYPE</p>
-                      <select onChange={changeHandler} name="type" id="">
+                      <select value={formData.type} onChange={changeHandler} name="type" id="type">
 
                         <option value="Select" selected disabled>Select</option>
                         {
