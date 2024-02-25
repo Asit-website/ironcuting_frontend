@@ -17,6 +17,15 @@
   display: block;
   margin: auto;
 }
+.action_box{
+  background-color: white;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 10px;
+  /* position: fixed; */
+}
+.action_box p{
+  margin: 10px 0px;
+}
 .iron-login-flex{
   display: flex;
   justify-content:space-between;

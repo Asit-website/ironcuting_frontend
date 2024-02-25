@@ -16,146 +16,196 @@ const MainState = (props) => {
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify({ email, password})
+      body: JSON.stringify({ email, password })
     });
     const data = await resp.json();
     // setUser(data);
     return data;
   };
 
-  const getAllType = async()=>{
+  const getAllType = async () => {
     const token = localStorage.getItem('b2b_token');
     const resp = await fetch(`${baseUrl}/type/getAllType`, {
       method: 'GET',
-       headers: {
+      headers: {
         'content-type': 'application/json',
         'Authorization': `Bearer ${token}`
-            }
+      }
     });
     const data = await resp.json();
     return data;
   }
 
-  const createType = async({Name})=>{
+  const createType = async ({ Name }) => {
 
     const token = localStorage.getItem('b2b_token');
 
     const resp = await fetch(`${baseUrl}/type/createType`, {
       method: 'POST',
-       headers: {
+      headers: {
         'content-type': 'application/json',
         'Authorization': `Bearer ${token}`
-          }
-            , body: JSON.stringify({Name})
+      }
+      , body: JSON.stringify({ Name })
     });
     const data = await resp.json();
     return data;
   }
 
-  const DeleteType = async({id})=>{
+  const DeleteType = async ({ id }) => {
     const token = localStorage.getItem('b2b_token');
 
     const resp = await fetch(`${baseUrl}/type/deleteType/${id}`, {
       method: 'DELETE',
-       headers: {
+      headers: {
         'Authorization': `Bearer ${token}`
-          }
+      }
     });
     const data = await resp.json();
     return data;
   }
 
-  const createIronOrder = async(formdata)=>{
-    const { 
-      clientName,
-    type,
-    ironQuality,
-    diameter,
-    quantity,
-    length,
-    height,
-    width,
-  weight,
-  cuttingPrice} = formdata;
+  const createIronOrder = async (formdata) => {
+    const {
+      client,
+      type,
+      ironQuality,
+      Diameter,
+      quantity,
+      Length,
+      Height,
+      Width,
+      Weight,
+      CuttingPrice } = formdata;
 
     const token = localStorage.getItem('b2b_token');
 
     const resp = await fetch(`${baseUrl}/order/createOrder`, {
       method: 'POST',
-       headers: {
+      headers: {
         'content-type': 'application/json',
         'Authorization': `Bearer ${token}`
-          } , 
-          body: JSON.stringify({clientName,
-            type,
-            ironQuality,
-            diameter,
-            quantity,
-            length,
-            height,
-            width,
-          weight,
-          cuttingPrice
-        })
+      },
+      body: JSON.stringify({
+        client,
+        type,
+        ironQuality,
+        Diameter,
+        quantity,
+        Length,
+        Height,
+        Width,
+        Weight,
+        CuttingPrice
+      })
     });
     const data = await resp.json();
     return data;
   }
 
- const getRoundCuttingPrice = async({Type , diameter , length , quantity})=>{
+  const getRoundCuttingPrice = async ({ type, Diameter, Length, quantity }) => {
 
- 
-  const token = localStorage.getItem('b2b_token');
 
-  const resp = await fetch(`${baseUrl}/order/getCuttingPrice`, {
-    method: 'POST',
-     headers: {
-      'content-type': 'application/json',
-      'Authorization': `Bearer ${token}`
-        } , 
-        body: JSON.stringify({
-        Type , diameter , length , quantity
+    const token = localStorage.getItem('b2b_token');
+
+    const resp = await fetch(`${baseUrl}/order/getCuttingPrice`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        type, Diameter, Length, quantity
       })
-  });
-  const data = await resp.json();
-  return data;
- }
+    });
+    const data = await resp.json();
+    return data;
+  }
 
-  
- const getFlatIronCutting = async({Type , height , weight , quantity})=>{
 
- 
-  const token = localStorage.getItem('b2b_token');
+  const getFlatIronCutting = async ({ type, Height, Weight, quantity }) => {
 
-  const resp = await fetch(`${baseUrl}/order/getCuttingPrice`, {
-    method: 'POST',
-     headers: {
-      'content-type': 'application/json',
-      'Authorization': `Bearer ${token}`
-        } , 
-        body: JSON.stringify({
-         Type , height , weight ,quantity
+
+    const token = localStorage.getItem('b2b_token');
+
+    const resp = await fetch(`${baseUrl}/order/getCuttingPrice`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        type, Height, Weight, quantity
       })
-  });
-  const data = await resp.json();
-  return data;
- }
+    });
+    const data = await resp.json();
+    return data;
+  }
 
- const getOrders = async (id, query, page, perPage) => {
-  const resp = await fetch(`${baseUrl}/order/getOrders?id=${id}&query=${query}&page=${page}&perPage=${perPage}`, {
-    method: 'GET',
-    headers: {
-      'content-type': 'application/json',
-      'token': localStorage.getItem('iron_token')
+  const getOrders = async (id, query, page, perPage) => {
+    const resp = await fetch(`${baseUrl}/order/getOrders?id=${id}&query=${query}&page=${page}&perPage=${perPage}`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        'token': localStorage.getItem('iron_token')
+      }
+    });
+    const data = await resp.json();
+    return data;
+  };
+
+  const updateOrders = async ({ id, client,
+    type,
+    ironQuality,
+    Diameter,
+    quantity,
+    Length,
+    Height,
+    Width,
+    Weight,
+    CuttingPrice }) => {
+
+    const token = localStorage.getItem('iron_token');
+
+    const data = {
+      client,
+            type,
+            ironQuality,
+            Diameter,
+            quantity,
+            Length,
+            Height,
+            Width,
+            Weight,
+            CuttingPrice
+    };
+
+
+    try {
+      const resp = await fetch(`${baseUrl}/order/updateOrders/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!resp.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      return await resp.json();
+    } catch (error) {
+      console.error('There was an error!', error);
+      throw error;
     }
-  });
-  const data = await resp.json();
-  return data;
-};
-  
+
+  }
+
   return (
-  
-      <MainContext.Provider value={{ login,setUser ,getAllType ,createType , DeleteType , createIronOrder ,getRoundCuttingPrice ,getFlatIronCutting,getOrders}}>
+
+    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders }}>
       {props.children}
     </MainContext.Provider>
   );
