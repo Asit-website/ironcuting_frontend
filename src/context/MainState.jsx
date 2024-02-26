@@ -215,10 +215,40 @@ const MainState = (props) => {
     return data;
   };
 
+  const updateType = async ({ id, Name }) => {
+
+    const token = localStorage.getItem('iron_token');
+
+    const data = {
+       Name
+    };
+
+
+    try {
+      const resp = await fetch(`${baseUrl}/type/updateType/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!resp.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      return await resp.json();
+    } catch (error) {
+      console.error('There was an error!', error);
+      throw error;
+    }
+
+  }
 
   return (
 
-    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders }}>
+    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType }}>
       {props.children}
     </MainContext.Provider>
   );

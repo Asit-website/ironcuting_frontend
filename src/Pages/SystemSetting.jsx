@@ -8,71 +8,124 @@ import rightBlack from "../image/blackRight.png"
 import sR1 from "../image/searchRi.png"
 import deleteS from "../image/deleteS.png"
 import editS from "../image/editS.png"
-import {useMain} from "../hooks/useMain"
+import { useMain } from "../hooks/useMain"
+import { useLocation } from "react-router-dom";
 
 const leftData = [
-   {
-    title:"Type"
-   } , 
-   {
-    title:"Iron Quality"
-   } , 
-   {
-    title:"Cutting Price"
-   }
+    {
+        title: "Type"
+    },
+    {
+        title: "Iron Quality"
+    },
+    {
+        title: "Cutting Price"
+    }
 ]
 
-function SystemSetting(){
+function SystemSetting() {
 
-     const [currentSystem , setCurrentSystem] = useState(0);
+    const location = useLocation();
 
-      const [openPopup , setOpenPopup] = useState(false);
+    const [onEdit,setOnEdit] = useState(false);
+    const [editData, setEditData] = useState({});
 
-      const {getAllType , createType ,DeleteType} = useMain();
+    const [currentSystem, setCurrentSystem] = useState(0);
 
-      const [allType , setAllType] = useState([]);
+    const [openPopup, setOpenPopup] = useState(false);
 
-      const [refreshFlag,setRefreshFlag] = useState(false);
+    const { getAllType, createType, DeleteType, updateType } = useMain();
 
-      useEffect(()=>{
+    const [allType, setAllType] = useState([]);
+
+    const [refreshFlag, setRefreshFlag] = useState(false);
+
+    useEffect(() => {
         getTypeFuntion();
-      },[refreshFlag])
+    }, [refreshFlag])
 
 
-       const getTypeFuntion = async()=>{
+    const getTypeFuntion = async () => {
         const resp = await getAllType();
-        if(resp.status){
+        if (resp.status) {
             setAllType(resp?.allType);
         }
-       }
+    }
 
+
+
+    // const [Name, setName] = useState("");
+    const [value,setValue] = useState({
+        Name:"",
+    })
+
+    const handleChange = (e) =>{
+        e.preventDefault();
+        const { name, value } = e.target;
+        setValue((prev) => ({
+          ...prev,
+          [name]: value
+        }))
+    }
+
+    useEffect(() => {
+        if (onEdit) {
+            console.log(editData);
+            setValue({
+                id: editData._id,
+                Name: editData.Name
+            })
+        }
+    }, [editData])
+
+    const createHandler = async () => {
+        if(onEdit){
+              const ans = await updateType({
+                 ...value
+              });
+              console.log(editData._id)
+              console.log(ans.data)
+          
+              if (ans?.status) {
+                console.log("hi")
+                // notify("success", "successfully Updated");
+                alert("successfully updated")
+                setRefreshFlag(!refreshFlag)
+                setValue({
+                    Name:""
+                })
+              } else {
+                alert("Something went wrong");
+              }
+        } else{
+            const resp = await createType({ ...value });
+            if (resp.status) {
+                alert("Succesfuly Created");
+                setRefreshFlag(!refreshFlag);
+                setValue({
+                    Name:""
+                })
+            }
+            else {
+                alert("Something went wrong");
+            }
+        }
+        setOpenPopup(false);
+    }
+   
     
 
-      const [Name , setName] = useState("");
-
-      const createHandler =async ()=>{
-         const resp = await createType({Name});
-          if(resp.status){
-            alert("Succesfuly Created");
+    
+    const deleteTypeHandler = async (id) => {
+        const resp = await DeleteType({ id });
+        if (resp.status) {
+            alert("Successfuly deleted");
             setRefreshFlag(!refreshFlag);
-          }
-          else {
-            alert("Something went wrong");
-          }
-
-          setOpenPopup(false);
-      }
-
-      const deleteTypeHandler = async(id)=>{
-        const resp = await DeleteType({id});
-        if(resp.status){
-        alert("Successfuly deleted");
-        setRefreshFlag(!refreshFlag);
         }
         else {
             alert("Something went wrong");
         }
-      }
+    }
 
     return (
         <div className={`sysSetWrap  ${openPopup && "openPopup"}`}>
@@ -80,148 +133,166 @@ function SystemSetting(){
             <Navbar />
 
 
-             <div className="sySeCont">
+            <div className="sySeCont">
 
-          <Sidebar />
+                <Sidebar />
 
-           <div className="sySrIGHT">
+                <div className="sySrIGHT">
 
                     <div className="sSetRCon">
 
-                   
-                   <nav>
-                     <img onClick={()=>setOpenPopup(true)} src={plusSet} alt="" />
-                   </nav>
 
-                   <main className="syMain">
+                        <nav>
+                            <img onClick={() =>{ setOpenPopup(true); setEditData({}); setOnEdit(false)}} src={plusSet} alt="" />
+                        </nav>
 
-                    {/* left side */}
-                    <div className="stMaLe">
+                        <main className="syMain">
 
-                         {
-                            leftData.map((item ,index)=>(
-                                <div key={index} onClick={()=>setCurrentSystem(index)} className={`siStMale ${currentSystem === index ?  "currentSym" : "otherStm"}`}>
-                                    <p>{item.title}</p>
+                            {/* left side */}
+                            <div className="stMaLe">
+
+                                {
+                                    leftData.map((item, index) => (
+                                        <div key={index} onClick={() => setCurrentSystem(index)} className={`siStMale ${currentSystem === index ? "currentSym" : "otherStm"}`}>
+                                            <p>{item.title}</p>
+                                            {
+                                                currentSystem === index ?
+                                                    <img src={rightSign} alt="" />
+                                                    :
+                                                    <img src={rightBlack} alt="" />
+                                            }
+
+                                        </div>
+                                    ))
+                                }
+
+                            </div>
+
+                            {/* right side  */}
+                            
+                            <div className="stMaRig">
+
+                                {/* first  */}
+                                <div className="stMRiFir">
+
+                                    {/*left   */}
+                                    <div className="stmRFLef">
+
+                                        <select name="" id="" className="enPage">
+                                            <option value="10"> 10 </option>
+                                        </select>
+
+                                        <span>Entries per page</span>
+
+                                    </div>
+
+                                    {/* right  */}
+                                    <div className="stmRFRig">
+                                        <img src={sR1} alt="" />
+
+                                        <input type="text" placeholder="Search" />
+
+                                    </div>
+
+                                </div>
+
+
+                                {/* second  */}
+                                <div className="stMrSec">
+
+                                    <p>TYPE</p>
+                                    <p>ACTION</p>
+
+                                </div>
+
+
+                                {/* third  */}
+                                <div className="stmRtHIR">
+
                                     {
-                                        currentSystem === index ?
-                                        <img src={rightSign} alt=""  />
-                                            :
-                                            <img src={rightBlack} alt="" />
+                                        allType.map((item) => (
+                                            <div key={item?._id} className="singTtpe">
+                                                {/* left */}
+                                                <h2 className="STpeLi">{item?.Name}</h2>
+
+                                                {/* right */}
+                                                <div className="STpeRi">
+
+                                                    <img onClick={() => {
+                                                        
+                                                        setOnEdit(true);
+                                                         setEditData(item)
+                                                        setOpenPopup(true);
+                                                      
+                                                    }} src={editS} alt="" />
+                                                    <img onClick={() => deleteTypeHandler(item?._id)} src={deleteS} alt="" />
+
+                                                </div>
+                                            </div>
+                                        ))
                                     }
 
                                 </div>
-                            ))
-                         } 
+
+                            </div>
+
+                        </main>
 
                     </div>
 
-                    {/* right side  */}
-                    <div className="stMaRig">
+                    <div>
 
-                     {/* first  */}
-                     <div className="stMRiFir">
 
-                        {/*left   */}
-                        <div className="stmRFLef">
 
-                            <select name="" id="" className="enPage">
-                                <option value="10"> 10 </option>
-                            </select>
+                    </div>
 
-                            <span>Entries per page</span>
+                </div>
+            </div>
 
+
+
+            {
+                openPopup &&
+                <div className="creNoWrap">
+
+                    <div className="cretNPoup">
+
+                        <h2>{onEdit ? "Update" : "Create new"}</h2>
+
+                        <hr />
+
+                        <label className="enteNa" >
+                            <p>Name</p>
+                            <input name="Name"  value={value.Name} onChange={handleChange} type="text" placeholder="Enter Name" />
+                        </label>
+
+                        <hr />
+
+                        <div className="crCBtn">
+                            <button onClick={() => {
+                                setOpenPopup(false);
+                                setOnEdit(false);
+                                setEditData({});
+                                setValue({
+                                    Name:""
+                                })
+                            } } className="canceBtn">
+                                Cancel
+                            </button>
+                            <button
+                                onClick={()=>{
+                                    createHandler();
+                                    setOpenPopup(false);
+                                    // setOnEdit(true)
+                                }}
+                                className="createBtn">
+                                {onEdit ? "Update" : "Create"}
+                            </button>
                         </div>
 
-                        {/* right  */}
-                        <div className="stmRFRig">
-                            <img src={sR1} alt="" />
-
-                            <input type="text" placeholder="Search" />
-
-                        </div>
-
-                     </div>
-
-
-                     {/* second  */}
-                     <div className="stMrSec">
-
-                            <p>TYPE</p>
-                            <p>ACTION</p>
-
-                     </div>
-
-
-                     {/* third  */}
-                     <div className="stmRtHIR">
-
-{
-    allType.map((item )=>(
-        <div key={item?._id} className="singTtpe">
-                    {/* left */}
-                    <h2  className="STpeLi">{item?.Name}</h2>
-
-                    {/* right */}
-                    <div className="STpeRi">
-
-                        <img src={editS} alt="" />
-                        <img onClick={()=>deleteTypeHandler(item?._id)} src={deleteS} alt="" />
-
                     </div>
-        </div>
-    ))
-}
-
-                     </div>
-
-                    </div>
-
-                   </main>
-
-                    </div>
-
-             <div>
-
-               
-
-             </div>
-
-           </div>
-             </div>
-
-
-
-{
-    openPopup && 
-     <div className="creNoWrap">
-
-             <div className="cretNPoup">
-
-                    <h2>Create New</h2>
-
-                    <hr />
-
-                    <label className="enteNa" >
-                        <p>Name</p>
-                        <input required value={Name} onChange={(e)=>setName(e.target.value)} type="text" placeholder="Enter Name"  />
-                    </label>
-
-                    <hr />
-
-                    <div className="crCBtn">
-                        <button onClick={()=>setOpenPopup(false)} className="canceBtn">
-                        Cancel
-                        </button>
-                        <button 
-                        onClick={createHandler}
-                         className="createBtn">
-                        Create
-                        </button>
-                    </div>
-
-             </div>
-     </div>
-}
+                </div>
+            }
 
         </div>
     )
