@@ -4,19 +4,58 @@ import system from "../image/settings-sliders.png"
 import "./sidebar.css"
 import logout from "../image/logout.png"
 import { NavLink, useNavigate } from "react-router-dom"
+import downkey from "../image/downKey.png"
+import { useState } from "react"
+
 function Sidebar() {
     const navigate = useNavigate();
+    const [openDashboard , setOpenDashboard] = useState(false);
     return (
         <div className="sideWrap">
 
+          <div>
+
+         
             {/* dashbaord  */}
-            <div className="dashbord">
+            <div onClick={()=>setOpenDashboard((prev)=>!prev)} className="dashbord">
                 <img src={dashImg} alt="" />
-                <select name="" id="" >
-                    <option value="">
-                        <span>Dashboard</span>
-                    </option>
-                </select>
+                    <div className="dsad">
+                        <p>Dashboard</p>
+                        <img src={downkey} alt="" />
+                    </div>
+            </div>
+            
+            {
+           openDashboard && 
+           <div className="opeDashWrap">
+
+            {/* single */}
+            <div onClick={()=>navigate("/dashboard")} className="SOpeDsh">
+                 
+                 {/* radio */}
+                 <p className="radio">
+
+                 </p>
+
+                 <span>Order</span>
+
+            </div>
+
+            {/* single */}
+            <div className="SOpeDsh">
+                 
+                 {/* radio */}
+                 <p className="radio">
+
+                 </p>
+
+                 <span>Billing</span>
+
+            </div>
+
+           </div>
+            }
+
             </div>
 
             {/* navItems  */}
