@@ -17,9 +17,6 @@ const leftData = [
     },
     {
         title: "Iron Quality"
-    },
-    {
-        title: "Cutting Price"
     }
 ]
 
@@ -30,11 +27,11 @@ function SystemSetting() {
     const [onEdit,setOnEdit] = useState(false);
     const [editData, setEditData] = useState({});
 
-    const [currentSystem, setCurrentSystem] = useState(0);
+    const [currentSystem, setCurrentSystem] = useState('Type');
 
     const [openPopup, setOpenPopup] = useState(false);
 
-    const { getAllType, createType, DeleteType, updateType } = useMain();
+    const { getAllType, createType, DeleteType, updateType , fetchIronQuality , createQuality , deleteQuality , updateQuality } = useMain();
 
     const [allType, setAllType] = useState([]);
 
@@ -52,8 +49,6 @@ function SystemSetting() {
         }
     }
 
-
-
     // const [Name, setName] = useState("");
     const [value,setValue] = useState({
         Name:"",
@@ -70,13 +65,14 @@ function SystemSetting() {
 
     useEffect(() => {
         if (onEdit) {
-            console.log(editData);
             setValue({
                 id: editData._id,
                 Name: editData.Name
             })
         }
     }, [editData])
+
+
 
     const createHandler = async () => {
         if(onEdit){
@@ -112,9 +108,41 @@ function SystemSetting() {
         }
         setOpenPopup(false);
     }
-   
-    
 
+    const createIronHandler = async () => {
+        if(onEdit){
+              const ans = await updateQuality({
+                 ...value
+              });
+            
+              if (ans?.status) {
+             
+                alert("successfully updated iron")
+                // setRefreshFlag(!refreshFlag)
+                fetchAllIronQuality();
+                setValue({
+                    Name:""
+                })
+              } else {
+                alert("Something went wrong");
+              }
+        } 
+        else{
+            const resp = await createQuality({ ...value });
+            console.log("rs",resp);
+            if (resp.status) {
+                alert("Succesfuly Created");
+              fetchAllIronQuality();
+                setValue({
+                    Name:""
+                })
+            }
+            else {
+                alert("Something went wrong");
+            }
+        }
+        setOpenPopup(false);
+    }
     
     const deleteTypeHandler = async (id) => {
         const resp = await DeleteType({ id });
@@ -126,6 +154,34 @@ function SystemSetting() {
             alert("Something went wrong");
         }
     }
+
+    const deleteIronHandler = async (id) => {
+        const resp = await deleteQuality({ id });
+        if (resp.status) {
+            alert("Successfuly deleted Quality");
+      fetchAllIronQuality();
+        }
+        else {
+            alert("Something went wrong");
+        }
+    }
+
+    const fetchAllIronQuality = async () => {
+        const resp = await fetchIronQuality();
+        if (resp.status) {
+            setAllType(resp?.allIronQuality);
+        }
+    } 
+
+    useEffect(()=>{
+
+         if(currentSystem === leftData[1].title){
+                fetchAllIronQuality();
+         }
+         else if(currentSystem === leftData[0].title){
+        getTypeFuntion();
+         }
+    },[currentSystem])
 
     return (
         <div className={`sysSetWrap  ${openPopup && "openPopup"}`}>
@@ -143,7 +199,17 @@ function SystemSetting() {
 
 
                         <nav>
-                            <img onClick={() =>{ setOpenPopup(true); setEditData({}); setOnEdit(false)}} src={plusSet} alt="" />
+                            <img onClick={() =>{
+                                 if(currentSystem === leftData[1].title){
+                                  setOpenPopup(true);
+                                 }
+
+                                 else {
+                                     setOpenPopup(true);
+                                     setEditData({});
+                                     setOnEdit(false);
+                                    }
+                                  }} src={plusSet} alt="" />
                         </nav>
 
                         <main className="syMain">
@@ -153,10 +219,10 @@ function SystemSetting() {
 
                                 {
                                     leftData.map((item, index) => (
-                                        <div key={index} onClick={() => setCurrentSystem(index)} className={`siStMale ${currentSystem === index ? "currentSym" : "otherStm"}`}>
+                                        <div key={index} onClick={() => setCurrentSystem(item.title)} className={`siStMale ${currentSystem === item.title ? "currentSym" : "otherStm"}`}>
                                             <p>{item.title}</p>
                                             {
-                                                currentSystem === index ?
+                                                currentSystem === item.title ?
                                                     <img src={rightSign} alt="" />
                                                     :
                                                     <img src={rightBlack} alt="" />
@@ -200,7 +266,7 @@ function SystemSetting() {
                                 {/* second  */}
                                 <div className="stMrSec">
 
-                                    <p>TYPE</p>
+                                    <p >{currentSystem}</p>
                                     <p>ACTION</p>
 
                                 </div>
@@ -220,12 +286,30 @@ function SystemSetting() {
 
                                                     <img onClick={() => {
                                                         
-                                                        setOnEdit(true);
-                                                         setEditData(item)
-                                                        setOpenPopup(true);
+                                                         if(currentSystem === leftData[0].title){
+                                                             setOnEdit(true);
+                                                             setEditData(item)
+                                                             setOpenPopup(true);
+                                                             
+                                                            }
+                                                            else if(currentSystem === leftData[1].title){
+                                                                setOnEdit(true);
+                                                                setEditData(item);
+                                                                setOpenPopup(true);
+                                                         }
                                                       
                                                     }} src={editS} alt="" />
-                                                    <img onClick={() => deleteTypeHandler(item?._id)} src={deleteS} alt="" />
+                                                  
+                                                    <img onClick={() =>{
+                                                        if(currentSystem === leftData[1].title){
+                                                            deleteIronHandler(item?._id);
+                                                        }
+                                                        else if(currentSystem === leftData[0].title){
+                                                            deleteTypeHandler(item?._id);
+                                                        }
+
+                                                        }
+                                                     } src={deleteS} alt="" />
 
                                                 </div>
                                             </div>
@@ -281,9 +365,15 @@ function SystemSetting() {
                             </button>
                             <button
                                 onClick={()=>{
-                                    createHandler();
-                                    setOpenPopup(false);
-                                    // setOnEdit(true)
+                                     if(currentSystem === leftData[1].title){
+                                      createIronHandler();
+                                     }
+                                     else {
+
+                                         createHandler();
+                                         setOpenPopup(false);
+                                         // setOnEdit(true)
+                                        }
                                 }}
                                 className="createBtn">
                                 {onEdit ? "Update" : "Create"}

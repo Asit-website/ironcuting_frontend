@@ -65,6 +65,110 @@ const MainState = (props) => {
     return data;
   }
 
+  const updateType = async ({ id, Name }) => {
+
+    const token = localStorage.getItem('iron_token');
+
+    const data = {
+       Name
+    };
+
+
+    try {
+      const resp = await fetch(`${baseUrl}/type/updateType/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!resp.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      return await resp.json();
+    } catch (error) {
+      console.error('There was an error!', error);
+      throw error;
+    }
+
+  }
+
+  const fetchIronQuality = async () => {
+    const token = localStorage.getItem('iron_token');
+    const resp = await fetch(`${baseUrl}/quality/getAllQuality`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const data = await resp.json();
+    return data;
+  }
+
+  const createQuality = async ({ Name }) => {
+
+    const token = localStorage.getItem('iron_token');
+
+    const resp = await fetch(`${baseUrl}/quality/createQuality`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+      , body: JSON.stringify({ Name })
+    });
+    const data = await resp.json();
+    return data;
+  }
+
+  const deleteQuality = async ({ id }) => {
+    const token = localStorage.getItem('iron_token');
+
+    const resp = await fetch(`${baseUrl}/quality/deleteQuality/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const data = await resp.json();
+    return data;
+  }
+
+  const updateQuality = async ({ id, Name }) => {
+
+    const token = localStorage.getItem('iron_token');
+
+    const data = {
+       Name
+    };
+
+
+    try {
+      const resp = await fetch(`${baseUrl}/quality/updateQuality/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!resp.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      return await resp.json();
+    } catch (error) {
+      console.error('There was an error!', error);
+      throw error;
+    }
+
+  }
+
   const createIronOrder = async (formdata) => {
     const {
       client,
@@ -215,40 +319,11 @@ const MainState = (props) => {
     return data;
   };
 
-  const updateType = async ({ id, Name }) => {
-
-    const token = localStorage.getItem('iron_token');
-
-    const data = {
-       Name
-    };
-
-
-    try {
-      const resp = await fetch(`${baseUrl}/type/updateType/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(data)
-      });
-
-      if (!resp.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      return await resp.json();
-    } catch (error) {
-      console.error('There was an error!', error);
-      throw error;
-    }
-
-  }
+ 
 
   return (
 
-    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType }}>
+    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality }}>
       {props.children}
     </MainContext.Provider>
   );
