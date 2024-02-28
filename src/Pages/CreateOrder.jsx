@@ -179,8 +179,6 @@ function CreateOrder() {
     }
   }
 
-
-
   const getRoundCutting = async () => {
     const resp = await getRoundCuttingPrice({ type: formData.type, Diameter: formData.Diameter, Length: formData.Length, quantity: formData.quantity });
     if (resp.status) {
@@ -268,16 +266,14 @@ function CreateOrder() {
                     <label >
                       <p>TYPE</p>
                       <select value={formData.type} onChange={changeHandler} name="type" id="type">
+                        <option  selected>Select</option>
+    {
+      allType.map((item) => (
+        <option key={item?._id} value={item?.Name}>{item?.Name}</option>
+        ))
+      }
+</select>
 
-                        <option value="Select" selected disabled>Select</option>
-                        {
-                          allType.map((item) => (
-                            <option key={item?._id} value={item?.Name}>{item?.Name}</option>
-
-                          ))
-                        }
-
-                      </select>
                     </label>
 
                     <label>

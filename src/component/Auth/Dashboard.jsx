@@ -20,6 +20,7 @@ function Dashboard() {
   const [refreshFlag, setRefreshFlag] = useState(false);
   const [open, setOpen] = useState(false);
 
+
   const contonentPDF = useRef()
   const stylePeer = {
     display: open ? "none" : "block"
@@ -30,6 +31,7 @@ function Dashboard() {
 
   const getData = async () => {
     const ans = await getOrders("", "", "", "");
+    console.log("ans" ,ans);
     setOrder(ans?.data);
     console.log(ans?.data)
   }
@@ -111,7 +113,7 @@ function Dashboard() {
 
               <img src={order2} alt="" />
               <h2>Today Orders</h2>
-              <p>15</p>
+              <p>{order.length}</p>
 
 
             </div>
