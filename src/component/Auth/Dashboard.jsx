@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import {useReactToPrint} from 'react-to-print'
+
 function Dashboard() {
   const navigate = useNavigate();
   const { getOrders,deleteOrders} = useMain();
@@ -21,7 +22,8 @@ function Dashboard() {
   const [open, setOpen] = useState(false);
 
 
-  const contonentPDF = useRef()
+  const contonentPDF = useRef();
+
   const stylePeer = {
     display: open ? "none" : "block"
   }
@@ -35,8 +37,6 @@ function Dashboard() {
     setOrder(ans?.data);
     console.log(ans?.data)
   }
-
-  console.log("order", order);
 
   const deleteOrders1 = async (id) => {
     confirmAlert({
@@ -171,8 +171,6 @@ function Dashboard() {
               </div>
 
             </div>
-
-
 
             <div  class="relative overflow-x-auto px-[10px] ">
 

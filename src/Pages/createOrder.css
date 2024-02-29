@@ -16,6 +16,9 @@
 
 
 }
+
+
+
 .mainRcc{
     max-width: 1440px;
   width: 100%;
@@ -86,17 +89,6 @@ padding: 0px 20px;
 
 }
 
-@media (max-width:1440px) {
-    .allFields label input, select{
-        border: 1px solid #293240;
-        color:  #293240;
-        width: 300px;
-    height: 44px;
-    border-radius: 3px;
-    opacity: 0.5px;
-    
-    }
-}
 
 
 .btnSec{
@@ -141,4 +133,67 @@ display: flex;
 justify-content: center;
 align-items: center;
 gap: 5px;
+}
+
+@media (max-width:1440px) {
+    .allFields label input, select{
+        border: 1px solid #293240;
+        color:  #293240;
+        width: 300px;
+    height: 44px;
+    border-radius: 3px;
+    opacity: 0.5px;
+    
+    }
+}
+
+@media (max-width:1100px) {
+    .mainOrdCon{
+       max-width: 100%;
+       width: 100%;
+ padding-top: 30px;    
+    
+    }
+    
+ 
+}
+
+
+@media (max-width:800px) {
+    .allFields{
+       
+        gap: 20px;
+        padding:30px 20px;
+        justify-content: ce;
+      }
+      
+      
+      
+}
+
+@media (max-width:740px) {
+    .allFields label{
+        width: 100%;
+    }
+    
+    .allFields label input, select{
+ 
+      max-width: auto;
+        width: 100%;
+    
+    }
+    .orFiNa{
+        padding: 22px 20px;
+    }
+    .btnSec{
+    gap: 10px;
+        padding: 0px 20px ;
+    }
+    .mainRcc{
+      
+      padding: 15px 10px;
+   
+    
+    }
+    
 }

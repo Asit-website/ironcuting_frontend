@@ -29,7 +29,7 @@
 .iron-login-flex{
   display: flex;
   justify-content:space-between;
-  /* align-items: center; */
+
 }
 .iron-login-left{
   width: 50%;
@@ -99,7 +99,8 @@
   font-weight: 400;
 }
 .login-form input{
-  width: 401px;
+  max-width: 401px;
+  width: 100%;
   height: 45px;
   padding: 10px;
   border: 0.75px solid rgb(212, 210, 210);
@@ -163,6 +164,34 @@
   line-height: 19.41px;
   font-weight: 400;
   color: gray;
+}
+
+@media (max-width:750px) {
+  .iron-login-flex{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+  .iron-login-left{
+    width: 100%;
+   
+  }
+  .iron-login-left img{
+   
+    width: 100%;
+   
+  }
+  
+.right{
+  width: 100%;
+  transform: translateY(-150px);
+ z-index: 20;
+}
+
+.right::before{
+  background-color:white;
+ 
+}
 }
 
 

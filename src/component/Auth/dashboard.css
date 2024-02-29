@@ -6,6 +6,7 @@
 .dashWrap .dashCont{
    display: flex;
    width: 100%;
+   /* gap: 20px; */
 }
 .dashWrap .dashRight{
     max-width: calc(100%-256px);
@@ -16,6 +17,7 @@ width: 100%;
   flex-direction: column;
   gap: 24px;
 }
+
 
 .dashWrap .dRFirs{
     max-width: 1440px;
@@ -45,7 +47,6 @@ color: #293240;
     display: flex;
     align-items: center;
     max-width: 1440px;
-    /* justify-content: center; */
     justify-content: space-between;
     gap: 20px;
 width: 100%;
@@ -91,6 +92,7 @@ color: #060606;
 .tableStart .tabSec1{
   width: 100%;
   display: flex;
+  gap: 10px;
   justify-content: space-between;
   align-items: center;  
   padding: 12px 20px;
@@ -174,4 +176,70 @@ line-height: 22px;
 letter-spacing: 0em;
 text-align: left;
 
+}
+
+@media (max-width:1000px) {
+    .dashWrap .dashCont{
+       gap: 40px;
+     }
+    .dashWrap .dashRight{
+      padding:30px 20px;
+    }
+
+}
+
+@media (max-width:930px) {
+    .drSec{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width:850px) {
+    .tableStart .tabS1Lef{
+        max-width: 150px;
+        width: 100%;
+        }
+        .tableStart .tabS1Lef select{
+           font-size: 12px;
+            max-width: 30px;
+        }
+        .tableStart .tabS1Lef span{
+      font-size: 12px;
+        }
+
+        .tableStart .tabS1Rig{
+            gap: 10px; 
+         }
+         .tableStart .tabS1Rig select{
+             width: 124px;
+         font-size: 12px;
+             height: 44px;
+         }
+         .tableStart .tabS1Rig .srch{
+           width: 125px;
+         height: 44px;
+        
+         }
+         .tableStart .tabS1Rig .srch input{
+         font-size: 12px;
+         
+         }
+         
+}
+
+@media (max-width:550px) {
+    .tableStart .tabSec1{
+       flex-wrap: wrap;
+      }
+      .tableStart .tabS1Rig{
+       flex-wrap: wrap;
+     }
+     .tableStart .tabS1Rig select{
+       display: none;
+    }
+    .tableStart .tabSec1{
+      
+        padding: 12px 10px;
+      }
 }

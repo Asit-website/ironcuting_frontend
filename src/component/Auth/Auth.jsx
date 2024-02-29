@@ -43,10 +43,13 @@ const Auth = () => {
     return (
         <div class="iron-login-man">
             <div class="iron-login-main">
+
                 <div class="iron-login-flex">
+
                    <div class="iron-login-left">
                        <img src={loginImage1} alt="login-img"/>
                    </div>
+
                    <div class="right">
                        <div class="login-page">
                            <h2>Log In</h2>
@@ -77,7 +80,9 @@ const Auth = () => {
                            </div>
                        </div>
                    </div>
+
                </div>
+               
            </div>
         </div>
     )

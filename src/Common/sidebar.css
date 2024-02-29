@@ -1,3 +1,5 @@
+
+
 .sideWrap{
     min-width: 265px;
     max-width: 270px;
@@ -7,17 +9,33 @@
     gap: 10px;
     padding: 30px 0px;
 }
-.sideWrap .dashbord{
+
+.threeLine{
+    display: none;
+}
+
+
+@media (max-width:1100px) {
+    .sideWrap{
+       display: none;
+    }
+
+    .threeLine{
+        display: block;
+    }
+}
+
+
+ .dashbord{
  display: flex;
  padding: 10px 20px;
  gap: 10px;
  width: 100%;
- 
  background: #4D32920D;
  align-items: center;
  
 }
-.sideWrap .dashbord .dsad{
+ .dashbord .dsad{
 display: flex;
 align-items: center;
 justify-content: space-between;
@@ -25,7 +43,7 @@ width: 100%;
 cursor: pointer;
 }
 
-.sideWrap .dashbord .dsad p{
+ .dashbord .dsad p{
     font-family: "Roboto", sans-serif;   
     font-size: 18px;
     font-weight: 400;
@@ -68,14 +86,14 @@ color: #464E59;
 color: #464E59;    
 }
 
-.sideWrap .nanItem{
+ .nanItem{
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 10px 20px;
   width: 100%;
 }
-.sideWrap .nanItem span{
+ .nanItem span{
 font-family: "Roboto", sans-serif;   
  font-size: 18px;
     font-weight: 400;
