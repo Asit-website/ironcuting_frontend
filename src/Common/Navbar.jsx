@@ -6,7 +6,7 @@ import dashImg from "../image/dashboard.png";
 import downkey from "../image/downKey.png";
 import logout from "../image/logout.png";
 import system from "../image/settings-sliders.png";
-
+import alas from '../image/alas.png'
 
 
 function Navbar({ hideCreateOrder = false }) {
@@ -96,7 +96,7 @@ function Navbar({ hideCreateOrder = false }) {
         )}
       </div>
 
-        <h2>Hi,{user?.name}</h2>
+        <h2 className="flex items-center">Hi,{user?.name} <img className="ml-2" src={alas} alt="alas" /></h2>
 
         {!hideCreateOrder && (
           <button

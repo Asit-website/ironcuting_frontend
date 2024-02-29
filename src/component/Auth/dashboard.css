@@ -1,31 +1,35 @@
-.dashWrap{
+.dashWrap {
     width: 100%;
     position: relative;
 
 }
-.dashWrap .dashCont{
-   display: flex;
-   width: 100%;
-   /* gap: 20px; */
+
+.dashWrap .dashCont {
+    display: flex;
+    width: 100%;
+    /* gap: 20px; */
 }
-.dashWrap .dashRight{
+
+.dashWrap .dashRight {
     max-width: calc(100%-256px);
-width: 100%;
-  background-color: #f5f5f5;
-  padding: 30px 50px ;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+    width: 100%;
+    background-color: #f5f5f5;
+    padding: 30px 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
 
-.dashWrap .dRFirs{
+.dashWrap .dRFirs {
     max-width: 1440px;
-   width: 100%;
-   display: flex;
-   justify-content: flex-end;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-.dashWrap .dRFirs select{
+
+.dashWrap .dRFirs select {
     width: 194px;
     height: 54px;
     display: flex;
@@ -33,25 +37,27 @@ width: 100%;
     border: none;
     border-radius: 27px;
     padding: 0px 30px;
-    background-color: white;    
-font-family: "Roboto", sans-serif;font-size: 18px;
-font-weight: 400;
-line-height: 24px;
-letter-spacing: 0px;
-text-align: left;
-color: #293240;
+    background-color: white;
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0px;
+    text-align: left;
+    color: #293240;
 }
 
 
-.drSec{
+.drSec {
     display: flex;
     align-items: center;
     max-width: 1440px;
     justify-content: space-between;
     gap: 20px;
-width: 100%;
+    width: 100%;
 }
-.drSec .siDrSec{
+
+.drSec .siDrSec {
     width: 270px;
     height: 168px;
     border-radius: 5px;
@@ -61,56 +67,62 @@ width: 100%;
     align-items: center;
     justify-content: center;
     gap: 16px;
-    
+
 }
-.drSec .siDrSec h2{
-font-family: "Roboto", sans-serif;    font-size: 20px;
+
+.drSec .siDrSec h2 {
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
     font-weight: 400;
     line-height: 24px;
     letter-spacing: 0em;
     text-align: left;
-color: #060606;    
+    color: #060606;
 }
-.drSec .siDrSec p{
+
+.drSec .siDrSec p {
     font-family: "Roboto", sans-serif;
     font-size: 30px;
     font-weight: 400;
     line-height: 37px;
     letter-spacing: 0em;
     text-align: left;
-color: #060606;    
-    
+    color: #060606;
+
 }
 
-.tableStart{
+.tableStart {
     max-width: 1500px;
     width: 100%;
     background-color: #FFFFFF;
     border-radius: 5px;
 }
 
-.tableStart .tabSec1{
-  width: 100%;
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-  align-items: center;  
-  padding: 12px 20px;
+.tableStart .tabSec1 {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
 }
-.tableStart .tabS1Lef{
-max-width: 230px;
-width: 100%;
-border: 1px solid #CED4DA;
-height: 54px;
-border-radius: 5px;
-background-color: #FFFFFF;
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 10px;
+
+.tableStart .tabS1Lef {
+    max-width: 230px;
+    width: 100%;
+    border: 1px solid #CED4DA;
+    height: 54px;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
-.tableStart .tabS1Lef select{
-font-family: "Roboto", sans-serif;    font-size: 14px;
+
+.tableStart .tabS1Lef select {
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
     font-weight: 400;
     max-width: 60px;
     width: 100%;
@@ -118,128 +130,144 @@ font-family: "Roboto", sans-serif;    font-size: 14px;
     letter-spacing: 0em;
     text-align: left;
     border: 0.75px solid #CED4DA;
-color: #293240;    
+    color: #293240;
 }
-.tableStart .tabS1Lef span{
-font-family: "Roboto", sans-serif;    font-size: 18px;
+
+.tableStart .tabS1Lef span {
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
     font-weight: 400;
     line-height: 22px;
     letter-spacing: 0em;
     text-align: left;
-color: #293240;    
-opacity: 80%;
+    color: #293240;
+    opacity: 80%;
 }
-.tableStart .tabS1Rig{
-   display: flex;
-   align-items: center;
-   gap: 20px; 
+
+.tableStart .tabS1Rig {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
-.tableStart .tabS1Rig select{
+
+.tableStart .tabS1Rig select {
     width: 194px;
     text-align: center;
-font-family: "Roboto", sans-serif;font-size: 18px;
-font-weight: 400;
-line-height: 24px;
-letter-spacing: 0px;
-color: #293240;
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0px;
+    color: #293240;
     height: 54px;
     border-radius: 27px;
     opacity: 0.2px;
-    border:2px solid #CED4DA;
+    border: 2px solid #CED4DA;
 }
-.tableStart .tabS1Rig .srch{
-  display: flex;
-  align-items: center;
-  gap: 10px;   
-  width: 155px;
-height: 54px;
-border-radius: 27px;
-border: 1px;
-opacity: 0.1px;
-border: 1px solid #CED4DA;
-background-color: #FFFFFF;
-padding: 0px 20px;
+
+.tableStart .tabS1Rig .srch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 155px;
+    height: 54px;
+    border-radius: 27px;
+    border: 1px;
+    opacity: 0.1px;
+    border: 1px solid #CED4DA;
+    background-color: #FFFFFF;
+    padding: 0px 20px;
 }
-.tableStart .tabS1Rig .srch input{
-width: 60%;
-border: none;
-outline: none;
-background-color: transparent;
+
+.tableStart .tabS1Rig .srch input {
+    width: 60%;
+    border: none;
+    outline: none;
+    background-color: transparent;
 
 }
 
-.ansDataItem{
+.ansDataItem {
     font-family: "Roboto", sans-serif;
     font-size: 14px;
-font-weight: 400;
-line-height: 22px;
-letter-spacing: 0em;
-text-align: left;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
 
 }
 
 @media (max-width:1000px) {
-    .dashWrap .dashCont{
-       gap: 40px;
-     }
-    .dashWrap .dashRight{
-      padding:30px 20px;
+    .dashWrap .dashCont {
+        gap: 40px;
+    }
+
+    .dashWrap .dashRight {
+        padding: 30px 20px;
     }
 
 }
 
 @media (max-width:930px) {
-    .drSec{
+    .drSec {
         flex-wrap: wrap;
         justify-content: center;
     }
 }
 
 @media (max-width:850px) {
-    .tableStart .tabS1Lef{
+    .tableStart .tabS1Lef {
         max-width: 150px;
         width: 100%;
-        }
-        .tableStart .tabS1Lef select{
-           font-size: 12px;
-            max-width: 30px;
-        }
-        .tableStart .tabS1Lef span{
-      font-size: 12px;
-        }
+    }
 
-        .tableStart .tabS1Rig{
-            gap: 10px; 
-         }
-         .tableStart .tabS1Rig select{
-             width: 124px;
-         font-size: 12px;
-             height: 44px;
-         }
-         .tableStart .tabS1Rig .srch{
-           width: 125px;
-         height: 44px;
-        
-         }
-         .tableStart .tabS1Rig .srch input{
-         font-size: 12px;
-         
-         }
-         
+    .tableStart .tabS1Lef select {
+        font-size: 12px;
+        max-width: 30px;
+    }
+
+    .tableStart .tabS1Lef span {
+        font-size: 12px;
+    }
+
+    .tableStart .tabS1Rig {
+        gap: 10px;
+    }
+
+    .tableStart .tabS1Rig select {
+        width: 124px;
+        font-size: 12px;
+        height: 44px;
+    }
+
+    .tableStart .tabS1Rig .srch {
+        width: 125px;
+        height: 44px;
+
+    }
+
+    .tableStart .tabS1Rig .srch input {
+        font-size: 12px;
+
+    }
+
 }
 
 @media (max-width:550px) {
-    .tableStart .tabSec1{
-       flex-wrap: wrap;
-      }
-      .tableStart .tabS1Rig{
-       flex-wrap: wrap;
-     }
-     .tableStart .tabS1Rig select{
-       display: none;
+    .tableStart .tabSec1 {
+        flex-wrap: wrap;
     }
-    .tableStart .tabSec1{
-      
+
+    .tableStart .tabS1Rig {
+        flex-wrap: wrap;
+    }
+
+    .tableStart .tabS1Rig select {
+        display: none;
+    }
+
+    .tableStart .tabSec1 {
+
         padding: 12px 10px;
-      }
+    }
 }

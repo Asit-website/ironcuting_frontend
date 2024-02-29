@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import "./dashboard.css"
 import Navbar from '../../Common/Navbar'
 import Sidebar from '../../Common/Sidebar'
@@ -12,30 +12,49 @@ import { useMain } from '../../hooks/useMain';
 import { useNavigate } from 'react-router-dom'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import {useReactToPrint} from 'react-to-print'
+import { useReactToPrint } from 'react-to-print'
+import alas from '../../image/alas.png';
 
 function Dashboard() {
   const navigate = useNavigate();
-  const { getOrders,deleteOrders} = useMain();
+  const { getOrders, deleteOrders } = useMain();
   const [order, setOrder] = useState([]);
   const [refreshFlag, setRefreshFlag] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const [value, setValue] = useState({
+    query: ""
+  });
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(4);
+  const [total, setTotal] = useState(0);
+
+  const user = JSON.parse(localStorage.getItem("iron_user"));
+
 
   const contonentPDF = useRef();
 
-  const stylePeer = {
-    display: open ? "none" : "block"
-  }
   useEffect(() => {
     getData();
-  }, [refreshFlag]);
+  }, [refreshFlag, page, perPage]);
+
+  const handleChange = (e) => {
+    setValue({ ...value, [e.target.name]: e.target.value });
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    getData();
+    setPage(page)
+  };
 
   const getData = async () => {
-    const ans = await getOrders("", "", "", "");
-    console.log("ans" ,ans);
+    const ans = await getOrders("", value.query, page, perPage);
+    console.log("ans", ans);
     setOrder(ans?.data);
-    console.log(ans?.data)
+    setTotal(ans?.count);
+    console.log(ans?.data);
+    setPage(page)
   }
 
   const deleteOrders1 = async (id) => {
@@ -72,8 +91,8 @@ function Dashboard() {
 
   const generatePdf = useReactToPrint({
     content: () => contonentPDF.current,
-    documentTitle:"Order",
-    onAfterPrint:()=> alert("Data saved in PDF")
+    documentTitle: "Order",
+    onAfterPrint: () => alert("Data saved in PDF")
   })
   return (
 
@@ -90,6 +109,9 @@ function Dashboard() {
 
           {/* first  */}
           <div className='dRFirs'>
+            <div className="hi">
+              <h2 className='flex items-center'>Hi, {user.name} <img className='ml-2 yr' src={alas} alt="alas" /></h2>
+            </div>
             <select name="" id="">
               <option value="">This Week</option>
             </select>
@@ -164,7 +186,8 @@ function Dashboard() {
 
                 <div className='srch'>
                   <img src={search} alt="" />
-                  <input type="text" placeholder='Search..' />
+
+                  <input onKeyUp={handleSearch} onChange={handleChange} name='query' value={value.query} type="search" placeholder='Search..' />
 
                 </div>
 
@@ -172,7 +195,7 @@ function Dashboard() {
 
             </div>
 
-            <div  class="relative overflow-x-auto px-[10px] ">
+            <div class="relative overflow-x-auto px-[10px] ">
 
               <table class="w-full text-sm text-left rtl:text-right text-gray-500  dark:text-gray-400">
 
@@ -264,12 +287,12 @@ function Dashboard() {
                             <p onClick={() => {
                               navigate(`/createOrder`, { state: { item } })
                             }}>Edit</p>
-                            <p onClick={()=>{
+                            <p onClick={() => {
                               deleteOrders1(item._id)
                             }}>Delete</p>
-                            <p onClick={()=>{
-                                   navigate(`/selectRound/${item._id}`)
-                                }}>View Details</p>
+                            <p onClick={() => {
+                              navigate(`/selectRound/${item._id}`)
+                            }}>View Details</p>
                           </div>
                         </td>
                       </tr>
@@ -279,6 +302,19 @@ function Dashboard() {
 
                 </tbody>
               </table>
+              <div style={{ width: 'fit-content', margin: '20px auto' }} className="view_all">
+                <button disabled={page === 1} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900' onClick={() => {
+                  if (page > 1) {
+                    setPage(page - 1);
+                  }
+                }}>Previous</button>
+                <span className='btn222'>Page {page}</span>
+                <button disabled={(page * perPage) >= total} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900' onClick={() => {
+                  if ((page * perPage) < total) {
+                    setPage(page + 1);
+                  }
+                }}>Next</button>
+              </div>
 
               {/* <button onClick={generatePdf}>pdf</button> */}
 
