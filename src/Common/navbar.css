@@ -3,6 +3,7 @@
     position: relative;
     background-color: white;
     z-index: 200;
+    overflow-y: hidden;
 }
 
 .navBr_Cont{
@@ -15,6 +16,9 @@
     justify-content: space-between;
  
 }
+
+
+
 .navBr_Cont h2{
 font-family: "Roboto", sans-serif;  
   font-size: 18px;
@@ -22,7 +26,10 @@ font-family: "Roboto", sans-serif;
     letter-spacing: 0px;
     text-align: left;
 color: #060606;    
+
 }
+
+
 .navBr_Cont .createOBtn{
     width: 144px;
     height: 48px;
@@ -40,3 +47,42 @@ background-color: #4D3292;
 color: #FFFFFF;    
 
 }
+
+.smallScreenSide{
+display: none;
+position: relative;
+}
+
+
+
+.threeLine{
+    font-size: 40px;
+
+}
+.allSidebar{
+   position: fixed;
+   background-color: white;
+
+}
+
+
+@media (max-width:1100px) {
+    .navBr_Cont h2{
+      display: none;
+        
+        }
+        
+.smallScreenSide{
+    display: block;
+    position: relative;
+    }
+    
+         
+}
+
+@media (max-width:400px) {
+    
+    .navBr_Cont{
+       padding: 30px 20px;
+    }
+    }
