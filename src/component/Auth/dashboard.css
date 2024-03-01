@@ -11,7 +11,7 @@
 }
 
 .dashWrap .dashRight {
-    max-width: calc(100%-256px);
+    /* max-width: calc(100%-256px); */
     width: 100%;
     background-color: #f5f5f5;
     padding: 30px 50px;

@@ -68,7 +68,7 @@ function Sidebar() {
           navigate("/");
           alert("logout successfully");
         }}
-        className="nanItem"
+        className="nanItem ssItem"
       >
         <img src={logout} alt="" />
         <span>Logout</span>

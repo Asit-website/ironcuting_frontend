@@ -10,14 +10,17 @@
   font-family: "Roboto", sans-serif !important;
 }
 
-
+.ssItem{
+  position: fixed;
+  bottom: 40px;
+}
 .iron-login-main{
   /* max-width: 1500px; */
   width: 100%;
   display: block;
   margin: auto;
 }
-.hi p{
+.hi h2{
   display: none;
 }
 .action_box{
@@ -189,8 +192,9 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 .btn222{
   margin: 0px 10px;
 }
+
 @media only screen and (max-width:1100px){
-  .hi p{
+  .hi h2{
     display: block !important;
   }
 }
