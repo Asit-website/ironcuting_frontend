@@ -50,10 +50,8 @@ function Dashboard() {
 
   const getData = async () => {
     const ans = await getOrders("", value.query, page, perPage);
-    console.log("ans", ans);
     setOrder(ans?.data);
     setTotal(ans?.count);
-    console.log(ans?.data);
     setPage(page)
   }
 
