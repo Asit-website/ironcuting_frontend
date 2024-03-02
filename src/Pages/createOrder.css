@@ -1,97 +1,107 @@
-.cretOrdrWrap{
+.cretOrdrWrap {
     width: 100%;
     position: relative;
 }
 
 
-.CrtOrCont{
+.CrtOrCont {
     display: flex;
- width: 100%;    
+    width: 100%;
 }
 
-.mainOrdCon{
+.mainOrdCon {
     max-width: calc(100% - 220px);
-  width: 100%;
-  background-color: #f5f5f5;
+    width: 100%;
+    background-color: #f5f5f5;
 
 
 }
 
 
 
-.mainRcc{
+.mainRcc {
     max-width: 1440px;
-  width: 100%;
-  padding: 45px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+    width: 100%;
+    padding: 45px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 
 }
-.mainOrdCon .ordForm{
+
+.mainOrdCon .ordForm {
     width: 100%;
     background-color: white;
     padding: 0px 0px 40px 0px;
 
 }
 
-.orFiNa{
+.orFiNa {
     display: flex;
     justify-content: space-between;
     padding: 22px 50px;
 }
-.orFiNa p{
-font-family: "Roboto", sans-serif;font-size: 18px;
-font-weight: 400;
-line-height: 22px;
-letter-spacing: 0em;
-text-align: left;
-color: #060606;
+
+.orFiNa p {
+    /* font-family: "Roboto", sans-serif; */
+    font-family: gilroy-medium !important;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #060606;
 }
-.orFiNa img{
-   max-width: 20px;
-   max-height: 20px;
-   width: 100%;
-   height: 100%;
-   cursor: pointer;
+
+.orFiNa img {
+    max-width: 20px;
+    max-height: 20px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
 }
-.allFields{
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  flex-wrap: wrap;
-  padding: 30px;
+
+.allFields {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 30px;
 }
 
 
-.allFields label{
- display: flex;
- flex-direction: column;
- gap: 10px;
+.allFields label {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
-.allFields label p{
-font-family: "Roboto", sans-serif;    font-size: 16px;
+
+.allFields label p {
+    /* font-family: "Roboto", sans-serif;    */
+    font-family: gilroy-medium !important;
+    font-size: 16px;
     font-weight: 400;
     line-height: 19px;
     letter-spacing: 0em;
     text-align: left;
-color: #060606;    
+    color: #060606;
 }
-.allFields label input, select{
+
+.allFields label input,
+select {
     border: 1px solid #293240;
-    color:  #293240   ;
+    color: #293240;
     width: 340px;
-height: 44px;
-border-radius: 3px;
-opacity: 0.5px;
-padding: 0px 20px;
-
-
+    height: 44px;
+    border-radius: 3px;
+    opacity: 0.5px;
+    padding: 0px 20px;
+    outline: none;
 }
 
 
 
-.btnSec{
+.btnSec {
     display: flex;
     width: 100%;
     justify-content: flex-end;
@@ -100,100 +110,108 @@ padding: 0px 20px;
     padding: 0px 50px 0px 0px;
 }
 
-.btnSec .submitBtn{
+.btnSec .submitBtn {
     width: 144px;
     height: 48px;
     padding: 6px 0px 6px 0px;
     border-radius: 5px;
-background-color: #4D3292;
-font-family: "Roboto", sans-serif;
-font-size: 18px;
-font-weight: 400;
-line-height: 22px;
-letter-spacing: 0em;
-text-align: center;
-color: white;    
+    background-color: #4D3292;
+    font-family: gilroy-semibold !important;
+    /* font-family: "Roboto", sans-serif; */
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: white;
 
 }
 
-.btnSec .AdBtn{
+.btnSec .AdBtn {
     width: 144px;
     height: 48px;
     padding: 6px 0px 6px 0px;
     border-radius: 5px;
-background-color: #35B872;    
-font-family: "Roboto", sans-serif;
-font-size: 18px;
-font-weight: 400;
-line-height: 22px;
-letter-spacing: 0em;
-text-align: left;
-color: white;
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 5px;
+    background-color: #35B872;
+    /* font-family: "Roboto", sans-serif; */
+    font-family: gilroy-semibold !important;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }
 
 @media (max-width:1440px) {
-    .allFields label input, select{
+
+    .allFields label input,
+    select {
         border: 1px solid #293240;
-        color:  #293240;
+        color: #293240;
         width: 300px;
-    height: 44px;
-    border-radius: 3px;
-    opacity: 0.5px;
-    
+        height: 44px;
+        border-radius: 3px;
+        opacity: 0.5px;
+
     }
 }
 
 @media (max-width:1100px) {
-    .mainOrdCon{
-       max-width: 100%;
-       width: 100%;
- padding-top: 30px;    
-    
+    .mainOrdCon {
+        max-width: 100%;
+        width: 100%;
+        padding-top: 30px;
+
     }
-    
- 
+
+
 }
 
 
 @media (max-width:800px) {
-    .allFields{
-       
+    .allFields {
+
         gap: 20px;
-        padding:30px 20px;
+        padding: 30px 20px;
         justify-content: ce;
-      }
-      
-      
-      
+    }
+
+
+
 }
 
 @media (max-width:740px) {
-    .allFields label{
+    .allFields label {
         width: 100%;
     }
-    
-    .allFields label input, select{
- 
-      max-width: auto;
+
+    .allFields label input,
+    select {
+
+        max-width: auto;
         width: 100%;
-    
+
     }
-    .orFiNa{
+
+    .orFiNa {
         padding: 22px 20px;
     }
-    .btnSec{
-    gap: 10px;
-        padding: 0px 20px ;
+
+    .btnSec {
+        gap: 10px;
+        padding: 0px 20px;
     }
-    .mainRcc{
-      
-      padding: 15px 10px;
-   
-    
+
+    .mainRcc {
+
+        padding: 15px 10px;
+
+
     }
-    
+
 }

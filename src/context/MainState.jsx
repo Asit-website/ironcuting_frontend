@@ -3,9 +3,6 @@ import MainContext from "./MainContext";
 
 // const baseUrl = 'http://localhost:5000';
 const baseUrl = 'https://ironcut-backend.onrender.com';
-// const baseUrl = 'https://backend.bln.obtechenterprise.com';
-
-
 
 const MainState = (props) => {
 

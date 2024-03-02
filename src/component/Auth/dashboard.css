@@ -18,6 +18,7 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
+    min-height: calc(100vh - 88px);
 }
 
 
@@ -30,16 +31,17 @@
 }
 
 .dashWrap .dRFirs select {
-    width: 194px;
-    height: 54px;
+    width: 190px;
+    height: 50px;
     display: flex;
     outline: none;
     border: none;
     border-radius: 27px;
     padding: 0px 30px;
     background-color: white;
-    font-family: "Roboto", sans-serif;
-    font-size: 18px;
+    font-family: gilroy-medium !important;
+    /* font-family: "Roboto", sans-serif; */
+    font-size: 17px;
     font-weight: 400;
     line-height: 24px;
     letter-spacing: 0px;
@@ -55,10 +57,12 @@
     justify-content: space-between;
     gap: 20px;
     width: 100%;
+    margin-top: 24px;
 }
 
 .drSec .siDrSec {
-    width: 270px;
+    /* width: 270px; */
+    width: 100%;
     height: 168px;
     border-radius: 5px;
     background-color: #FFFFFF;
@@ -71,7 +75,8 @@
 }
 
 .drSec .siDrSec h2 {
-    font-family: "Roboto", sans-serif;
+    /* font-family: "Roboto", sans-serif; */
+    font-family: gilroy-medium !important;
     font-size: 20px;
     font-weight: 400;
     line-height: 24px;
@@ -81,8 +86,9 @@
 }
 
 .drSec .siDrSec p {
-    font-family: "Roboto", sans-serif;
-    font-size: 30px;
+    /* font-family: "Roboto", sans-serif; */
+    font-family: gilroy-semibold !important;
+    font-size: 27px;
     font-weight: 400;
     line-height: 37px;
     letter-spacing: 0em;
@@ -96,6 +102,7 @@
     width: 100%;
     background-color: #FFFFFF;
     border-radius: 5px;
+    margin-top: 24px;
 }
 
 .tableStart .tabSec1 {
@@ -121,8 +128,10 @@
 }
 
 .tableStart .tabS1Lef select {
-    font-family: "Roboto", sans-serif;
+    /* font-family: "Roboto", sans-serif; */
+    font-family: gilroy-medium !important;
     font-size: 14px;
+    height: 34px;
     font-weight: 400;
     max-width: 60px;
     width: 100%;
@@ -131,10 +140,13 @@
     text-align: left;
     border: 0.75px solid #CED4DA;
     color: #293240;
+    outline: none;
+    -webkit-appearance: none !important;
 }
 
 .tableStart .tabS1Lef span {
-    font-family: "Roboto", sans-serif;
+    /* font-family: "Roboto", sans-serif; */
+    font-family: gilroy-medium !important;
     font-size: 18px;
     font-weight: 400;
     line-height: 22px;
@@ -151,20 +163,38 @@
 }
 
 .tableStart .tabS1Rig select {
-    width: 194px;
+    width: 190px;
     text-align: center;
-    font-family: "Roboto", sans-serif;
-    font-size: 18px;
+    font-family: gilroy-medium !important;
+    /* font-family: "Roboto", sans-serif; */
+    font-size: 17px;
     font-weight: 400;
     line-height: 24px;
     letter-spacing: 0px;
     color: #293240;
-    height: 54px;
+    height: 50px;
     border-radius: 27px;
     opacity: 0.2px;
-    border: 2px solid #CED4DA;
+    border: 1px solid #CED4DA;
 }
-
+.gg{
+    background-color: #fbf9fd;
+}
+.gg th{
+    color: #060606;
+    font-family: gilroy-semibold !important;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 12.5px;
+    /* font-family: gilroy-medium !important; */
+    /* font-weight: 500 !important; */
+}
+.sss td{
+    color: #293240 !important;
+    font-family: gilroy-medium !important;
+    font-weight: 400;
+    font-size: 15.5px !important;
+}
 .tableStart .tabS1Rig .srch {
     display: flex;
     align-items: center;
@@ -184,10 +214,26 @@
     border: none;
     outline: none;
     background-color: transparent;
-
+    font-family: gilroy-medium !important;
+    font-weight: 400;
 }
-
-.ansDataItem {
+.tableStart .tabS1Rig .srch input::placeholder{
+    font-weight: 400;
+    color: #293240;
+    font-size: 16px;
+    opacity: .8;
+}
+.cli{
+    max-width: 1440px;
+    width: 100%;
+    display: block;
+    margin: auto;
+}
+.sist{
+    font-weight: 400;
+    font-family: gilroy-medium !important;
+}
+/* .ansDataItem {
     font-family: "Roboto", sans-serif;
     font-size: 14px;
     font-weight: 400;
@@ -195,7 +241,7 @@
     letter-spacing: 0em;
     text-align: left;
 
-}
+} */
 
 @media (max-width:1000px) {
     .dashWrap .dashCont {

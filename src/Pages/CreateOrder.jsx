@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useMain } from "../hooks/useMain";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function CreateOrder() {
+function CreateOrder({notify}) {
   const location = useLocation();
   const order = location?.state?.item;
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ function CreateOrder() {
 
   const removeForm = (index) => {
     if (formId.length === 1 && index === 0) {
-      return;
+      return navigate("/dashboard")
     }
     setFormId((prev) => prev.filter((_, i) => i !== index));
   };
@@ -84,7 +84,8 @@ function CreateOrder() {
     const resp = await createIronOrder(formData);
     console.log("Res", resp);
     if (resp.status) {
-      alert("Successfuly Created the order");
+      notify("success","successfully created the order")
+      navigate("/dashboard");
       setFormData({
         client: "",
         type: "",
@@ -98,7 +99,7 @@ function CreateOrder() {
         CuttingPrice: "",
       });
     } else {
-      alert("Something went wrong , please try again");
+      notify("error","something went wrong please try again")
     }
   };
 
@@ -166,8 +167,8 @@ function CreateOrder() {
 
     if (ans?.status) {
       console.log("hi");
-      // notify("success", "successfully Updated");
-      alert("successfully updated");
+      notify("success", "successfully Updated");
+      // alert("successfully updated");
       setFormData({
         client: "",
         type: "",
@@ -183,7 +184,7 @@ function CreateOrder() {
 
       navigate("/dashboard");
     } else {
-      alert("Something went wrong");
+      notify("error","something went wrong");
     }
   };
 
@@ -257,7 +258,7 @@ function CreateOrder() {
       <Navbar hideCreateOrder={true} />
 
       <div className="CrtOrCont">
-        <Sidebar />
+        <Sidebar notify={notify} />
 
         <main className="mainOrdCon">
           <div className="mainRcc">
@@ -269,7 +270,10 @@ function CreateOrder() {
               >
                 <nav className="orFiNa">
                   <p>Create Order</p>
-                  <img onClick={() => removeForm(index)} src={cross} alt="" />
+                  <img onClick={() => {
+                    removeForm(index);
+                    
+                  }} src={cross} alt="" />
                 </nav>
 
                 <hr />
@@ -283,6 +287,7 @@ function CreateOrder() {
                       name="client"
                       value={formData?.client}
                       type="text"
+                      required
                     />
                   </label>
 
@@ -328,6 +333,51 @@ function CreateOrder() {
                         value={formData.Diameter}
                         name="Diameter"
                         type="text"
+                        maxLength="4"
+                        required
+                      />
+                    </label>
+                  )}
+
+
+
+
+                  {formData.type !== "Round" && (
+                    <label htmlFor="">
+                      <p>HEIGHT</p>
+                      <input
+                        onChange={changeHandler}
+                        value={formData.Height}
+                        name="Height"
+                        type="text"
+                        maxLength="4"
+                        required
+                      />
+                    </label>
+                  )}
+
+                  <label>
+                    <p>LENGTH</p>
+                    <input
+                      onChange={changeHandler}
+                      value={formData.Length}
+                      name="Length"
+                      type="text"
+                      maxLength="4"
+                      required
+                    />
+                  </label>
+
+                  {formData.type !== "Round" && (
+                    <label htmlFor="">
+                      <p>WIDTH</p>
+                      <input
+                        onChange={changeHandler}
+                        value={formData.Width}
+                        name="Width"
+                        type="text"
+                        maxLength="4"
+                        required
                       />
                     </label>
                   )}
@@ -339,42 +389,11 @@ function CreateOrder() {
                       value={formData.quantity}
                       name="quantity"
                       type="text"
+                      maxLength="4"
+                      required
                     />
                   </label>
 
-                  <label>
-                    <p>LENGTH</p>
-                    <input
-                      onChange={changeHandler}
-                      value={formData.Length}
-                      name="Length"
-                      type="text"
-                    />
-                  </label>
-
-                  {formData.type !== "Round" && (
-                    <label htmlFor="">
-                      <p>HEIGHT</p>
-                      <input
-                        onChange={changeHandler}
-                        value={formData.Height}
-                        name="Height"
-                        type="text"
-                      />
-                    </label>
-                  )}
-
-                  {formData.type !== "Round" && (
-                    <label htmlFor="">
-                      <p>WIDTH</p>
-                      <input
-                        onChange={changeHandler}
-                        value={formData.Width}
-                        name="Width"
-                        type="text"
-                      />
-                    </label>
-                  )}
 
                   <label>
                     <p>WEIGHT</p>
@@ -383,6 +402,8 @@ function CreateOrder() {
                       value={formData.Weight}
                       name="Weight"
                       type="text"
+                      maxLength="4"
+                      required
                     />
                   </label>
 
@@ -393,6 +414,7 @@ function CreateOrder() {
                       value={formData.CuttingPrice}
                       name="CuttingPrice"
                       type="text"
+                      required
                     />
                   </label>
                 </div>

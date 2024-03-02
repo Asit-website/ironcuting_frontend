@@ -85,9 +85,10 @@
 .login-page h2{
   font-size: 32px;
   line-height: 39.62px;
-  font-weight:500;
+  font-weight:400;
   color: #060606;
   text-align: center;
+  font-family: gilroy-bold !important;
 }
 .login-form-main{
   padding-top: 20px;
@@ -98,6 +99,12 @@
   text-align:start;
   gap: 8px;
   padding-top: 20px;
+}
+.login-form label{
+  color: #060606;
+  font-weight: 400;
+  font-size: 18px;
+  font-family: gilroy-medium !important;
 }
 .login-form label b{
   font-size: 18px;
@@ -112,6 +119,14 @@
   border: 0.75px solid rgb(212, 210, 210);
   border-radius: 5px;
   outline: none;
+  color: #293240;
+  opacity: 70%;
+}
+.login-form input::placeholder{
+  color: #293240;
+  font-weight: 400;
+  font-size: 16px;
+  opacity: 70%;
 }
 .forget-pass{
   display: flex;
@@ -144,14 +159,19 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   font-size: 16px;
   line-height: 19.41px;
   font-weight: 400;
-  color: gray;
+  color: #293240;
+  opacity: 0.7;
+  font-family: gilroy-medium !important;
 }
 .login-password span a{
   font-size: 16px;
   line-height: 19.41px;
+  opacity: 50%;
   font-weight: 400;
   text-decoration: none;
-  color:gray;
+  font-family: gilroy-medium !important;
+  color: #060606;
+  /* color:gray; */
   text-decoration: underline;
 }
 .Login-btn{
@@ -173,6 +193,7 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   line-height: 22.05px;
   font-weight: 400;
   border-style: none;
+  font-family: gilroy-semibold !important;
 }
 .Login-btn p{
   font-size: 16px;
@@ -180,9 +201,16 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   font-weight: 400;
   color: gray;
 }
-.lt{
+/* .lt{
   top: -26px;
+} */
+.cli1{
+  display: block;
+  margin:10px auto;
+  max-width: 1440px;
+  width: 100%;
 }
+
 .sen{
   background-color: red;
 }
@@ -191,6 +219,10 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 }
 .btn222{
   margin: 0px 10px;
+  color: #1D3966;
+  font-weight: 400;
+  font-size: 18px;
+  font-family: gilroy-medium !important;
 }
 
 @media only screen and (max-width:1100px){
@@ -403,6 +435,7 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   font-weight: 400;
   color: #060606;
   padding-bottom: 20px;
+  font-family: gilroy-medium !important;
 }
 .select-1st-row h2{
   background-color: white;
@@ -414,6 +447,7 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   line-height: 29.11px;
   font-weight: 400;
   color: #060606;
+  font-family: gilroy-medium !important;
 }
 .select-row-btn{
   display: flex;
@@ -435,6 +469,7 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   color: #fff;
   padding: 12px 0px;
   border-radius: 5px;
+  font-family: gilroy-semibold !important;
 }
 .select-row-btn-flex #edit{
   background-color: #E26E61;
@@ -448,4 +483,17 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   align-items: center;
   text-align: center;
   gap: 70px;
+}
+.pk th{
+  color: #060606;
+  font-weight: 400;
+  font-size: 15px;
+  text-transform: uppercase;
+  font-family: gilroy-semibold !important;
+}
+.pk1 td{
+  color: #293240;
+  font-weight: 400;
+  font-size: 15px;
+  font-family: gilroy-medium !important;
 }

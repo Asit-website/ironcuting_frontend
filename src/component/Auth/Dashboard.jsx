@@ -14,8 +14,13 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { useReactToPrint } from 'react-to-print'
 import alas from '../../image/alas.png';
-
-function Dashboard() {
+// import sdfg from '../../image/sdfg.svg'
+import fg from '../../image/fg.svg';
+import das1 from '../../image/das1.svg';
+import das2 from '../../image/das2.svg';
+import das3 from '../../image/das3.svg';
+import das4 from '../../image/das4.svg';
+function Dashboard({notify}) {
   const navigate = useNavigate();
   const { getOrders, deleteOrders } = useMain();
   const [order, setOrder] = useState([]);
@@ -69,8 +74,7 @@ function Dashboard() {
             const ans = await deleteOrders(id);
             console.log(ans);
             if (ans.status) {
-              alert('delete');
-              // notify(ans.status, ans.message);
+              notify("failed", "deleted successfully");
               setRefreshFlag(!refreshFlag);
             }
             else {
@@ -95,16 +99,18 @@ function Dashboard() {
   return (
 
     <div className='dashWrap'>
-
+      
       <Navbar />
 
       <div className="dashCont">
 
-        <Sidebar />
+        <Sidebar notify={notify} />
 
         {/* right side */}
         <div className="dashRight">
 
+
+        <div className='cli'>
           {/* first  */}
           <div className='dRFirs'>
             <div className="hi">
@@ -121,7 +127,7 @@ function Dashboard() {
             {/* first  */}
             <div className='siDrSec'>
 
-              <img src={order1} alt="" />
+              <img src={das1} alt="" />
               <h2>Orders In Queve</h2>
               <p>50</p>
 
@@ -131,7 +137,7 @@ function Dashboard() {
             {/* second  */}
             <div className='siDrSec'>
 
-              <img src={order2} alt="" />
+              <img src={das2} alt="" />
               <h2>Today Orders</h2>
               <p>{order.length}</p>
 
@@ -141,7 +147,7 @@ function Dashboard() {
             {/* third  */}
             <div className='siDrSec'>
 
-              <img src={order3} alt="" />
+              <img src={das3} alt="" />
               <h2>Cancel Orders</h2>
               <p>05</p>
 
@@ -151,7 +157,7 @@ function Dashboard() {
             {/* fourth  */}
             <div className='siDrSec'>
 
-              <img src={order4} alt="" />
+              <img src={das4} alt="" />
               <h2>Complete Orders </h2>
               <p>30</p>
 
@@ -169,7 +175,7 @@ function Dashboard() {
               {/* left side */}
               <div className='tabS1Lef'>
                 <select name="" id="">
-                  <option value="">10</option>
+                  <option value="">3</option>
                 </select>
 
                 <span>Entries per page</span>
@@ -197,7 +203,7 @@ function Dashboard() {
 
               <table class="w-full text-sm text-left rtl:text-right text-gray-500  dark:text-gray-400">
 
-                <thead class="text-xs text-gray-700 uppercase  dark:text-gray-400">
+                <thead class="gg">
                   <tr>
                     <th scope="col" class="px-3 py-3 text-[#060606]">
                       client
@@ -238,11 +244,11 @@ function Dashboard() {
                   </tr>
                 </thead>
 
-                <tbody>
+                <tbody className='sss'>
 
                   {
                     order.map((item, index) => (
-                      <tr key={index} class="bg-white border-b border-[#CED4DA]">
+                      <tr  key={index} class="bg-white border-b border-[#CED4DA]">
 
                         <td class="px-3 py-4 text-[#293240] ansDataItem ">
                           {item.client}
@@ -280,7 +286,7 @@ function Dashboard() {
                         <td onClick={() => {
                           document.getElementById(`action_box${index}`).classList.toggle('hidden');
                         }} class="px-3 py-4 text-[#293240] ansDataItem">
-                          <img src={eye} alt="" />
+                          <img src={fg} alt="sdfg" />
                           <div id={`action_box${index}`} className='hidden action_box'>
                             <p onClick={() => {
                               navigate(`/createOrder`, { state: { item } })
@@ -301,13 +307,13 @@ function Dashboard() {
                 </tbody>
               </table>
               <div style={{ width: 'fit-content', margin: '20px auto' }} className="view_all">
-                <button disabled={page === 1} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900' onClick={() => {
+                <button disabled={page === 1} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist' onClick={() => {
                   if (page > 1) {
                     setPage(page - 1);
                   }
                 }}>Previous</button>
                 <span className='btn222'>Page {page}</span>
-                <button disabled={(page * perPage) >= total} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900' onClick={() => {
+                <button disabled={(page * perPage) >= total} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist' onClick={() => {
                   if ((page * perPage) < total) {
                     setPage(page + 1);
                   }
@@ -319,6 +325,7 @@ function Dashboard() {
             </div>
 
 
+          </div>
           </div>
 
 

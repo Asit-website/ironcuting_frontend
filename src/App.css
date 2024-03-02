@@ -5,4 +5,24 @@
  padding: 0px;
  box-sizing: border-box;
  overflow-x: hidden;
+ font-family: gilroy !important;
+}
+
+@font-face {
+    font-family: gilroy;
+    src: url('./Common/gilroy/Gilroy-Regular.ttf');
+}
+@font-face {
+    font-family: gilroy-medium;
+    src: url('./Common/gilroy/Gilroy-Medium.ttf');
+}
+
+@font-face {
+    font-family: gilroy-semibold;
+    src: url('./Common//gilroy/Gilroy-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: gilroy-bold;
+    src: url('./Common/gilroy/Gilroy-Bold.ttf');
 }

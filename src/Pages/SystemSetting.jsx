@@ -9,7 +9,9 @@ import sR1 from "../image/searchRi.png";
 import deleteS from "../image/deleteS.png";
 import editS from "../image/editS.png";
 import { useMain } from "../hooks/useMain";
-
+import sd1 from '../image/sd1.svg';
+import del1 from '../image/del1.svg';
+import edit1 from '../image/edit1.svg'
 const leftData = [
   {
     title: "Type",
@@ -19,7 +21,7 @@ const leftData = [
   },
 ];
 
-function SystemSetting() {
+function SystemSetting({notify}) {
   const [onEdit, setOnEdit] = useState(false);
   const [editData, setEditData] = useState({});
 
@@ -101,25 +103,26 @@ function SystemSetting() {
 
       if (ans?.status) {
         console.log("hi");
-        // notify("success", "successfully Updated");
-        alert("successfully updated");
+        notify("success", "successfully Updated");
+        // alert("successfully updated");
         setRefreshFlag(!refreshFlag);
         setValue({
           Name: "",
         });
       } else {
-        alert("Something went wrong");
+        notify("error", "something went wrong");
       }
     } else {
       const resp = await createType({ ...value });
       if (resp.status) {
-        alert("Succesfuly Created");
+        // alert("Succesfuly Created");
+        notify("success","successfully created");
         setRefreshFlag(!refreshFlag);
         setValue({
           Name: "",
         });
       } else {
-        alert("Something went wrong");
+        notify("error","something went wrong");
       }
     }
     setOpenPopup(false);
@@ -132,26 +135,26 @@ function SystemSetting() {
       });
 
       if (ans?.status) {
-        alert("successfully updated iron");
+        notify("success","successfully updated");
         // setRefreshFlag(!refreshFlag)
         fetchAllIronQuality();
         setValue({
           Name: "",
         });
       } else {
-        alert("Something went wrong");
+        notify("error","something went wrong");
       }
     } else {
       const resp = await createQuality({ ...value });
       console.log("rs", resp);
       if (resp.status) {
-        alert("Succesfuly Created");
+        notify("success","created successfully")
         fetchAllIronQuality();
         setValue({
           Name: "",
         });
       } else {
-        alert("Something went wrong");
+        notify("error","something went wrong");
       }
     }
     setOpenPopup(false);
@@ -160,20 +163,20 @@ function SystemSetting() {
   const deleteTypeHandler = async (id) => {
     const resp = await DeleteType({ id });
     if (resp.status) {
-      alert("Successfuly deleted");
+      notify("success","successfully deleted");
       setRefreshFlag(!refreshFlag);
     } else {
-      alert("Something went wrong");
+      notify("error","something went wrong");
     }
   };
 
   const deleteIronHandler = async (id) => {
     const resp = await deleteQuality({ id });
     if (resp.status) {
-      alert("Successfuly deleted Quality");
+      notify("success","successfully deleted quality")
       fetchAllIronQuality();
     } else {
-      alert("Something went wrong");
+      notify("error","something went wrong")
     }
   };
 
@@ -234,7 +237,7 @@ function SystemSetting() {
       <Navbar hideCreateOrder={true} />
 
       <div className="sySeCont">
-        <Sidebar />
+        <Sidebar notify={notify} />
 
         <div className="sySrIGHT">
           <div className="sSetRCon">
@@ -249,7 +252,7 @@ function SystemSetting() {
                     setOnEdit(false);
                   }
                 }}
-                src={plusSet}
+                src={sd1}
                 alt=""
               />
             </nav>
@@ -361,7 +364,7 @@ function SystemSetting() {
                                 setOnEdit(false);
                               }
                             }}
-                            src={plusSet}
+                            src={sd1}
                             alt=""
                           />
                         </div>
@@ -433,7 +436,7 @@ function SystemSetting() {
               setOpenPopup(true);
             }
           }}
-          src={editS}
+          src={edit1}
           alt=""
         />
 
@@ -445,7 +448,7 @@ function SystemSetting() {
               deleteTypeHandler(item?._id);
             }
           }}
-          src={deleteS}
+          src={del1}
           alt=""
         />
       </div>
