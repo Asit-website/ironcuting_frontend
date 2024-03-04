@@ -13,7 +13,7 @@ function Selectround({ notify }) {
   const generatePdf = useReactToPrint({
     content: () => contonentPDF.current,
     documentTitle: "Order",
-    onAfterPrint: () => alert("item saved in PDF")
+    onAfterPrint: () => notify("success","item saved")
   })
 
   useEffect(() => {

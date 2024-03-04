@@ -11,6 +11,7 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
+import Table from './component/Table';
 function App() {
   const notify = (status, message) => {
     if (status) {
@@ -31,6 +32,7 @@ function App() {
             <Route path="/createOrder" element={<CreateOrder notify={notify} /> } />
             <Route path='/systemSetting' element={<SystemSetting notify={notify} />}  />
             <Route path='/selectRound/:id' element={<Selectround notify={notify} />} />
+            <Route path='/table' element={<Table/>}/>
           </Routes>
         </Router>
       </MainState>

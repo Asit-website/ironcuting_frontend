@@ -20,10 +20,12 @@ import das1 from '../../image/das1.svg';
 import das2 from '../../image/das2.svg';
 import das3 from '../../image/das3.svg';
 import das4 from '../../image/das4.svg';
-function Dashboard({notify}) {
+import OutsideClickHandler from 'react-outside-click-handler';
+function Dashboard({ notify }) {
   const navigate = useNavigate();
   const { getOrders, deleteOrders } = useMain();
   const [order, setOrder] = useState([]);
+  const [order1,setOrder1] = useState([]);
   const [refreshFlag, setRefreshFlag] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -41,7 +43,12 @@ function Dashboard({notify}) {
 
   useEffect(() => {
     getData();
+    // getData1()
   }, [refreshFlag, page, perPage]);
+
+  useEffect(()=>{
+    getData1();
+  },[refreshFlag])
 
   const handleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
@@ -50,7 +57,7 @@ function Dashboard({notify}) {
   const handleSearch = (e) => {
     e.preventDefault();
     getData();
-    setPage(page)
+    // setPage(page)
   };
 
   const getData = async () => {
@@ -58,6 +65,11 @@ function Dashboard({notify}) {
     setOrder(ans?.data);
     setTotal(ans?.count);
     setPage(page)
+  }
+
+  const getData1 = async () =>{
+    const ans = await getOrders("",value.query,"","");
+    setOrder1(ans?.data);
   }
 
   const deleteOrders1 = async (id) => {
@@ -74,7 +86,7 @@ function Dashboard({notify}) {
             const ans = await deleteOrders(id);
             console.log(ans);
             if (ans.status) {
-              notify("failed", "deleted successfully");
+              notify("error", "deleted successfully");
               setRefreshFlag(!refreshFlag);
             }
             else {
@@ -99,7 +111,7 @@ function Dashboard({notify}) {
   return (
 
     <div className='dashWrap'>
-      
+
       <Navbar />
 
       <div className="dashCont">
@@ -110,222 +122,245 @@ function Dashboard({notify}) {
         <div className="dashRight">
 
 
-        <div className='cli'>
-          {/* first  */}
-          <div className='dRFirs'>
-            <div className="hi">
-              <h2 className='flex items-center'>Hi, {user.name} <img className='ml-2 yr' src={alas} alt="alas" /></h2>
-            </div>
-            <select name="" id="">
-              <option value="">This Week</option>
-            </select>
-          </div>
-
-          {/* seconnd  */}
-          <div className="drSec">
-
+          <div className='cli'>
             {/* first  */}
-            <div className='siDrSec'>
-
-              <img src={das1} alt="" />
-              <h2>Orders In Queve</h2>
-              <p>50</p>
-
-
+            <div className='dRFirs'>
+              <div className="hi">
+                <h2 className='flex items-center'>Hi, {user.name} <img className='ml-2 yr' src={alas} alt="alas" /></h2>
+              </div>
+              {/* <select name="" id="">
+                <option value="">This Week</option>
+              </select> */}
             </div>
 
-            {/* second  */}
-            <div className='siDrSec'>
+            {/* seconnd  */}
+            <div className="drSec">
 
-              <img src={das2} alt="" />
-              <h2>Today Orders</h2>
-              <p>{order.length}</p>
+              {/* first  */}
+              <div className='siDrSec'>
 
+                <img src={das1} alt="" />
+                <h2>Orders In Queve</h2>
+                <p>50</p>
 
-            </div>
-
-            {/* third  */}
-            <div className='siDrSec'>
-
-              <img src={das3} alt="" />
-              <h2>Cancel Orders</h2>
-              <p>05</p>
-
-
-            </div>
-
-            {/* fourth  */}
-            <div className='siDrSec'>
-
-              <img src={das4} alt="" />
-              <h2>Complete Orders </h2>
-              <p>30</p>
-
-
-            </div>
-
-          </div>
-
-
-          {/* table  */}
-          <div className='tableStart'>
-
-            <div className='tabSec1'>
-
-              {/* left side */}
-              <div className='tabS1Lef'>
-                <select name="" id="">
-                  <option value="">3</option>
-                </select>
-
-                <span>Entries per page</span>
 
               </div>
 
-              {/* right side */}
-              <div className='tabS1Rig'>
-                <select name="" id="">
-                  <option value=""> This Week</option>
-                </select>
+              {/* second  */}
+              <div className='siDrSec'>
 
-                <div className='srch'>
-                  <img src={search} alt="" />
+                <img src={das2} alt="" />
+                <h2>Today Orders</h2>
+                <p>{order1.length}</p>
 
-                  <input onKeyUp={handleSearch} onChange={handleChange} name='query' value={value.query} type="search" placeholder='Search..' />
+
+              </div>
+
+              {/* third  */}
+              <div className='siDrSec'>
+
+                <img src={das3} alt="" />
+                <h2>Cancel Orders</h2>
+                <p>05</p>
+
+
+              </div>
+
+              {/* fourth  */}
+              <div className='siDrSec'>
+
+                <img src={das4} alt="" />
+                <h2>Complete Orders </h2>
+                <p>30</p>
+
+
+              </div>
+
+            </div>
+
+
+            {/* table  */}
+            <div className='tableStart'>
+
+              <div className='tabSec1'>
+
+                {/* left side */}
+                <div className='tabS1Lef'>
+                  <select name="page" id="page">
+                    <option onClick={() => {
+                      if ((page * perPage) < total) {
+                        setPage(page + 1);
+                      }
+                    }} value={page}>3</option>
+                    <option value={page}>6</option>
+                  </select>
+
+                  <span>Entries per page</span>
+
+                </div>
+
+                {/* right side */}
+                <div className='tabS1Rig'>
+                  <div className='sara'>
+                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M5 5.49864L0 0.501358H10L5 5.49864Z" fill="#293240" />
+                    </svg>
+
+                    <select name="" id="">
+                      <option value="this week"> This Week</option>
+                      <option value="this month">This Month</option>
+                      <option value="this year">This year</option>
+                    </select>
+                  </div>
+
+                  <div className='srch'>
+                    <img src={search} alt="" />
+
+                    <input onKeyUp={handleSearch} onChange={handleChange} name='query' value={value.query} type="search" placeholder='Search..' />
+
+                  </div>
 
                 </div>
 
               </div>
 
-            </div>
+              <div class="relative overflow-x-auto px-[10px] ">
 
-            <div class="relative overflow-x-auto px-[10px] ">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500  dark:text-gray-400">
 
-              <table class="w-full text-sm text-left rtl:text-right text-gray-500  dark:text-gray-400">
+                  <thead class="gg">
+                    <tr>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                        client
+                      </th>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                        Date
+                      </th>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                        Type
+                      </th>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                        iron quality
+                      </th>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                        quantity
+                      </th>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                        diameter
+                      </th>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                        length
+                      </th>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                        height
+                      </th>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                        width
+                      </th>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                        weight
+                      </th>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                        Cutting Price
+                      </th>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                        action
+                      </th>
+                    </tr>
+                  </thead>
 
-                <thead class="gg">
-                  <tr>
-                    <th scope="col" class="px-3 py-3 text-[#060606]">
-                      client
-                    </th>
-                    <th scope="col" class="px-3 py-3 text-[#060606]">
-                      Date
-                    </th>
-                    <th scope="col" class="px-3 py-3 text-[#060606]">
-                      Type
-                    </th>
-                    <th scope="col" class="px-3 py-3 text-[#060606]">
-                      iron quality
-                    </th>
-                    <th scope="col" class="px-3 py-3 text-[#060606]">
-                      quantity
-                    </th>
-                    <th scope="col" class="px-3 py-3 text-[#060606]">
-                      diameter
-                    </th>
-                    <th scope="col" class="px-3 py-3 text-[#060606]">
-                      length
-                    </th>
-                    <th scope="col" class="px-3 py-3 text-[#060606]">
-                      height
-                    </th>
-                    <th scope="col" class="px-3 py-3 text-[#060606]">
-                      width
-                    </th>
-                    <th scope="col" class="px-3 py-3 text-[#060606]">
-                      weight
-                    </th>
-                    <th scope="col" class="px-3 py-3 text-[#060606]">
-                      Cutting Price
-                    </th>
-                    <th scope="col" class="px-3 py-3 text-[#060606]">
-                      action
-                    </th>
-                  </tr>
-                </thead>
+                  <tbody className='sss'>
+                    
+                    {
+                      order.map((item, index) => (
+                        <tr key={index} class="bg-white border-b border-[#CED4DA]">
 
-                <tbody className='sss'>
-
-                  {
-                    order.map((item, index) => (
-                      <tr  key={index} class="bg-white border-b border-[#CED4DA]">
-
-                        <td class="px-3 py-4 text-[#293240] ansDataItem ">
-                          {item.client}
-                        </td>
-                        <td class="px-3 py-4 text-[#293240] ansDataItem">
-                          {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}
-                        </td>
-                        <td class="px-3 py-4 text-[#293240] ansDataItem">
-                          {item.type}
-                        </td>
-                        <td class="px-3 py-4 text-[#293240] ansDataItem">
-                          {item.ironQuality}
-                        </td>
-                        <td class="px-3 py-4 text-[#293240] ansDataItem">
-                          {item.quantity}
-                        </td>
-                        <td class="px-3 py-4 text-[#293240] ansDataItem">
-                          {item.Diameter}
-                        </td>
-                        <td class="px-3 py-4 text-[#293240] ansDataItem">
-                          {item.Length}
-                        </td>
-                        <td class="px-3 py-4 text-[#293240] ansDataItem">
-                          {item.Height}
-                        </td>
-                        <td class="px-3 py-4 text-[#293240] ansDataItem">
-                          {item.Width}
-                        </td>
-                        <td class="px-3 py-4 text-[#293240] ansDataItem">
-                          {item.Weight}
-                        </td>
-                        <td class="px-3 py-4 text-[#293240] ansDataItem">
-                          {item.CuttingPrice}
-                        </td>
-                        <td onClick={() => {
-                          document.getElementById(`action_box${index}`).classList.toggle('hidden');
-                        }} class="px-3 py-4 text-[#293240] ansDataItem">
-                          <img src={fg} alt="sdfg" />
-                          <div id={`action_box${index}`} className='hidden action_box'>
-                            <p onClick={() => {
-                              navigate(`/createOrder`, { state: { item } })
-                            }}>Edit</p>
-                            <p onClick={() => {
-                              deleteOrders1(item._id)
-                            }}>Delete</p>
-                            <p onClick={() => {
-                              navigate(`/selectRound/${item._id}`)
-                            }}>View Details</p>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  }
+                          <td class="px-3 py-4 text-[#293240] ansDataItem ">
+                            {item.client}
+                          </td>
+                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                            {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}
+                          </td>
+                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                            {item.type}
+                          </td>
+                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                            {item.ironQuality}
+                          </td>
+                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                            {item.quantity}
+                          </td>
+                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                            {item.Diameter}
+                          </td>
+                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                            {item.Length}
+                          </td>
+                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                            {item.Height}
+                          </td>
+                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                            {item.Width}
+                          </td>
+                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                            {item.Weight}
+                          </td>
+                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                            {item.CuttingPrice}
+                          </td>
+                          
+                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                            <OutsideClickHandler
+                                onOutsideClick={() => {
+                                  if (!document.getElementById(`action_box${index}`).classList.contains('d-none')) {
+                                    document.getElementById(`action_box${index}`).classList.add('d-none');
+                                  }
+                                }}
+                            >
+                            <img onClick={() => {
+                            document.getElementById(`action_box${index}`).classList.toggle('hidden');
+                          }} src={fg} alt="sdfg" />
+                            <div id={`action_box${index}`} className='hidden action_box'>
+                              <p onClick={() => {
+                                navigate(`/createOrder`, { state: { item } })
+                              }}>Edit</p>
+                              <p onClick={() => {
+                                deleteOrders1(item._id)
+                              }}>Delete</p>
+                              <p onClick={() => {
+                                navigate(`/selectRound/${item._id}`)
+                              }}>View Details</p>
+                            </div>
+                            </OutsideClickHandler>
+                          </td>
+                          
+                        </tr>
+                      ))
+                    }
 
 
-                </tbody>
-              </table>
-              <div style={{ width: 'fit-content', margin: '20px auto' }} className="view_all">
-                <button disabled={page === 1} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist' onClick={() => {
-                  if (page > 1) {
-                    setPage(page - 1);
-                  }
-                }}>Previous</button>
-                <span className='btn222'>Page {page}</span>
-                <button disabled={(page * perPage) >= total} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist' onClick={() => {
-                  if ((page * perPage) < total) {
-                    setPage(page + 1);
-                  }
-                }}>Next</button>
+                  </tbody>
+                </table>
+                <div style={{ width: 'fit-content', margin: '20px auto' }} className="view_all">
+                  <button disabled={page === 1} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist' onClick={() => {
+                    if (page > 1) {
+                      setPage(page - 1);
+                    }
+                  }}>Previous</button>
+                  <span className='btn222'>Page {page}</span>
+                  <button disabled={(page * perPage) >= total} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist' onClick={() => {
+                    if ((page * perPage) < total) {
+                      setPage(page + 1);
+                    }
+                  }}>Next</button>
+                </div>
+
+                {/* <button onClick={generatePdf}>pdf</button> */}
+
               </div>
 
-              {/* <button onClick={generatePdf}>pdf</button> */}
 
             </div>
-
-
-          </div>
           </div>
 
 

@@ -279,7 +279,7 @@ function CreateOrder({notify}) {
                 <hr />
 
                 <div className="allFields">
-                  <label htmlFor="client">
+                  <label className={`${index>0 && "hh"}`} htmlFor="client">
                     <p>CLIENT NAME</p>
                     <input
                       id="client"

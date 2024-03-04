@@ -126,7 +126,12 @@ select {
     color: white;
 
 }
-
+.hh{
+    display: none !important;
+}
+.tabS1Rig select{
+    -webkit-appearance: none !important;
+}
 .btnSec .AdBtn {
     width: 144px;
     height: 48px;
