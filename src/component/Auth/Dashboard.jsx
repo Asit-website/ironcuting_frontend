@@ -38,12 +38,12 @@ function Dashboard({ notify }) {
 
   const user = JSON.parse(localStorage.getItem("iron_user"));
 
+   const [Filter , setFilter] = useState("Select");  
 
   const contonentPDF = useRef();
 
   useEffect(() => {
     getData();
-    // getData1()
   }, [refreshFlag, page, perPage]);
 
   useEffect(()=>{
@@ -107,7 +107,70 @@ function Dashboard({ notify }) {
     content: () => contonentPDF.current,
     documentTitle: "Order",
     onAfterPrint: () => alert("Data saved in PDF")
-  })
+  });
+
+  const adjustFilterData = async()=>{
+
+    let dummyArray = [...order1];
+
+     if(Filter === "This Week"){
+       
+
+    // filter with week
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+    const filteredData = dummyArray.filter(item => {
+      return new Date(item.Date) >= oneWeekAgo;
+    });
+
+   setOrder(filteredData);
+
+     }
+     else if(Filter === "This Month"){
+  
+      const oneMonthAgo = new Date();
+      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+      const filteredData = dummyArray.filter(item => {
+        const itemDate = new Date(item.Date);
+        return itemDate >= oneMonthAgo;
+      });
+
+      setOrder(filteredData);
+
+     } 
+     else if(Filter === "Per Day"){
+      const targetDate = new Date(); // Get the current date
+      const targetYear = targetDate.getFullYear();
+      const targetMonth = targetDate.getMonth();
+      const targetDay = targetDate.getDate();
+      
+      const filteredData = dummyArray.filter(item => {
+        const itemDate = new Date(item.Date);
+        const itemYear = itemDate.getFullYear();
+        const itemMonth = itemDate.getMonth();
+        const itemDay = itemDate.getDate();
+        
+        return itemYear === targetYear && itemMonth === targetMonth && itemDay === targetDay;
+      });
+    
+  setOrder(filteredData);
+      
+     }
+
+  }
+
+  useEffect(()=>{
+
+     if(Filter !== 'Select'){
+      adjustFilterData();
+     }
+     else {
+      getData();
+     }
+  },[Filter])
+
+
   return (
 
     <div className='dashWrap'>
@@ -206,11 +269,13 @@ function Dashboard({ notify }) {
                       <path d="M5 5.49864L0 0.501358H10L5 5.49864Z" fill="#293240" />
                     </svg>
 
-                    <select name="" id="">
-                      <option value="this week"> This Week</option>
-                      <option value="this month">This Month</option>
-                      <option value="this year">This year</option>
+                    <select onChange={(e)=>setFilter(e.target.value)} value={Filter} name="thisFilter"  id="">
+                      <option value="Select" disabled  selected > Select</option>
+                      <option value="Per Day">Per Day</option>
+                      <option value="This Week"> This Week</option>
+                      <option value="This Month">This Month</option>
                     </select>
+
                   </div>
 
                   <div className='srch'>
