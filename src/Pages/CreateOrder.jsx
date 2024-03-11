@@ -540,6 +540,7 @@ function CreateOrder({ notify }) {
                         type="number"
                         maxLength="4"
                         required
+                        className="hit"
                       />
                     </label>
                   )}
@@ -556,6 +557,7 @@ function CreateOrder({ notify }) {
                         type="number"
                         maxLength="4"
                         required
+                        className="hit"
                       />
                     </label>
                   )}
@@ -571,6 +573,7 @@ function CreateOrder({ notify }) {
                       type="number"
                       maxLength={4}
                       required
+                      className="hit"
                     />
                   </label>
 
@@ -585,6 +588,7 @@ function CreateOrder({ notify }) {
                       type="number"
                       maxLength="4"
                       required
+                      className="hit"
                     />
                   </label>
 
