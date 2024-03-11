@@ -46,6 +46,7 @@ function CreateOrder({ notify }) {
     }));
   };
 
+  console.log("formda",formData);
   const addForm = (e) => {
     e.preventDefault();
     setFormId((prev) => [...prev, prev.length]);
@@ -196,6 +197,7 @@ function CreateOrder({ notify }) {
       Diameter: formData.Diameter,
       Length: formData.Length,
       quantity: formData.quantity,
+      ironQuality: formData.ironQuality
     });
     if (resp.status) {
       setFormData((prev) => ({
@@ -211,8 +213,8 @@ function CreateOrder({ notify }) {
       Height: formData.Height,
       Width: formData.Width,
       quantity: formData.quantity,
+      ironQuality : formData.ironQuality
     });
-    console.log("res", resp);
     if (resp.status) {
       setFormData((prev) => ({
         ...prev,
@@ -316,9 +318,6 @@ function CreateOrder({ notify }) {
     formData.Width,
     formData.Diameter,
   ]);
-
-
-
 
 
   return (

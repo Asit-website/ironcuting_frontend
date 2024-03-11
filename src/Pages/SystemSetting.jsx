@@ -1,7 +1,6 @@
 import Navbar from "../Common/Navbar";
 import Sidebar from "../Common/Sidebar";
 import "./systemSetting.css";
-import plusSet from "../image/plusSet.png";
 import rightSign from "../image/RightSign.png";
 import { useEffect, useState } from "react";
 import rightBlack from "../image/blackRight.png";
@@ -73,6 +72,7 @@ function SystemSetting({notify}) {
   // const [Name, setName] = useState("");
   const [value, setValue] = useState({
     Name: "",
+    cuttingPrice:0
   });
 
   const handleChange = (e) => {
@@ -230,7 +230,8 @@ function SystemSetting({notify}) {
      
   },[searchBar])
 
-  // console.log("allTy",allType);
+  console.log("value ",value);
+
 
   return (
     <div className={`sysSetWrap  ${openPopup && "openPopup"}`}>
@@ -485,6 +486,22 @@ function SystemSetting({notify}) {
               />
             </label>
 
+{
+  currentSystem === leftData[1].title && 
+
+            <label className="enteNa">
+              <p>Cutting Price</p>
+              <input
+                name="cuttingPrice"
+                value={value.cuttingPrice}
+                onChange={handleChange}
+                type="number"
+                placeholder="Enter Cutting Price"
+              />
+            </label>
+
+}
+
             <hr />
 
             <div className="crCBtn">
@@ -508,7 +525,6 @@ function SystemSetting({notify}) {
                   } else {
                     createHandler();
                     setOpenPopup(false);
-                    // setOnEdit(true)
                   }
                 }}
                 className="createBtn"

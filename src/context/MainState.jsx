@@ -107,7 +107,7 @@ const MainState = (props) => {
     return data;
   }
 
-  const createQuality = async ({ Name }) => {
+  const createQuality = async ({ Name , cuttingPrice }) => {
 
     const token = localStorage.getItem('iron_token');
 
@@ -117,7 +117,7 @@ const MainState = (props) => {
         'content-type': 'application/json',
         'Authorization': `Bearer ${token}`
       }
-      , body: JSON.stringify({ Name })
+      , body: JSON.stringify({ Name , cuttingPrice })
     });
     const data = await resp.json();
     return data;
@@ -205,7 +205,7 @@ const MainState = (props) => {
     return data;
   }
 
-  const getRoundCuttingPrice = async ({ type, Diameter, Length, quantity }) => {
+  const getRoundCuttingPrice = async ({ type, Diameter, Length, quantity , ironQuality }) => {
 
 
     const token = localStorage.getItem('iron_token');
@@ -217,7 +217,7 @@ const MainState = (props) => {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        type, Diameter, Length, quantity
+        type, Diameter, Length, quantity , ironQuality
       })
     });
     const data = await resp.json();
@@ -259,7 +259,7 @@ const MainState = (props) => {
 
 
 
-  const getFlatIronCutting = async ({ type, Height, Width, quantity }) => {
+  const getFlatIronCutting = async ({ type, Height, Width, quantity , ironQuality }) => {
 
 
     const token = localStorage.getItem('iron_token');
@@ -271,7 +271,7 @@ const MainState = (props) => {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        type, Height, Width, quantity
+        type, Height, Width, quantity , ironQuality
       })
     });
     const data = await resp.json();
