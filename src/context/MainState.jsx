@@ -224,8 +224,42 @@ const MainState = (props) => {
     return data;
   }
 
+  const getRoundWeight = async ({type, Length,Diameter}) =>{
+    const token = localStorage.getItem('iron_token');
+    const resp = await fetch(`${baseUrl}/order/getWeight`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        type, Length ,Diameter
+      })
+    });
+    const data = await resp.json();
+    return data;
+  }
 
-  const getFlatIronCutting = async ({ type, Height, Weight, quantity }) => {
+  const getFlatWeight = async ({type, Length,Height,Width}) =>{
+    const token = localStorage.getItem('iron_token');
+    const resp = await fetch(`${baseUrl}/order/getWeight`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        type, Length ,Height, Width
+      })
+    });
+    const data = await resp.json();
+    return data;
+  }
+
+
+
+
+  const getFlatIronCutting = async ({ type, Height, Width, quantity }) => {
 
 
     const token = localStorage.getItem('iron_token');
@@ -237,7 +271,7 @@ const MainState = (props) => {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        type, Height, Weight, quantity
+        type, Height, Width, quantity
       })
     });
     const data = await resp.json();
@@ -321,7 +355,7 @@ const MainState = (props) => {
 
   return (
 
-    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality }}>
+    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality,getRoundWeight,getFlatWeight }}>
       {props.children}
     </MainContext.Provider>
   );

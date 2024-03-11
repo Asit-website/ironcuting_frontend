@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useMain } from "../hooks/useMain";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function CreateOrder({notify}) {
+function CreateOrder({ notify }) {
   const location = useLocation();
   const order = location?.state?.item;
   const navigate = useNavigate();
@@ -33,6 +33,8 @@ function CreateOrder({notify}) {
     getFlatIronCutting,
     updateOrders,
     fetchIronQuality,
+    getRoundWeight,
+    getFlatWeight
   } = useMain();
 
   const changeHandler = (e) => {
@@ -84,7 +86,7 @@ function CreateOrder({notify}) {
     const resp = await createIronOrder(formData);
     console.log("Res", resp);
     if (resp.status) {
-      notify("success","successfully created the order")
+      notify("success", "successfully created the order")
       navigate("/dashboard");
       setFormData({
         client: "",
@@ -99,7 +101,7 @@ function CreateOrder({notify}) {
         CuttingPrice: "",
       });
     } else {
-      notify("error","something went wrong please try again")
+      notify("error", "something went wrong please try again")
     }
   };
 
@@ -184,7 +186,7 @@ function CreateOrder({notify}) {
 
       navigate("/dashboard");
     } else {
-      notify("error","something went wrong");
+      notify("error", "something went wrong");
     }
   };
 
@@ -207,7 +209,7 @@ function CreateOrder({notify}) {
     const resp = await getFlatIronCutting({
       type: formData.type,
       Height: formData.Height,
-      Weight: formData.Weight,
+      Width: formData.Width,
       quantity: formData.quantity,
     });
     console.log("res", resp);
@@ -223,7 +225,7 @@ function CreateOrder({notify}) {
     if (formData.type === "Flat") {
       if (
         formData.Height !== "" &&
-        formData.Weight !== "" &&
+        formData.Width !== "" &&
         formData.quantity !== ""
       ) {
         getFlatCuttingPrice();
@@ -253,6 +255,72 @@ function CreateOrder({notify}) {
     formData.Height,
   ]);
 
+  const getRoundweight = async () => {
+    const resp = await getRoundWeight({
+      type: formData.type,
+      Length: formData.Length,
+      Diameter: formData.Diameter,
+    });
+    if (resp.status) {
+      setFormData((prev) => ({
+        ...prev,
+        Weight: resp?.Weight,
+      }));
+    }
+  };
+
+  const getFlatweight = async () => {
+    const resp = await getFlatWeight({
+      type: formData.type,
+      Length: formData.Length,
+      Height: formData.Height,
+      Width: formData.Width,
+    });
+    if (resp.status) {
+      setFormData((prev) => ({
+        ...prev,
+        Weight: resp?.Weight,
+      }));
+    }
+  };
+
+
+  useEffect(() => {
+    if (formData.type === "Flat") {
+      if (
+        formData.Length !== "" &&
+        formData.Height !== "" &&
+        formData.Width !== ""
+      ) {
+        getFlatweight();
+      } else {
+        setFormData((prev) => ({
+          ...prev,
+          Weight: "",
+        }));
+      }
+    } else if (formData.type === "Round") {
+      if (formData.Diameter !== "" && formData.Length) {
+        getRoundweight();
+      } else {
+        setFormData((prev) => ({
+          ...prev,
+          Weight: "",
+        }));
+      }
+    }
+  }, [
+    formData.type,
+    formData.Length,
+    formData.Height,
+    formData.Width,
+    formData.Diameter,
+  ]);
+
+
+
+
+
   return (
     <div className="cretOrdrWrap">
       <Navbar hideCreateOrder={true} />
@@ -272,14 +340,14 @@ function CreateOrder({notify}) {
                   <p>Create Order</p>
                   <img onClick={() => {
                     removeForm(index);
-                    
+
                   }} src={cross} alt="" />
                 </nav>
 
                 <hr />
 
                 <div className="allFields">
-                  <label className={`${index>0 && "hh"}`} htmlFor="client">
+                  <label className={`${index > 0 && "hh"}`} htmlFor="client">
                     <p>CLIENT NAME</p>
                     <input
                       id="client"
@@ -332,7 +400,7 @@ function CreateOrder({notify}) {
                         onChange={changeHandler}
                         value={formData.Diameter}
                         name="Diameter"
-                        type="text"
+                        type="number"
                         maxLength="4"
                         required
                       />
@@ -349,7 +417,21 @@ function CreateOrder({notify}) {
                         onChange={changeHandler}
                         value={formData.Height}
                         name="Height"
-                        type="text"
+                        type="number"
+                        maxLength="4"
+                        required
+                      />
+                    </label>
+                  )}
+
+                  {formData.type !== "Round" && (
+                    <label htmlFor="">
+                      <p>WIDTH</p>
+                      <input
+                        onChange={changeHandler}
+                        value={formData.Width}
+                        name="Width"
+                        type="number"
                         maxLength="4"
                         required
                       />
@@ -362,25 +444,13 @@ function CreateOrder({notify}) {
                       onChange={changeHandler}
                       value={formData.Length}
                       name="Length"
-                      type="text"
+                      type="number"
                       maxLength="4"
                       required
                     />
                   </label>
 
-                  {formData.type !== "Round" && (
-                    <label htmlFor="">
-                      <p>WIDTH</p>
-                      <input
-                        onChange={changeHandler}
-                        value={formData.Width}
-                        name="Width"
-                        type="text"
-                        maxLength="4"
-                        required
-                      />
-                    </label>
-                  )}
+
 
                   <label>
                     <p>QUANTITY</p>
@@ -388,7 +458,7 @@ function CreateOrder({notify}) {
                       onChange={changeHandler}
                       value={formData.quantity}
                       name="quantity"
-                      type="text"
+                      type="number"
                       maxLength="4"
                       required
                     />
@@ -401,8 +471,8 @@ function CreateOrder({notify}) {
                       onChange={changeHandler}
                       value={formData.Weight}
                       name="Weight"
-                      type="text"
-                      maxLength="4"
+                      type="number"
+                      // maxLength="4"
                       required
                     />
                   </label>
@@ -413,7 +483,7 @@ function CreateOrder({notify}) {
                       onChange={changeHandler}
                       value={formData.CuttingPrice}
                       name="CuttingPrice"
-                      type="text"
+                      type="number"
                       required
                     />
                   </label>
