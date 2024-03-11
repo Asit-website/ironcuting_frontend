@@ -98,10 +98,13 @@ function CreateOrder({ notify }) {
     setFormId((prev) => prev.filter((_, i) => i !== index));
 
     setFormData((prevFormData) => {
+       
       const updatedFormData = [...prevFormData]; // Create a copy of the formData array
       updatedFormData.splice(index, 1); // Remove the form data at the specified index
       return updatedFormData;
     });
+    setCurrentIndex(0);
+
   };
 
   const [allType, setAllType] = useState([]);
@@ -326,11 +329,11 @@ function CreateOrder({ notify }) {
   ]);
 
   useEffect(() => {
-    if (formData[currentIndex].type === "Flat") {
+    if (formData[currentIndex]?.type === "Flat") {
       if (
-        formData[currentIndex].Height !== "" &&
-        formData[currentIndex].Width !== "" &&
-        formData[currentIndex].quantity !== ""
+        formData[currentIndex]?.Height !== "" &&
+        formData[currentIndex]?.Width !== "" &&
+        formData[currentIndex]?.quantity !== ""
       ) {
         getFlatCuttingPrice();
       } else {
@@ -343,11 +346,11 @@ function CreateOrder({ notify }) {
           return updatedForms;
         });
       }
-    } else if (formData[currentIndex].type === "Round") {
+    } else if (formData[currentIndex]?.type === "Round") {
       if (
-        formData[currentIndex].Diameter !== "" &&
-        formData[currentIndex].Length &&
-        formData[currentIndex].quantity
+        formData[currentIndex]?.Diameter !== "" &&
+        formData[currentIndex]?.Length &&
+        formData[currentIndex]?.quantity
       ) {
         getRoundCutting();
       } else {
@@ -362,13 +365,13 @@ function CreateOrder({ notify }) {
       }
     }
   }, [
-    formData[currentIndex].type,
-    formData[currentIndex].Length,
-    formData[currentIndex].Weight,
-    formData[currentIndex].quantity,
-    formData[currentIndex].Diameter,
-    formData[currentIndex].Width,
-    formData[currentIndex].Height,
+    formData[currentIndex]?.type,
+    formData[currentIndex]?.Length,
+    formData[currentIndex]?.Weight,
+    formData[currentIndex]?.quantity,
+    formData[currentIndex]?.Diameter,
+    formData[currentIndex]?.Width,
+    formData[currentIndex]?.Height,
   ]);
 
   useEffect(() => {
@@ -505,7 +508,7 @@ function CreateOrder({ notify }) {
                     </select>
                   </label>
 
-                  {formData.type !== "Flat" && (
+                  {formData[currentIndex].type !== "Flat" && (
                     <label>
                       <p>DIAMETER</p>
                       <input
@@ -525,7 +528,7 @@ function CreateOrder({ notify }) {
                     </label>
                   )}
 
-                  {formData.type !== "Round" && (
+                  {formData[currentIndex].type !== "Round" && (
                     <label htmlFor="">
                       <p>HEIGHT</p>
                       <input
@@ -541,7 +544,7 @@ function CreateOrder({ notify }) {
                     </label>
                   )}
 
-                  {formData.type !== "Round" && (
+                  {formData[currentIndex].type !== "Round" && (
                     <label htmlFor="">
                       <p>WIDTH</p>
                       <input
