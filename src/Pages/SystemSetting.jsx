@@ -72,7 +72,7 @@ function SystemSetting({notify}) {
   // const [Name, setName] = useState("");
   const [value, setValue] = useState({
     Name: "",
-    cuttingPrice:0
+    CuttingPrice:0
   });
 
   const handleChange = (e) => {
@@ -89,6 +89,7 @@ function SystemSetting({notify}) {
       setValue({
         id: editData._id,
         Name: editData.Name,
+        CuttingPrice: editData.CuttingPrice
       });
     }
   }, [editData]);
@@ -492,8 +493,8 @@ function SystemSetting({notify}) {
             <label className="enteNa">
               <p>Cutting Price</p>
               <input
-                name="cuttingPrice"
-                value={value.cuttingPrice}
+                name="CuttingPrice"
+                value={value.CuttingPrice}
                 onChange={handleChange}
                 type="number"
                 placeholder="Enter Cutting Price"

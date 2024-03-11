@@ -13,7 +13,12 @@ function Selectround({ notify }) {
   const generatePdf = useReactToPrint({
     content: () => contonentPDF.current,
     documentTitle: "Order",
-    onAfterPrint: () => notify("success","item saved")
+    parentContainer: {
+      '@media print': {
+          display: 'block'
+      },
+    },
+    onAfterPrint: () => notify("success", "item saved")
   })
 
   useEffect(() => {
@@ -37,17 +42,17 @@ function Selectround({ notify }) {
 
         {/* right side */}
         <div className="dashRight">
- 
+
           <div className="cli1">
-          <div className="row-section-heading">
-            <h1>Orders Details</h1>
-          </div>
-          <div className="select-1st-row">
+            <div className="row-section-heading">
+              <h1>Orders Details</h1>
+            </div>
+            {/* <div className="select-1st-row">
             <div className="select-1st-row-text">
               <h2>Orders Details #{(item?._id)?.slice(0, 5)}</h2>
             </div>
-          </div>
-          <div ref={contonentPDF} class="relative overflow-x-auto lt  sm:rounded-lg">
+          </div> */}
+            {/* <div ref={contonentPDF} class="relative overflow-x-auto lt  sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead class="pk">
                 <tr>
@@ -128,17 +133,53 @@ function Selectround({ notify }) {
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div className="select-row-btn">
-            <div className="select-row-btn-flex">
-              <button onClick={() => {
-                navigate(`/createOrder`, { state: { item } })
-              }} type="button" id="edit">Edit</button>
-              <button onClick={generatePdf} type="button" id="print">Print</button>
+          </div> */}
+            <div   className="ordery">
+              <div ref={contonentPDF} className="order_de">
+                <div className="order_head">
+                  <h2>Orders Details #1</h2>
+                </div>
+                <div className="order_head1">
+                  <div className="party1">
+                    <p>Party Name: <span>{item?.client}</span></p>
+                  </div>
+                  <div className="party2">
+                    <p>Date: <span> {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}</span></p>
+                  </div>
+                </div>
+                <div className="order_body">
+                  <div className="typed">
+                    <p>Type: <span>{item?.type}</span></p>
+                  </div>
+                  <div className="typed1">
+                    <p>Size: <span>100x25x1005-1pc</span></p>
+                  </div>
+                  <div className="typed2">
+                    <p>Quantity: <span>{item?.quantity}</span></p>
+                  </div>
+                </div>
+                <div className="order_footer">
+                  <div className="order_footer1">
+                    <p>Cutting price total: <span>{item?.CuttingPrice}</span></p>
+                  </div>
+                  <div className="order_footer2">
+                    <p>Approx Weight: <span>{item?.Weight}Kg</span></p>
+                  </div>
+                </div>
+                
+              </div>
+              <div className="select-row-btn">
+                  <div className="select-row-btn-flex">
+                    <button onClick={() => {
+                      navigate(`/createOrder`, { state: { item } })
+                    }} type="button" id="edit">Edit</button>
+                    <button onClick={generatePdf} type="button" id="print">Print</button>
+                  </div>
+                </div>
             </div>
+
           </div>
-          </div>
-          
+
 
         </div>
 

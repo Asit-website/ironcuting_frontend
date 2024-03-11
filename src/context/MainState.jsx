@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import MainContext from "./MainContext";
 
-const baseUrl = 'http://localhost:5000';
-// const baseUrl = 'https://ironcut-backend.onrender.com';
+// const baseUrl = 'http://localhost:5000';
+const baseUrl = 'https://ironcut-backend.onrender.com';
 
 const MainState = (props) => {
 
@@ -107,7 +107,7 @@ const MainState = (props) => {
     return data;
   }
 
-  const createQuality = async ({ Name , cuttingPrice }) => {
+  const createQuality = async ({ Name , CuttingPrice }) => {
 
     const token = localStorage.getItem('iron_token');
 
@@ -117,7 +117,7 @@ const MainState = (props) => {
         'content-type': 'application/json',
         'Authorization': `Bearer ${token}`
       }
-      , body: JSON.stringify({ Name , cuttingPrice })
+      , body: JSON.stringify({ Name , CuttingPrice })
     });
     const data = await resp.json();
     return data;
@@ -136,12 +136,13 @@ const MainState = (props) => {
     return data;
   }
 
-  const updateQuality = async ({ id, Name }) => {
+  const updateQuality = async ({ id, Name,CuttingPrice }) => {
 
     const token = localStorage.getItem('iron_token');
 
     const data = {
-       Name
+       Name,
+       CuttingPrice
     };
 
 
