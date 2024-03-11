@@ -321,11 +321,11 @@ function CreateOrder({ notify }) {
       }
     }
   }, [
-    formData[currentIndex].type,
-    formData[currentIndex].Length,
-    formData[currentIndex].Height,
-    formData[currentIndex].Width,
-    formData[currentIndex].Diameter,
+    formData[currentIndex]?.type,
+    formData[currentIndex]?.Length,
+    formData[currentIndex]?.Height,
+    formData[currentIndex]?.Width,
+    formData[currentIndex]?.Diameter,
   ]);
 
   useEffect(() => {
@@ -466,10 +466,10 @@ function CreateOrder({ notify }) {
                     />
                   </label>
 
-                  <label>
+                  <label htmlFor="type">
                     <p>TYPE</p>
                     <select
-                      value={formData[index].type}
+                      value={formData[index]?.type}
                       onChange={(e) =>
                         handleFormDataChange(index, "type", e.target.value)
                       }
@@ -477,7 +477,7 @@ function CreateOrder({ notify }) {
                       id="type"
                     >
                       <option selected>Select</option>
-                      {allType.map((item) => (
+                      {allType?.map((item) => (
                         <option key={item?._id} value={item?.Name}>
                           {item?.Name}
                         </option>
@@ -485,7 +485,7 @@ function CreateOrder({ notify }) {
                     </select>
                   </label>
 
-                  <label>
+                  <label htmlFor="ironQuality">
                     <p>IRON QUALITY</p>
                     <select
                       value={formData[index]?.ironQuality}
@@ -497,10 +497,10 @@ function CreateOrder({ notify }) {
                         )
                       }
                       name="ironQuality"
-                      id="type"
+                      id="ironQuality"
                     >
                       <option selected>Select</option>
-                      {allIronQuality.map((item) => (
+                      {allIronQuality?.map((item) => (
                         <option key={item?._id} value={item?.Name}>
                           {item?.Name}
                         </option>
