@@ -42,14 +42,6 @@ function Dashboard({ notify }) {
 
   const contonentPDF = useRef();
 
-  useEffect(() => {
-    getData();
-  }, [refreshFlag, page, perPage]);
-
-  useEffect(()=>{
-    getData1();
-  },[refreshFlag])
-
   const handleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
@@ -57,14 +49,13 @@ function Dashboard({ notify }) {
   const handleSearch = (e) => {
     e.preventDefault();
     getData();
-    // setPage(page)
   };
 
   const getData = async () => {
     const ans = await getOrders("", value.query, page, perPage);
     setOrder(ans?.data);
     setTotal(ans?.count);
-    setPage(page)
+    setPage(page);
   }
 
   const getData1 = async () =>{
@@ -169,6 +160,14 @@ function Dashboard({ notify }) {
       getData();
      }
   },[Filter])
+
+  useEffect(() => {
+    getData();
+  }, [refreshFlag, page, perPage]);
+
+  useEffect(()=>{
+    getData1();
+  },[refreshFlag])
 
 
   return (
