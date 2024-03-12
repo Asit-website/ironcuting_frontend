@@ -10,8 +10,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 function CreateOrder({ notify }) {
   const location = useLocation();
   const order = location?.state?.item;
-   
- console.log("order ",order);
+
+  console.log("order ", order);
 
   const navigate = useNavigate();
 
@@ -100,7 +100,7 @@ function CreateOrder({ notify }) {
     setFormId((prev) => prev.filter((_, i) => i !== index));
 
     setFormData((prevFormData) => {
-       
+
       const updatedFormData = [...prevFormData]; // Create a copy of the formData array
       updatedFormData.splice(index, 1); // Remove the form data at the specified index
       return updatedFormData;
@@ -426,9 +426,9 @@ function CreateOrder({ notify }) {
                   order
                     ? projectUpdateHandler
                     : (e) => {
-                        e.preventDefault();
-                        submitHandler(index);
-                      }
+                      e.preventDefault();
+                      submitHandler(index);
+                    }
                 }
                 key={index}
                 className="ordForm"
@@ -447,7 +447,7 @@ function CreateOrder({ notify }) {
                 <hr />
 
                 <div className="allFields">
-                  
+
                   <label className={`${index > 0 && "hh"}`} htmlFor="client">
                     <p>CLIENT NAME</p>
                     <input
@@ -465,6 +465,7 @@ function CreateOrder({ notify }) {
                       value={formData[currentIndex]?.client}
                       type="text"
                       required
+                      autoComplete="off"
                     />
                   </label>
 
@@ -526,6 +527,7 @@ function CreateOrder({ notify }) {
                         type="number"
                         maxLength="4"
                         required
+                        autoComplete="off"
                       />
                     </label>
                   )}
@@ -543,6 +545,7 @@ function CreateOrder({ notify }) {
                         maxLength="4"
                         required
                         className="hit"
+                        autoComplete="off"
                       />
                     </label>
                   )}
@@ -560,6 +563,7 @@ function CreateOrder({ notify }) {
                         maxLength="4"
                         required
                         className="hit"
+                        autoComplete="off"
                       />
                     </label>
                   )}
@@ -576,6 +580,7 @@ function CreateOrder({ notify }) {
                       maxLength={4}
                       required
                       className="hit"
+                      autoComplete="off"
                     />
                   </label>
 
@@ -591,6 +596,7 @@ function CreateOrder({ notify }) {
                       maxLength="4"
                       required
                       className="hit"
+                      autoComplete="off"
                     />
                   </label>
 
@@ -605,6 +611,7 @@ function CreateOrder({ notify }) {
                       type="number"
                       // maxLength="4"
                       required
+                      autoComplete="off"
                     />
                   </label>
 
@@ -622,6 +629,7 @@ function CreateOrder({ notify }) {
                       name="CuttingPrice"
                       type="number"
                       required
+                      autoComplete="off"
                     />
                   </label>
                 </div>

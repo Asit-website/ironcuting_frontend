@@ -18,6 +18,7 @@ function Selectround({ notify }) {
           display: 'block'
       },
     },
+    onBeforePrint: () => notify("success","plz save your item"),
     onAfterPrint: () => notify("success", "item saved")
   })
 
@@ -137,7 +138,7 @@ function Selectround({ notify }) {
             <div   className="ordery">
               <div ref={contonentPDF} className="order_de">
                 <div className="order_head">
-                  <h2>Orders Details #1</h2>
+                  <h2>Orders Details #{(item?._id)?.slice(0,4)}</h2>
                 </div>
                 <div className="order_head1">
                   <div className="party1">
