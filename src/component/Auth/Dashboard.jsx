@@ -55,7 +55,7 @@ function Dashboard({ notify }) {
     const ans = await getOrders("", value.query, page, perPage);
     setOrder(ans?.data);
     setTotal(ans?.count);
-    setPage(page);
+    // setPage(page);
   }
 
   const getData1 = async () =>{

@@ -10,6 +10,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 function CreateOrder({ notify }) {
   const location = useLocation();
   const order = location?.state?.item;
+   
+ console.log("order ",order);
+
   const navigate = useNavigate();
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -88,7 +91,6 @@ function CreateOrder({ notify }) {
     ]);
   };
 
-  console.log("formdata ",formData);
 
   const removeForm = (index) => {
     if (formId.length === 1) {
@@ -164,7 +166,7 @@ function CreateOrder({ notify }) {
       Width,
       Weight,
       CuttingPrice,
-    } = formData;
+    } = formData[currentIndex];
 
     const ans = await updateOrders({
       client,
@@ -394,7 +396,7 @@ function CreateOrder({ notify }) {
         CuttingPrice,
       } = order;
 
-      setFormData({
+      setFormData([{
         client,
         type,
         ironQuality,
@@ -405,7 +407,7 @@ function CreateOrder({ notify }) {
         Width,
         Weight,
         CuttingPrice,
-      });
+      }]);
     }
   }, []);
 
