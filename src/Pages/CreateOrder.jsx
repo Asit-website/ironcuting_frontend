@@ -529,7 +529,7 @@ function CreateOrder({ notify }) {
                   )}
 
                   {formData[currentIndex].type !== "Round" && (
-                    <label htmlFor="">
+                    <label htmlFor="Height">
                       <p>HEIGHT</p>
                       <input
                         onChange={(e) =>
