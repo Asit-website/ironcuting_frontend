@@ -211,7 +211,7 @@ function CreateOrder({ notify }) {
     const resp = await getRoundCuttingPrice({
       type: formData[currentIndex].type,
       Diameter: formData[currentIndex].Diameter,
-      Length: formData[currentIndex].Length,
+      // Length: formData[currentIndex].Length,
       quantity: formData[currentIndex].quantity,
       ironQuality: formData[currentIndex].ironQuality,
     });
@@ -411,6 +411,15 @@ function CreateOrder({ notify }) {
     }
   }, []);
 
+  const setFormById = async (id) =>{
+    console.log(id);
+    formId.filter((val)=>{
+       val.id = id;
+    });
+
+    return id;
+  }
+
   return (
     <div className="cretOrdrWrap">
       <Navbar hideCreateOrder={true} />
@@ -419,7 +428,7 @@ function CreateOrder({ notify }) {
         <Sidebar notify={notify} />
 
         <main className="mainOrdCon">
-          <div className="mainRcc">
+          <div  className="mainRcc">
             {formId.map((id, index) => (
               <form
                 onSubmit={
@@ -457,7 +466,7 @@ function CreateOrder({ notify }) {
                         setFormData(prevFormData => {
                           return prevFormData.map(form => ({
                             ...form,
-                            client: clientValue
+                            client: clientValue,
                           }));
                         });
                       }}
@@ -478,6 +487,7 @@ function CreateOrder({ notify }) {
                       }
                       name="type"
                       id="type"
+                    
                     >
                       <option selected>Select</option>
                       {allType?.map((item) => (
@@ -496,7 +506,7 @@ function CreateOrder({ notify }) {
                         handleFormDataChange(
                           index,
                           "ironQuality",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                       name="ironQuality"
@@ -519,7 +529,7 @@ function CreateOrder({ notify }) {
                           handleFormDataChange(
                             index,
                             "Diameter",
-                            e.target.value
+                            e.target.value,
                           )
                         }
                         value={formData[index].Diameter}

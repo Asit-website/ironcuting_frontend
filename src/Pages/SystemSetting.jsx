@@ -236,8 +236,8 @@ function SystemSetting({notify}) {
 
   return (
     <div className={`sysSetWrap  ${openPopup && "openPopup"}`}>
-      <Navbar hideCreateOrder={true} />
-
+      {/* <Navbar hideCreateOrder={true} /> */}
+      <Navbar/>
       <div className="sySeCont">
         <Sidebar notify={notify} />
 

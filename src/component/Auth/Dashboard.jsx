@@ -1,34 +1,25 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState} from 'react'
 import "./dashboard.css"
 import Navbar from '../../Common/Navbar'
 import Sidebar from '../../Common/Sidebar'
-import order1 from "../../image/order1.png"
-import order2 from "../../image/order2.png"
-import order3 from "../../image/order3.png"
-import order4 from "../../image/order4.png"
 import search from "../../image/search.png"
-import eye from "../../image/eye.png"
 import { useMain } from '../../hooks/useMain';
 import { useNavigate } from 'react-router-dom'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import { useReactToPrint } from 'react-to-print'
 import alas from '../../image/alas.png';
 // import sdfg from '../../image/sdfg.svg'
 import fg from '../../image/fg.svg';
 import das1 from '../../image/das1.svg';
 import das2 from '../../image/das2.svg';
-import das3 from '../../image/das3.svg';
 import das4 from '../../image/das4.svg';
 import OutsideClickHandler from 'react-outside-click-handler';
 function Dashboard({ notify }) {
   const navigate = useNavigate();
   const { getOrders, deleteOrders } = useMain();
   const [order, setOrder] = useState([]);
-  const [order1,setOrder1] = useState([]);
+  const [order1, setOrder1] = useState([]);
   const [refreshFlag, setRefreshFlag] = useState(false);
-  const [open, setOpen] = useState(false);
-
   const [value, setValue] = useState({
     query: ""
   });
@@ -38,9 +29,7 @@ function Dashboard({ notify }) {
 
   const user = JSON.parse(localStorage.getItem("iron_user"));
 
-   const [Filter , setFilter] = useState("Select");  
-
-  const contonentPDF = useRef();
+  const [Filter, setFilter] = useState("Select");
 
   const handleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
@@ -58,8 +47,8 @@ function Dashboard({ notify }) {
     // setPage(page);
   }
 
-  const getData1 = async () =>{
-    const ans = await getOrders("",value.query,"","");
+  const getData1 = async () => {
+    const ans = await getOrders("", value.query, "", "");
     setOrder1(ans?.data);
   }
 
@@ -94,32 +83,39 @@ function Dashboard({ notify }) {
     });
   };
 
-  const generatePdf = useReactToPrint({
-    content: () => contonentPDF.current,
-    documentTitle: "Order",
-    onAfterPrint: () => alert("Data saved in PDF")
-  });
+  const completeOrder = async(id) =>{
+    const ans = await deleteOrders(id);
+    console.log(ans);
+    if (ans.status) {
+      notify("success", "order completed successfully");
+      setRefreshFlag(!refreshFlag);
+    }
+    else {
+      alert('Something went wrong! ');
+    }
+  }
 
-  const adjustFilterData = async()=>{
+
+  const adjustFilterData = async () => {
 
     let dummyArray = [...order1];
 
-     if(Filter === "This Week"){
-       
+    if (Filter === "This Week") {
 
-    // filter with week
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
-    const filteredData = dummyArray.filter(item => {
-      return new Date(item.Date) >= oneWeekAgo;
-    });
+      // filter with week
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
-   setOrder(filteredData);
+      const filteredData = dummyArray.filter(item => {
+        return new Date(item.Date) >= oneWeekAgo;
+      });
 
-     }
-     else if(Filter === "This Month"){
-  
+      setOrder(filteredData);
+
+    }
+    else if (Filter === "This Month") {
+
       const oneMonthAgo = new Date();
       oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
       const filteredData = dummyArray.filter(item => {
@@ -129,45 +125,46 @@ function Dashboard({ notify }) {
 
       setOrder(filteredData);
 
-     } 
-     else if(Filter === "Per Day"){
+    }
+    else if (Filter === "Per Day") {
       const targetDate = new Date(); // Get the current date
       const targetYear = targetDate.getFullYear();
       const targetMonth = targetDate.getMonth();
       const targetDay = targetDate.getDate();
-      
+
       const filteredData = dummyArray.filter(item => {
         const itemDate = new Date(item.Date);
         const itemYear = itemDate.getFullYear();
         const itemMonth = itemDate.getMonth();
         const itemDay = itemDate.getDate();
-        
+
         return itemYear === targetYear && itemMonth === targetMonth && itemDay === targetDay;
       });
-    
-  setOrder(filteredData);
-      
-     }
+
+      setOrder(filteredData);
+
+    }
 
   }
 
-  useEffect(()=>{
+  useEffect(() => {
 
-     if(Filter !== 'Select'){
+    if (Filter !== 'Select') {
       adjustFilterData();
-     }
-     else {
+    }
+    else {
       getData();
-     }
-  },[Filter])
+    }
+  }, [Filter])
 
   useEffect(() => {
     getData();
   }, [refreshFlag, page, perPage]);
 
-  useEffect(()=>{
+  useEffect(() => {
     getData1();
-  },[refreshFlag])
+    // console.log(refreshFlag)
+  }, [refreshFlag])
 
 
   return (
@@ -203,7 +200,7 @@ function Dashboard({ notify }) {
 
                 <img src={das1} alt="" />
                 <h2>Orders In Queve</h2>
-                <p>50</p>
+                <p>{order1?.length}</p>
 
 
               </div>
@@ -219,21 +216,21 @@ function Dashboard({ notify }) {
               </div>
 
               {/* third  */}
-              <div className='siDrSec'>
+              {/* <div className='siDrSec'>
 
                 <img src={das3} alt="" />
                 <h2>Cancel Orders</h2>
                 <p>05</p>
 
 
-              </div>
+              </div> */}
 
               {/* fourth  */}
               <div className='siDrSec'>
 
                 <img src={das4} alt="" />
                 <h2>Complete Orders </h2>
-                <p>30</p>
+                <p>{order1?.length}</p>
 
 
               </div>
@@ -268,8 +265,8 @@ function Dashboard({ notify }) {
                       <path d="M5 5.49864L0 0.501358H10L5 5.49864Z" fill="#293240" />
                     </svg>
 
-                    <select onChange={(e)=>setFilter(e.target.value)} value={Filter} name="thisFilter"  id="">
-                      <option value="Select" disabled  selected > Select</option>
+                    <select onChange={(e) => setFilter(e.target.value)} value={Filter} name="thisFilter" id="">
+                      <option value="Select" disabled selected > Select</option>
                       <option value="Per Day">Per Day</option>
                       <option value="This Week"> This Week</option>
                       <option value="This Month">This Month</option>
@@ -295,6 +292,9 @@ function Dashboard({ notify }) {
                   <thead class="gg">
                     <tr>
                       <th scope="col" class="px-3 py-3 text-[#060606]">
+                        order id
+                      </th>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
                         client
                       </th>
                       <th scope="col" class="px-3 py-3 text-[#060606]">
@@ -309,7 +309,8 @@ function Dashboard({ notify }) {
                       <th scope="col" class="px-3 py-3 text-[#060606]">
                         quantity
                       </th>
-                      <th scope="col" class="px-3 py-3 text-[#060606]">
+
+                      {/* <th scope="col" class="px-3 py-3 text-[#060606]">
                         diameter
                       </th>
                       <th scope="col" class="px-3 py-3 text-[#060606]">
@@ -320,7 +321,7 @@ function Dashboard({ notify }) {
                       </th>
                       <th scope="col" class="px-3 py-3 text-[#060606]">
                         width
-                      </th>
+                      </th> */}
                       <th scope="col" class="px-3 py-3 text-[#060606]">
                         weight
                       </th>
@@ -330,15 +331,20 @@ function Dashboard({ notify }) {
                       <th scope="col" class="px-3 py-3 text-[#060606]">
                         action
                       </th>
+                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                        Mark Complete
+                      </th>
                     </tr>
                   </thead>
 
                   <tbody className='sss'>
-                    
+
                     {
                       order.map((item, index) => (
                         <tr key={index} class="bg-white border-b border-[#CED4DA]">
-
+                          <td class="px-3 py-4 text-[#293240] ansDataItem ">
+                            {(item._id).slice(4, 6)}
+                          </td>
                           <td class="px-3 py-4 text-[#293240] ansDataItem ">
                             {item.client}
                           </td>
@@ -354,7 +360,7 @@ function Dashboard({ notify }) {
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {item.quantity}
                           </td>
-                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                          {/* <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {item.Diameter}
                           </td>
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
@@ -365,39 +371,45 @@ function Dashboard({ notify }) {
                           </td>
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {item.Width}
-                          </td>
+                          </td> */}
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {item.Weight}
                           </td>
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {item.CuttingPrice}
                           </td>
-                          
+
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             <OutsideClickHandler
-                                onOutsideClick={() => {
-                                  if (!document.getElementById(`action_box${index}`).classList.contains('d-none')) {
-                                    document.getElementById(`action_box${index}`).classList.add('d-none');
-                                  }
-                                }}
+                              onOutsideClick={() => {
+                                if (!document.getElementById(`action_box${index}`).classList.contains('d-none')) {
+                                  document.getElementById(`action_box${index}`).classList.add('d-none');
+                                }
+                              }}
                             >
-                            <img onClick={() => {
-                            document.getElementById(`action_box${index}`).classList.toggle('hidden');
-                          }} src={fg} alt="sdfg" />
-                            <div id={`action_box${index}`} className='hidden action_box'>
-                              <p onClick={() => {
-                                navigate(`/createOrder`, { state: { item } })
-                              }}>Edit</p>
-                              <p onClick={() => {
-                                deleteOrders1(item._id)
-                              }}>Delete</p>
-                              <p onClick={() => {
-                                navigate(`/selectRound/${item._id}`)
-                              }}>View Details</p>
-                            </div>
+                              <img onClick={() => {
+                                document.getElementById(`action_box${index}`).classList.toggle('hidden');
+                              }} src={fg} alt="sdfg" />
+                              <div id={`action_box${index}`} className='hidden action_box'>
+                                <p className='cursor-pointer' onClick={() => {
+                                  navigate(`/createOrder`, { state: { item } })
+                                }}>Edit</p>
+                                <p className='cursor-pointer' onClick={() => {
+                                  deleteOrders1(item._id)
+                                }}>Delete</p>
+                                <p className='cursor-pointer' onClick={() => {
+                                  navigate(`/selectRound/${item._id}`)
+                                }}>View Details</p>
+                              </div>
                             </OutsideClickHandler>
                           </td>
-                          
+
+                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                            <button onClick={()=>{
+                               completeOrder(item?._id)
+                            }} type="button" class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Complete</button>
+                          </td>
+
                         </tr>
                       ))
                     }

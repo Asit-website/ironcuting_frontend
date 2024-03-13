@@ -6,12 +6,15 @@ import MainState from './context/MainState';
 import CreateOrder from './Pages/CreateOrder';
 import Selectround from './component/Selectround';
 import SystemSetting from './Pages/SystemSetting';
+import ForgotPass from './component/Auth/ForgotPass';
+import ResetPassword from './component/Auth/ResetPassword';
 import "react-notifications/lib/notifications.css";
 import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
 import Table from './component/Table';
+import GetOtp from './component/Auth/GetOtp';
 function App() {
   const notify = (status, message) => {
     if (status) {
@@ -33,6 +36,9 @@ function App() {
             <Route path='/systemSetting' element={<SystemSetting notify={notify} />}  />
             <Route path='/selectRound/:id' element={<Selectround notify={notify} />} />
             <Route path='/table' element={<Table/>}/>
+            <Route path="forgotPassword" element={<ForgotPass notify={notify} />} />
+            <Route path="/getOtp" element={<GetOtp notify={notify} />} />
+            <Route path="reset-password" element={<ResetPassword notify={notify} />} />
           </Routes>
         </Router>
       </MainState>
