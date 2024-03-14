@@ -284,6 +284,9 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   font-weight: 400;
   font-size: 14px;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .order_de span{
   font-family: gilroy-medium !important;
@@ -296,6 +299,12 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 }
 .login-form11{
   margin: 0px 10px;
+}
+.sites{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
 }
 input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {

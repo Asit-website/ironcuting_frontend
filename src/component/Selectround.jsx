@@ -15,7 +15,7 @@ function Selectround({ notify }) {
     documentTitle: "Order",
     parentContainer: {
       '@media print': {
-          display: 'block'
+        display: 'block'
       },
     },
     onAfterPrint: () => notify("success", "item saved")
@@ -134,10 +134,10 @@ function Selectround({ notify }) {
               </tbody>
             </table>
           </div> */}
-            <div   className="ordery">
+            <div className="ordery">
               <div ref={contonentPDF} className="order_de">
                 <div className="order_head">
-                  <h2>Orders Details #{(item?._id)?.slice(0,4)}</h2>
+                  <h2>Orders Details #{(item?._id)?.slice(0, 4)}</h2>
                 </div>
                 <div className="order_head1">
                   <div className="party1">
@@ -149,7 +149,11 @@ function Selectround({ notify }) {
                 </div>
                 <div className="order_body">
                   <div className="typed">
-                    <p>Quality: <span>{item?.ironQuality}</span></p>
+                    <p>Quality: <span className='sites'>{item?.form?.filter(x => x.ironQuality !== item.ironQuality)?.map((val, index) => {
+                      return <div key={index}>
+
+                        {val?.ironQuality}</div>
+                    })}</span></p>
                   </div>
                   <div className="typed1">
                     <p>Size: <span>100x25x1005-1pc</span></p>
@@ -166,16 +170,16 @@ function Selectround({ notify }) {
                     <p>Approx Weight: <span>{item?.Weight}Kg</span></p>
                   </div>
                 </div>
-                
+
               </div>
               <div className="select-row-btn">
-                  <div className="select-row-btn-flex">
-                    <button onClick={() => {
-                      navigate(`/createOrder`, { state: { item } })
-                    }} type="button" id="edit">Edit</button>
-                    <button onClick={generatePdf} type="button" id="print">Print</button>
-                  </div>
+                <div className="select-row-btn-flex">
+                  <button onClick={() => {
+                    navigate(`/createOrder`, { state: { item } })
+                  }} type="button" id="edit">Edit</button>
+                  <button onClick={generatePdf} type="button" id="print">Print</button>
                 </div>
+              </div>
             </div>
 
           </div>
