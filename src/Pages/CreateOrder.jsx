@@ -11,8 +11,6 @@ function CreateOrder({ notify }) {
   const location = useLocation();
   const order = location?.state?.item;
 
-  console.log("order ", order);
-
   const navigate = useNavigate();
 
   const [currentIndex, setCurrentIndex] = useState(0);
