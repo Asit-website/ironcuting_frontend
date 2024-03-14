@@ -74,7 +74,10 @@
         display: none;
 
     }
-
+    .navBr_wrap{
+        position: fixed;
+        top: 0;
+    }
     .smallScreenSide {
         display: block;
         position: relative;
