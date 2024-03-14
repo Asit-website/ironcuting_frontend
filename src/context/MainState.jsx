@@ -257,9 +257,6 @@ const MainState = (props) => {
     return data;
   }
 
-
-
-
   const getFlatIronCutting = async ({ type, Height, Width, quantity , ironQuality }) => {
 
 
@@ -405,12 +402,27 @@ const MainState = (props) => {
     return data;
   };
 
+  const resp1 = async ({id,link}) =>{
+    const country = resp1(id);
+    const resp = await fetch(`${baseUrl}/user/link/${id}/${country}`,{
+        method:"GET",
+        headers:{
+          'content-type': 'application/json',
+          'token': localStorage.getItem('iron_token')
+        },
+        body:JSON.stringify({link})
+    })
+    const data = await resp.json();
+    console.log(data?.resp)
+    return data;
+  }
+
 
  
 
   return (
 
-    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality,getRoundWeight,getFlatWeight,sendOtp,submitOtp,changePassword,resetPassword }}>
+    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality,getRoundWeight,getFlatWeight,sendOtp,submitOtp,changePassword,resetPassword,resp1 }}>
       {props.children}
     </MainContext.Provider>
   );
