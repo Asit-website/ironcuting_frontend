@@ -17,6 +17,7 @@ function CreateOrder({ notify }) {
 
   const [formData, setFormData] = useState([
     {
+       _id:"",
       client: "",
       type: "",
       ironQuality: "",
@@ -89,7 +90,6 @@ function CreateOrder({ notify }) {
     ]);
   };
 
-
   const removeForm = (index) => {
     if (formId.length === 1) {
       return navigate("/dashboard");
@@ -125,10 +125,28 @@ function CreateOrder({ notify }) {
     }
   };
 
-  const submitHandler = async (index) => {
-    const resp = await createIronOrder(formData[index]);
-    console.log("Res", resp);
+  const submitHandler = async () => {
+
+    const validForms = formData.map(form => {
+      const { _id, ...rest } = form; // Destructure _id and get rest of the properties
+      return rest; // Return an object without _id
+    }).filter(form => {
+      return (
+        form.client &&
+        form.ironQuality &&
+        form.quantity &&
+        form.Length &&
+        form.Weight &&
+        form.CuttingPrice &&
+        (form.Height || form.Diameter)
+      );
+    });
+    
+    console.log("vvv ", validForms);
+   
+    const resp = await createIronOrder(validForms);
     if (resp.status) {
+
       notify("success", "successfully created the order");
       navigate("/dashboard");
       setFormData([
@@ -153,35 +171,27 @@ function CreateOrder({ notify }) {
   const projectUpdateHandler = async (e) => {
     e.preventDefault();
 
-    const {
-      client,
-      type,
-      ironQuality,
-      Diameter,
-      quantity,
-      Length,
-      Height,
-      Width,
-      Weight,
-      CuttingPrice,
-    } = formData[currentIndex];
-
-    const ans = await updateOrders({
-      client,
-      type,
-      ironQuality,
-      Diameter,
-      quantity,
-      Length,
-      Height,
-      Width,
-      Weight,
-      CuttingPrice,
-      id: order._id,
+    const validForms = formData.filter(form => {
+      return (
+        form.client &&
+        form.ironQuality &&
+        form.quantity &&
+        form.Length &&
+        form.Weight &&
+        form.CuttingPrice
+        && (form.Height ||  form.Diameter)
+      );
     });
 
+    
+
+    let orderId = order?._id;
+
+    const ans = await updateOrders(
+      validForms  ,orderId
+    );
+
     if (ans?.status) {
-      console.log("hi");
       notify("success", "successfully Updated");
 
       setFormData([
@@ -227,6 +237,7 @@ function CreateOrder({ notify }) {
     }
   };
 
+
   const getFlatCuttingPrice = async () => {
     const resp = await getFlatIronCutting({
       type: formData[currentIndex].type,
@@ -235,7 +246,6 @@ function CreateOrder({ notify }) {
       quantity: formData[currentIndex].quantity,
       ironQuality: formData[currentIndex].ironQuality,
     });
-    console.log("rflat", resp);
     if (resp.status) {
       setFormData((prevForms) => {
         const updatedForms = [...prevForms];
@@ -382,35 +392,33 @@ function CreateOrder({ notify }) {
   useEffect(() => {
     if (order) {
       const {
-        client,
-        type,
-        ironQuality,
-        Diameter,
-        quantity,
-        Length,
-        Height,
-        Width,
-        Weight,
-        CuttingPrice,
+        form
       } = order;
 
-      setFormData([{
-        client,
-        type,
-        ironQuality,
-        Diameter,
-        quantity,
-        Length,
-        Height,
-        Width,
-        Weight,
-        CuttingPrice,
-      }]);
+      const updatedFormData = form.map((item) => ({
+        _id:item?._id,
+        client: item?.client,
+        type: item?.type ,
+        ironQuality: item?.ironQuality ,
+        Diameter: item?.Diameter ,
+        quantity: item?.quantity,
+        Length: item?.Length ,
+        Height: item?.Height ,
+        Width: item?.Width,
+        Weight: item?.Weight,
+        CuttingPrice: item?.CuttingPrice,
+      }));
+
+      setFormData([...updatedFormData]);
+
+      setFormId(Array.from({ length: updatedFormData.length }, (_, index) => index));
+    
+      
+
     }
   }, []);
 
   const setFormById = async (id) =>{
-    console.log(id);
     formId.filter((val)=>{
        val.id = id;
     });
@@ -469,7 +477,7 @@ function CreateOrder({ notify }) {
                         });
                       }}
                       name="client"
-                      value={formData[currentIndex]?.client}
+                      value={formData[index]?.client}
                       type="text"
                       required
                       autoComplete="off"
@@ -519,7 +527,7 @@ function CreateOrder({ notify }) {
                     </select>
                   </label>
 
-                  {formData[currentIndex].type !== "Flat" && (
+                  {formData[index].type !== "Flat" && (
                     <label>
                       <p>DIAMETER</p>
                       <input
@@ -540,7 +548,7 @@ function CreateOrder({ notify }) {
                     </label>
                   )}
 
-                  {formData[currentIndex].type !== "Round" && (
+                  {formData[index].type !== "Round" && (
                     <label htmlFor="Height">
                       <p>HEIGHT</p>
                       <input
@@ -558,7 +566,7 @@ function CreateOrder({ notify }) {
                     </label>
                   )}
 
-                  {formData[currentIndex].type !== "Round" && (
+                  {formData[index].type !== "Round" && (
                     <label htmlFor="">
                       <p>WIDTH</p>
                       <input

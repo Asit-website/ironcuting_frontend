@@ -14,12 +14,20 @@ import das1 from '../../image/das1.svg';
 import das2 from '../../image/das2.svg';
 import das4 from '../../image/das4.svg';
 import OutsideClickHandler from 'react-outside-click-handler';
+
 function Dashboard({ notify }) {
   const navigate = useNavigate();
-  const { getOrders, deleteOrders } = useMain();
+  const { getOrders, deleteOrders , fetchOrderDetails } = useMain();
   const [order, setOrder] = useState([]);
   const [order1, setOrder1] = useState([]);
   const [refreshFlag, setRefreshFlag] = useState(false);
+
+   const [primarydata , setPrimaryData] = useState({
+    completeOrder:"0",
+    todayOrder:0 , 
+    totalOrder:0
+   });
+
   const [value, setValue] = useState({
     query: ""
   });
@@ -30,6 +38,16 @@ function Dashboard({ notify }) {
   const user = JSON.parse(localStorage.getItem("iron_user"));
 
   const [Filter, setFilter] = useState("Select");
+
+  const fetchPrimaryData = async()=>{
+    const data = await fetchOrderDetails();
+
+     setPrimaryData({
+      completeOrder: data?.completeOrder , 
+      todayOrder: data?.todayOrder ,
+      totalOrder : data?.totalOrder
+     })
+  }
 
   const handleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
@@ -42,6 +60,7 @@ function Dashboard({ notify }) {
 
   const getData = async () => {
     const ans = await getOrders("", value.query, page, perPage);
+    console.log("orders",ans);
     setOrder(ans?.data);
     setTotal(ans?.count);
     // setPage(page);
@@ -85,16 +104,15 @@ function Dashboard({ notify }) {
 
   const completeOrder = async(id) =>{
     const ans = await deleteOrders(id);
-    console.log(ans);
     if (ans.status) {
       notify("success", "order completed successfully");
       setRefreshFlag(!refreshFlag);
+      fetchPrimaryData();
     }
     else {
       alert('Something went wrong! ');
     }
   }
-
 
   const adjustFilterData = async () => {
 
@@ -147,6 +165,10 @@ function Dashboard({ notify }) {
 
   }
 
+  useEffect(()=>{
+    fetchPrimaryData();
+  },[])
+
   useEffect(() => {
 
     if (Filter !== 'Select') {
@@ -165,6 +187,8 @@ function Dashboard({ notify }) {
     getData1();
     // console.log(refreshFlag)
   }, [refreshFlag])
+
+
 
 
   return (
@@ -200,7 +224,7 @@ function Dashboard({ notify }) {
 
                 <img src={das1} alt="" />
                 <h2>Orders In Queve</h2>
-                <p>{order1?.length}</p>
+                <p>{primarydata?.totalOrder}</p>
 
 
               </div>
@@ -210,7 +234,7 @@ function Dashboard({ notify }) {
 
                 <img src={das2} alt="" />
                 <h2>Today Orders</h2>
-                <p>{order1.length}</p>
+                <p>{primarydata.todayOrder}</p>
 
 
               </div>
@@ -230,7 +254,7 @@ function Dashboard({ notify }) {
 
                 <img src={das4} alt="" />
                 <h2>Complete Orders </h2>
-                <p>{order1?.length}</p>
+                <p>{primarydata?.completeOrder}</p>
 
 
               </div>
@@ -300,12 +324,12 @@ function Dashboard({ notify }) {
                       <th scope="col" class="px-3 py-3 text-[#060606]">
                         Date
                       </th>
-                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                      {/* <th scope="col" class="px-3 py-3 text-[#060606]">
                         Type
-                      </th>
-                      <th scope="col" class="px-3 py-3 text-[#060606]">
+                      </th> */}
+                      {/* <th scope="col" class="px-3 py-3 text-[#060606]">
                         iron quality
-                      </th>
+                      </th> */}
                       <th scope="col" class="px-3 py-3 text-[#060606]">
                         quantity
                       </th>
@@ -351,12 +375,12 @@ function Dashboard({ notify }) {
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}
                           </td>
-                          <td class="px-3 py-4 text-[#293240] ansDataItem">
+                          {/* <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {item.type}
                           </td>
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {item.ironQuality}
-                          </td>
+                          </td> */}
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {item.quantity}
                           </td>

@@ -168,43 +168,7 @@ const MainState = (props) => {
 
   }
 
-  const createIronOrder = async (formdata) => {
-    const {
-      client,
-      type,
-      ironQuality,
-      Diameter,
-      quantity,
-      Length,
-      Height,
-      Width,
-      Weight,
-      CuttingPrice } = formdata;
 
-    const token = localStorage.getItem('iron_token');
-
-    const resp = await fetch(`${baseUrl}/order/createOrder`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        client,
-        type,
-        ironQuality,
-        Diameter,
-        quantity,
-        Length,
-        Height,
-        Width,
-        Weight,
-        CuttingPrice
-      })
-    });
-    const data = await resp.json();
-    return data;
-  }
 
   const getRoundCuttingPrice = async ({ type, Diameter, quantity , ironQuality }) => {
 
@@ -288,41 +252,43 @@ const MainState = (props) => {
     return data;
   };
 
-  const updateOrders = async ({ id, client,
-    type,
-    ironQuality,
-    Diameter,
-    quantity,
-    Length,
-    Height,
-    Width,
-    Weight,
-    CuttingPrice }) => {
-
+  const createIronOrder = async (formdata) => {
+  
     const token = localStorage.getItem('iron_token');
 
-    const data = {
-      client,
-            type,
-            ironQuality,
-            Diameter,
-            quantity,
-            Length,
-            Height,
-            Width,
-            Weight,
-            CuttingPrice
-    };
+    console.log("form ",formdata);
 
+    const resp = await fetch(`${baseUrl}/order/createOrder`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        formdata
+      })
+    });
+
+    const data = await resp.json();
+    console.log("data",data);
+    return data;
+  }
+
+
+  const updateOrders = async (formdata , orderId) => {
+
+console.log("update form ",formdata);
 
     try {
-      const resp = await fetch(`${baseUrl}/order/updateOrders/${id}`, {
-        method: 'PUT',
+      const resp = await fetch(`${baseUrl}/order/updateOrders/${orderId}`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'token': localStorage.getItem('iron_token')
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          formdata
+        })
       });
 
       if (!resp.ok) {
@@ -338,11 +304,15 @@ const MainState = (props) => {
   }
 
   const deleteOrders = async (id) => {
-    const resp = await fetch(`${baseUrl}/order/deleteOrders/${id}`, {
+
+    const user = JSON.parse(localStorage.getItem("iron_user"));
+
+    const {_id} = user;
+
+    const resp = await fetch(`${baseUrl}/order/deleteOrders/${id}/${_id}`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json',
-        'token': localStorage.getItem('iron_token')
       }
     });
     const data = await resp.json();
@@ -417,12 +387,32 @@ const MainState = (props) => {
     return data;
   }
 
+  const fetchOrderDetails = async()=>{
+
+    const user = JSON.parse(localStorage.getItem("iron_user"));
+
+    const {_id} = user;
+    
+    const resp = await fetch(`${baseUrl}/order/getOrderPrimaryDetail/${_id}`,{
+      method:"GET",
+      headers:{
+        'content-type': 'application/json',
+      },
+
+    
+  })
+
+  const data = await resp.json();
+  return data;
+
+  }
+
 
  
 
   return (
 
-    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality,getRoundWeight,getFlatWeight,sendOtp,submitOtp,changePassword,resetPassword,resp1 }}>
+    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality,getRoundWeight,getFlatWeight,sendOtp,submitOtp,changePassword,resetPassword,resp1 , fetchOrderDetails }}>
       {props.children}
     </MainContext.Provider>
   );
