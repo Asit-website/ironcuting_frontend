@@ -135,7 +135,49 @@ function Selectround({ notify }) {
             </table>
           </div> */}
             <div className="ordery">
+              
               <div ref={contonentPDF} className="order_de">
+                {/* {
+                  item?.form?.map((val,index)=>{
+                    return (
+                      <div className='hinh' key={index}>
+                      <div className="order_head">
+                        <h2>Orders Details #{(val?._id)?.slice(0, 4)}</h2>
+                      </div>
+                      <div className="order_head1">
+                        <div className="party1">
+                          <p>Party Name: <span>{val?.client}</span></p>
+                        </div>
+                        <div className="party2">
+                          <p>Date: <span> {new Date(item?.Date).getDate()}/{new Date(val?.Date).getMonth() + 1}/{new Date(val?.Date).getFullYear()}</span></p>
+                        </div>
+                      </div>
+                      <div className="order_body">
+                        <div className="typed">
+                          <p>Quality: <span className='sites'>{val?.ironQuality}</span></p>
+                        </div>
+                        <div className="typed1">
+                          <p>Size: <span>100x25x1005-1pc</span></p>
+                        </div>
+                        <div className="typed2">
+                          <p>Quantity: <span>{val?.quantity}</span></p>
+                        </div>
+                      </div>
+                      <div className="order_footer">
+                        <div className="order_footer1">
+                          <p>Cutting price total: <span>{val?.CuttingPrice}</span></p>
+                        </div>
+                        <div className="order_footer2">
+                          <p>Approx Weight: <span>{val?.Weight}Kg</span></p>
+                        </div>
+                      </div>
+                      </div>
+                    )
+                  })
+                } */}
+               
+
+                
                 <div className="order_head">
                   <h2>Orders Details #{(item?._id)?.slice(0, 4)}</h2>
                 </div>
@@ -149,10 +191,17 @@ function Selectround({ notify }) {
                 </div>
                 <div className="order_body">
                   <div className="typed">
-                    <p>Quality: <span className='sites'>{item?.form?.filter(x => x.ironQuality !== item.ironQuality)?.map((val, index) => {
-                      return <div key={index}>
-
-                        {val?.ironQuality}</div>
+                    <p>Quality: <span className='sites'>{item?.form?.filter(x => x.ironQuality !== item.quantity)?.map((val, index) => {
+                        let s = val?.ironQuality
+                        console.log(s);
+                      return (
+                      
+                        <>
+                          <div key={index}>
+                            {s.split(',')}
+                          </div>
+                        </>
+                      )
                     })}</span></p>
                   </div>
                   <div className="typed1">
@@ -169,6 +218,7 @@ function Selectround({ notify }) {
                   <div className="order_footer2">
                     <p>Approx Weight: <span>{item?.Weight}Kg</span></p>
                   </div>
+                </div>
                 </div>
 
               </div>
@@ -191,7 +241,7 @@ function Selectround({ notify }) {
       </div>
 
 
-    </div>
+    
 
 
 
