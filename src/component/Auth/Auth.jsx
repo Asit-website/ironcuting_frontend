@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import loginImage1 from "../../image/loginImage.png";
 import { useMain } from '../../hooks/useMain';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 const Auth = ({notify}) => {
     const {login,setUser} = useMain();
     const navigate = useNavigate();
@@ -70,7 +70,7 @@ const Auth = ({notify}) => {
                                            <label htmlFor='remember' >Remember me</label>
                                        </div>
                                        <div class="login-password">
-                                           <span class="psw"><a href="#">Forgot password?</a></span>
+                                           <span class="psw"><NavLink to="/forgotPassword">Forgot password?</NavLink></span>
                                        </div>
                                    </div>
                                    <div class="Login-btn">

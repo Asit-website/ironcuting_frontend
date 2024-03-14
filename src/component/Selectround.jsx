@@ -18,7 +18,6 @@ function Selectround({ notify }) {
           display: 'block'
       },
     },
-    onBeforePrint: () => notify("success","plz save your item"),
     onAfterPrint: () => notify("success", "item saved")
   })
 
@@ -150,7 +149,7 @@ function Selectround({ notify }) {
                 </div>
                 <div className="order_body">
                   <div className="typed">
-                    <p>Type: <span>{item?.type}</span></p>
+                    <p>Quality: <span>{item?.ironQuality}</span></p>
                   </div>
                   <div className="typed1">
                     <p>Size: <span>100x25x1005-1pc</span></p>

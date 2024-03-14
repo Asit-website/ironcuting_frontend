@@ -206,7 +206,7 @@ const MainState = (props) => {
     return data;
   }
 
-  const getRoundCuttingPrice = async ({ type, Diameter, Length, quantity , ironQuality }) => {
+  const getRoundCuttingPrice = async ({ type, Diameter, quantity , ironQuality }) => {
 
 
     const token = localStorage.getItem('iron_token');
@@ -218,7 +218,7 @@ const MainState = (props) => {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        type, Diameter, Length, quantity , ironQuality
+        type, Diameter, quantity , ironQuality
       })
     });
     const data = await resp.json();
@@ -256,9 +256,6 @@ const MainState = (props) => {
     const data = await resp.json();
     return data;
   }
-
-
-
 
   const getFlatIronCutting = async ({ type, Height, Width, quantity , ironQuality }) => {
 
@@ -352,11 +349,80 @@ const MainState = (props) => {
     return data;
   };
 
+  const sendOtp = async ({ email }) => {
+    const resp = await fetch(`${baseUrl}/user/sendOtp`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'token': localStorage.getItem('iron_token')
+      },
+      body: JSON.stringify({ email })
+    });
+    const data = await resp.json();
+    // console.log(data);
+    return data;
+  };
+
+  const submitOtp = async ({ otp, otp1 }) => {
+    const resp = await fetch(`${baseUrl}/user/submitOtp`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'token': localStorage.getItem('iron_token')
+      },
+      body: JSON.stringify({ otp, otp1 })
+    });
+    const data = await resp.json();
+    return data;
+  };
+
+  const changePassword = async ({ email, password }) => {
+    const resp = await fetch(`${baseUrl}/user/changePassword`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'token': localStorage.getItem('iron_token')
+      },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await resp.json();
+    return data;
+  };
+
+  const resetPassword = async ({ userId, password }) => {
+    const resp = await fetch(`${baseUrl}/user/resetPassword/${userId}`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+        'token': localStorage.getItem('iron_token')
+      },
+      body: JSON.stringify({ password })
+    });
+    const data = await resp.json();
+    return data;
+  };
+
+  const resp1 = async ({id,link}) =>{
+    const country = resp1(id);
+    const resp = await fetch(`${baseUrl}/user/link/${id}/${country}`,{
+        method:"GET",
+        headers:{
+          'content-type': 'application/json',
+          'token': localStorage.getItem('iron_token')
+        },
+        body:JSON.stringify({link})
+    })
+    const data = await resp.json();
+    console.log(data?.resp)
+    return data;
+  }
+
+
  
 
   return (
 
-    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality,getRoundWeight,getFlatWeight }}>
+    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality,getRoundWeight,getFlatWeight,sendOtp,submitOtp,changePassword,resetPassword,resp1 }}>
       {props.children}
     </MainContext.Provider>
   );
