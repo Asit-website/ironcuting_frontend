@@ -8,6 +8,9 @@ function Selectround({ notify }) {
   const { getOrders } = useMain();
   const { id } = useParams();
   const [item, setItem] = useState({});
+
+   const [allQuality , setAllQuality] = useState([]);
+
   const navigate = useNavigate()
   const contonentPDF = useRef()
   const generatePdf = useReactToPrint({
@@ -28,7 +31,34 @@ function Selectround({ notify }) {
   const getitem = async () => {
     let ans = await getOrders(id, '', '', '');
     setItem(ans.data[0]);
+
+    const uniqueQualities = new Set(); 
+
+    item.form.forEach(obj => {
+      const ironQuality = obj.ironQuality;
+      if (!uniqueQualities.has(ironQuality)) {
+        uniqueQualities.add(ironQuality);
+      }
+    });
+
+    setAllQuality(Array.from(uniqueQualities));
+    
   };
+
+
+//   {item?.form?.filter(x => x.ironQuality !== item.quantity)?.map((val, index) => {
+//     let s = val?.ironQuality
+//     console.log(s);
+//   return (
+  
+//     <>
+//       <div key={index}>
+//         {s.split(',')}
+//       </div>
+//     </>
+//   )
+// })}
+
 
 
   return (
@@ -191,18 +221,14 @@ function Selectround({ notify }) {
                 </div>
                 <div className="order_body">
                   <div className="typed">
-                    <p>Quality: <span className='sites'>{item?.form?.filter(x => x.ironQuality !== item.quantity)?.map((val, index) => {
-                        let s = val?.ironQuality
-                        console.log(s);
-                      return (
-                      
-                        <>
-                          <div key={index}>
-                            {s.split(',')}
-                          </div>
-                        </>
-                      )
-                    })}</span></p>
+                    <p>Quality:
+                       {
+                        allQuality?.map((item ,index)=>(
+                          <span key={index} className='sites'>{item} {index !== allQuality.length-1 && <span>,</span>}</span>
+
+                        ))
+                       } 
+                       </p>
                   </div>
                   <div className="typed1">
                     <p>Size: <span>100x25x1005-1pc</span></p>
