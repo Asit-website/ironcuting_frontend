@@ -24,9 +24,7 @@ function Selectround({ notify }) {
     onAfterPrint: () => notify("success", "item saved")
   })
 
-  useEffect(() => {
-    getitem();
-  }, [id])
+
 
   const getitem = async () => {
     let ans = await getOrders(id, '', '', '');
@@ -34,7 +32,8 @@ function Selectround({ notify }) {
 
     const uniqueQualities = new Set(); 
 
-    item.form.forEach(obj => {
+    
+    ans?.data[0]?.form?.forEach(obj => {
       const ironQuality = obj.ironQuality;
       if (!uniqueQualities.has(ironQuality)) {
         uniqueQualities.add(ironQuality);
@@ -45,6 +44,10 @@ function Selectround({ notify }) {
     
   };
 
+
+  useEffect(() => {
+    getitem();
+  }, [id])
 
 //   {item?.form?.filter(x => x.ironQuality !== item.quantity)?.map((val, index) => {
 //     let s = val?.ironQuality
