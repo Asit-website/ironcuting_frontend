@@ -31,8 +31,7 @@ function Selectround({ notify }) {
     setItem(ans.data[0]);
 
     const uniqueQualities = new Set(); 
-
-    
+ 
     ans?.data[0]?.form?.forEach(obj => {
       const ironQuality = obj.ironQuality;
       if (!uniqueQualities.has(ironQuality)) {
