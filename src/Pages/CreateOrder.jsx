@@ -7,17 +7,15 @@ import { useEffect, useState } from "react";
 import { useMain } from "../hooks/useMain";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function CreateOrder({ notify }) {
+function UserOrder({ notify }) {
   const location = useLocation();
   const order = location?.state?.item;
 
-  const navigate = useNavigate();
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+   console.log('order ',order);
 
-  const [formData, setFormData] = useState([
+  const [formData, setFormData] = useState(
     {
-       _id:"",
       client: "",
       type: "",
       ironQuality: "",
@@ -29,87 +27,13 @@ function CreateOrder({ notify }) {
       Weight: "",
       CuttingPrice: "",
     },
-  ]);
-
-  const [formId, setFormId] = useState([0]);
-
-
-  const {
-    getAllType,
-    createIronOrder,
-    getRoundCuttingPrice,
-    getFlatIronCutting,
-    updateOrders,
-    fetchIronQuality,
-    getRoundWeight,
-    getFlatWeight,
-  } = useMain();
-
-  const handleFormDataChange = (index, fieldName, value) => {
-    // If the field is "Length", validate the input
-
-    setCurrentIndex(index);
-
-    if (
-      (fieldName === "Length" ||
-        fieldName === "Height" ||
-        fieldName === "Width" ||
-        fieldName === "Diameter") &&
-      !/^\d{0,4}$/.test(value)
-    ) {
-      // If the input is not a valid number with up to 4 digits, return without updating the form data
-      return;
-    }
-
-    // Update the form data
-    setFormData((prevForms) => {
-      const updatedForms = [...prevForms]; // Copy previous forms data
-      updatedForms[index] = { ...updatedForms[index], [fieldName]: value }; // Update specific form data
-      return updatedForms;
-    });
-  };
-
-  const addForm = (e) => {
-    e.preventDefault();
-    setFormId((prev) => [...prev, prev.length]);
-
-    setFormData((prevForms) => [
-      ...prevForms,
-      {
-        client: formData[0].client,
-        type: "",
-        ironQuality: "",
-        Diameter: "",
-        quantity: "",
-        Length: "",
-        Height: "",
-        Width: "",
-        Weight: "",
-        CuttingPrice: "",
-      },
-    ]);
-  };
-
-  const removeForm = (index) => {
-    if (formId.length === 1) {
-      return navigate("/dashboard");
-    }
-
-    setFormId((prev) => prev.filter((_, i) => i !== index));
-
-    setFormData((prevFormData) => {
-
-      const updatedFormData = [...prevFormData]; // Create a copy of the formData array
-      updatedFormData.splice(index, 1); // Remove the form data at the specified index
-      return updatedFormData;
-    });
-    setCurrentIndex(0);
-
-  };
+  );
 
   const [allType, setAllType] = useState([]);
 
   const [allIronQuality, setAllIronQuality] = useState([]);
+
+  const navigate = useNavigate();
 
   const getqualityFunction = async () => {
     const resp = await fetchIronQuality();
@@ -125,306 +49,176 @@ function CreateOrder({ notify }) {
     }
   };
 
-  const submitHandler = async () => {
 
-    const validForms = formData.map(form => {
-      const { _id, ...rest } = form; // Destructure _id and get rest of the properties
-      return rest; // Return an object without _id
-    }).filter(form => {
-      return (
-        form.client &&
-        form.ironQuality &&
-        form.quantity &&
-        form.Length &&
-        form.Weight &&
-        form.CuttingPrice &&
-        (form.Height || form.Diameter)
-      );
-    });
-    
-    console.log("vvv ", validForms);
-   
-    const resp = await createIronOrder(validForms);
-    if (resp.status) {
+  const {
+    getAllType,
+    createIronOrder,
+    createIronOrder2,
+    getFlatIronCutting,
+    fetchIronQuality,
+    getRoundWeight,
+    getFlatWeight,
+    getRoundCuttingPrice
+  } = useMain();
 
-      notify("success", "successfully created the order");
-      navigate("/dashboard");
-      setFormData([
-        {
-          client: "",
-          type: "",
-          ironQuality: "",
-          Diameter: "",
-          quantity: "",
-          Length: "",
-          Height: "",
-          Width: "",
-          Weight: "",
-          CuttingPrice: "",
-        },
-      ]);
-    } else {
-      notify("error", "something went wrong please try again");
-    }
-  };
-
-  const projectUpdateHandler = async (e) => {
-    e.preventDefault();
-
-    const validForms = formData.filter(form => {
-      return (
-        form.client &&
-        form.ironQuality &&
-        form.quantity &&
-        form.Length &&
-        form.Weight &&
-        form.CuttingPrice
-        && (form.Height ||  form.Diameter)
-      );
-    });
-
-    
-
-    let orderId = order?._id;
-
-    const ans = await updateOrders(
-      validForms  ,orderId
-    );
-
-    if (ans?.status) {
-      notify("success", "successfully Updated");
-
-      setFormData([
-        {
-          client: "",
-          type: "",
-          ironQuality: "",
-          Diameter: "",
-          quantity: "",
-          Length: "",
-          Height: "",
-          Width: "",
-          Weight: "",
-          CuttingPrice: "",
-        },
-      ]);
-
-      navigate("/dashboard");
-    } else {
-      notify("error", "something went wrong");
-    }
-  };
 
   const getRoundCutting = async () => {
     const resp = await getRoundCuttingPrice({
-      type: formData[currentIndex].type,
-      Diameter: formData[currentIndex].Diameter,
-      // Length: formData[currentIndex].Length,
-      quantity: formData[currentIndex].quantity,
-      ironQuality: formData[currentIndex].ironQuality,
+      type: formData.type,
+      Diameter: formData.Diameter,
+      quantity: formData.quantity,
+      ironQuality: formData.ironQuality,
     });
 
-    console.log("resp", resp);
     if (resp.status) {
-      setFormData((prevForms) => {
-        const updatedForms = [...prevForms];
-        updatedForms[currentIndex] = {
-          ...updatedForms[currentIndex],
-          CuttingPrice: resp?.CuttingPrice,
-        };
-        return updatedForms;
-      });
+      setFormData((prev)=>({
+        ...prev ,
+        CuttingPrice : resp?.CuttingPrice
+      }))
     }
   };
 
 
   const getFlatCuttingPrice = async () => {
     const resp = await getFlatIronCutting({
-      type: formData[currentIndex].type,
-      Height: formData[currentIndex].Height,
-      Width: formData[currentIndex].Width,
-      quantity: formData[currentIndex].quantity,
-      ironQuality: formData[currentIndex].ironQuality,
+      type: formData.type,
+      Height: formData.Height,
+      Width: formData.Width,
+      quantity: formData.quantity,
+      ironQuality: formData.ironQuality,
     });
+
     if (resp.status) {
-      setFormData((prevForms) => {
-        const updatedForms = [...prevForms];
-        updatedForms[currentIndex] = {
-          ...updatedForms[currentIndex],
-          CuttingPrice: resp?.CuttingPrice,
-        };
-        return updatedForms;
-      });
+    setFormData((prev)=>({
+        ...prev ,
+        CuttingPrice: resp?.CuttingPrice
+    }))
     }
   };
 
   const getRoundweight = async () => {
     const resp = await getRoundWeight({
-      type: formData[currentIndex].type,
-      Length: formData[currentIndex].Length,
-      Diameter: formData[currentIndex].Diameter,
+      type: formData.type,
+      Length: formData.Length,
+      Diameter: formData.Diameter,
     });
+
     if (resp.status) {
-      setFormData((prevForms) => {
-        const updatedForms = [...prevForms];
-        updatedForms[currentIndex] = {
-          ...updatedForms[currentIndex],
-          Weight: resp?.Weight,
-        };
-        return updatedForms;
-      });
+            setFormData((prev)=>({
+                ...prev ,
+                Weight: resp?.Weight
+            }))
     }
   };
 
   const getFlatweight = async () => {
     const resp = await getFlatWeight({
-      type: formData[currentIndex].type,
-      Length: formData[currentIndex].Length,
-      Height: formData[currentIndex].Height,
-      Width: formData[currentIndex].Width,
+      type: formData.type,
+      Length: formData.Length,
+      Height: formData.Height,
+      Width: formData.Width,
     });
+
+
     if (resp.status) {
-      setFormData((prevForms) => {
-        const updatedForms = [...prevForms];
-        updatedForms[currentIndex] = {
-          ...updatedForms[currentIndex],
-          Weight: resp?.Weight,
-        };
-        return updatedForms;
-      });
+       const {Weight} = resp;
+        setFormData((prev)=>({
+            ...prev  , 
+            Weight: Weight
+        }))
+
     }
   };
 
-  useEffect(() => {
-    if (formData[currentIndex].type === "Flat") {
-      if (
-        formData[currentIndex].Length !== "" &&
-        formData[currentIndex].Height !== "" &&
-        formData[currentIndex].Width !== ""
-      ) {
-        getFlatweight();
-      } else {
-        setFormData((prevForms) => {
-          const updatedForms = [...prevForms];
-          updatedForms[currentIndex] = {
-            ...updatedForms[currentIndex],
-            Weight: "",
-          };
-          return updatedForms;
-        });
-      }
-    } else if (formData[currentIndex].type === "Round") {
-      if (
-        formData[currentIndex].Diameter !== "" &&
-        formData[currentIndex].Length
-      ) {
-        getRoundweight();
-      } else {
-        setFormData((prevForms) => {
-          const updatedForms = [...prevForms];
-          updatedForms[currentIndex] = {
-            ...updatedForms[currentIndex],
-            Weight: "",
-          };
-          return updatedForms;
-        });
-      }
-    }
-  }, [
-    formData[currentIndex]?.type,
-    formData[currentIndex]?.Length,
-    formData[currentIndex]?.Height,
-    formData[currentIndex]?.Width,
-    formData[currentIndex]?.Diameter,
-  ]);
+ const submitHandler = async(e)=>{
+     e.preventDefault();
+    try{
 
-  useEffect(() => {
-    if (formData[currentIndex]?.type === "Flat") {
-      if (
-        formData[currentIndex]?.Height !== "" &&
-        formData[currentIndex]?.Width !== "" &&
-        formData[currentIndex]?.quantity !== ""
-      ) {
-        getFlatCuttingPrice();
-      } else {
-        setFormData((prevForms) => {
-          const updatedForms = [...prevForms];
-          updatedForms[currentIndex] = {
-            ...updatedForms[currentIndex],
-            CuttingPrice: "",
-          };
-          return updatedForms;
-        });
-      }
-    } else if (formData[currentIndex]?.type === "Round") {
-      if (
-        formData[currentIndex]?.Diameter !== "" &&
-        formData[currentIndex]?.Length &&
-        formData[currentIndex]?.quantity
-      ) {
-        getRoundCutting();
-      } else {
-        setFormData((prevForms) => {
-          const updatedForms = [...prevForms];
-          updatedForms[currentIndex] = {
-            ...updatedForms[currentIndex],
-            CuttingPrice: "",
-          };
-          return updatedForms;
-        });
-      }
+        if(order){
+          const resp = await createIronOrder2(formData , order._id);
+          if(resp?.status){
+            alert("Successfully created");
+            navigate("/dashboard");
+          }
+        }
+        else {
+          const resp = await createIronOrder(formData);
+          if(resp?.status){
+            alert("Successfully created");
+            navigate("/dashboard");
+          }
+        }
+    } catch(error){
+        console.log(error);
     }
-  }, [
-    formData[currentIndex]?.type,
-    formData[currentIndex]?.Length,
-    formData[currentIndex]?.Weight,
-    formData[currentIndex]?.quantity,
-    formData[currentIndex]?.Diameter,
-    formData[currentIndex]?.Width,
-    formData[currentIndex]?.Height,
-  ]);
+ }
 
   useEffect(() => {
     getTypeFuntion();
     getqualityFunction();
   }, []);
 
+
   useEffect(() => {
-    if (order) {
-      const {
-        form
-      } = order;
+    if (formData?.type === "Flat") {
+      if (
+        formData?.Height !== "" &&
+        formData?.Width !== "" &&
+        formData?.quantity !== ""
+      ) {
+        getFlatCuttingPrice();
+      } else {
+     
+      }
+    } else if (formData?.type === "Round") {
+      if (
+        formData?.Diameter !== "" &&
+        formData?.Length &&
+        formData?.quantity
+      ) {
+        getRoundCutting();
+      } else {
 
-      const updatedFormData = form.map((item) => ({
-        _id:item?._id,
-        client: item?.client,
-        type: item?.type ,
-        ironQuality: item?.ironQuality ,
-        Diameter: item?.Diameter ,
-        quantity: item?.quantity,
-        Length: item?.Length ,
-        Height: item?.Height ,
-        Width: item?.Width,
-        Weight: item?.Weight,
-        CuttingPrice: item?.CuttingPrice,
-      }));
-
-      setFormData([...updatedFormData]);
-
-      setFormId(Array.from({ length: updatedFormData.length }, (_, index) => index));
-    
-      
-
+      }
     }
-  }, []);
+  }, [
+    formData?.type,
+    formData?.Length,
+    formData?.Weight,
+    formData?.quantity,
+    formData?.Diameter,
+    formData?.Width,
+    formData?.Height,
+  ]);
 
-  const setFormById = async (id) =>{
-    formId.filter((val)=>{
-       val.id = id;
-    });
-
-    return id;
-  }
+  useEffect(() => {
+    if (formData.type === "Flat") {
+      if (
+        formData.Length !== "" &&
+        formData.Height !== "" &&
+        formData.Width !== ""
+      ) {
+        getFlatweight();
+      } else {
+    
+      }
+    } else if (formData.type === "Round") {
+      if (
+        formData.Diameter !== "" &&
+        formData.Length
+      ) {
+        getRoundweight();
+      } else {
+   
+      }
+    }
+  }, [
+    formData?.type,
+    formData?.Length,
+    formData?.Height,
+    formData?.Width,
+    formData?.Diameter,
+  ]);
 
   return (
     <div className="cretOrdrWrap">
@@ -434,63 +228,146 @@ function CreateOrder({ notify }) {
         <Sidebar notify={notify} />
 
         <main className="mainOrdCon">
+
+           <h2>{order?.client}</h2>
+
+
+
+      {
+        order && 
+          
+
+<div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                ORDER NO.
+                </th>
+                <th scope="col" class="px-6 py-3">
+                TYPE
+                </th>
+                <th scope="col" class="px-6 py-3">
+                IRON QUALITY
+                </th>
+                <th scope="col" class="px-6 py-3">
+                DIAMETER
+                </th>
+                <th scope="col" class="px-6 py-3">
+                LENGTH
+                </th>
+                <th scope="col" class="px-6 py-3">
+                QUANTITY
+                </th>
+                <th scope="col" class="px-6 py-3">
+                WEIGHT
+                </th>
+                <th scope="col" class="px-6 py-3">
+                CUTTING PRICE
+                </th>
+                <th scope="col" class="px-6 py-3">
+                ACTION
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {
+                order?.form?.map((item ,index)=>(
+                    <tr key={index} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                     {index+1}
+                    </th>
+                    <td class="px-6 py-4">
+                        {item?.type}
+                    </td>
+                    <td class="px-6 py-4">
+                        {item?.ironQuality}
+                    </td>
+                    <td class="px-6 py-4">
+                        {item?.Diameter}
+                    </td>
+                    <td class="px-6 py-4">
+                        {item?.Length}
+                    </td>
+                    <td class="px-6 py-4">
+                        {item?.quantity}
+                    </td>
+                    <td class="px-6 py-4">
+                        {item?.Weight}
+                    </td>
+                    <td class="px-6 py-4">
+                        {item?.CuttingPrice}
+                    </td>
+                    <td class="px-6 py-4">
+                        ACTIONS 
+                    </td>
+                </tr>
+                ))
+            }
+         
+          
+        </tbody>
+    </table>
+</div>
+
+          }
+
+
+
           <div  className="mainRcc">
-            {formId.map((id, index) => (
+     
               <form
-                onSubmit={
-                  order
-                    ? projectUpdateHandler
-                    : (e) => {
-                      e.preventDefault();
-                      submitHandler(index);
-                    }
-                }
-                key={index}
+                onSubmit={ submitHandler }
                 className="ordForm"
               >
                 <nav className="orFiNa">
                   <p>Create Order</p>
-                  <img
-                    onClick={() => {
-                      removeForm(index);
-                    }}
-                    src={cross}
-                    alt=""
-                  />
+                
                 </nav>
 
                 <hr />
 
                 <div className="allFields">
 
-                  <label className={`${index > 0 && "hh"}`} htmlFor="client">
+
+ { 
+  !order  && 
+
+
+                  <label htmlFor="type">
                     <p>CLIENT NAME</p>
+
                     <input
-                      id="client"
-                      onChange={(e) => {
-                        const clientValue = e.target.value;
-                        setFormData(prevFormData => {
-                          return prevFormData.map(form => ({
-                            ...form,
-                            client: clientValue,
-                          }));
-                        });
-                      }}
-                      name="client"
-                      value={formData[index]?.client}
-                      type="text"
-                      required
-                      autoComplete="off"
-                    />
+                        onChange={(e) =>
+                         setFormData((prev)=>({
+                            ...prev ,
+                            client: e.target.value
+                         }))
+                        }
+                        value={formData.client}
+                        name="client"
+                        type="text"
+                        required
+                      />
+                
                   </label>
+
+
+                      }
 
                   <label htmlFor="type">
                     <p>TYPE</p>
                     <select
-                      value={formData[index]?.type}
-                      onChange={(e) =>
-                        handleFormDataChange(index, "type", e.target.value)
-                      }
+                      value={formData?.type}
+                      onChange={(e)=>{
+                        setFormData((prev)=>({
+                            ...prev ,
+                            type: e.target.value
+                        }))
+                      }}
                       name="type"
                       id="type"
                     
@@ -507,13 +384,12 @@ function CreateOrder({ notify }) {
                   <label htmlFor="ironQuality">
                     <p>IRON QUALITY</p>
                     <select
-                      value={formData[index]?.ironQuality}
+                      value={formData?.ironQuality}
                       onChange={(e) =>
-                        handleFormDataChange(
-                          index,
-                          "ironQuality",
-                          e.target.value,
-                        )
+                               setFormData((prev)=>({
+                                ...prev ,
+                                ironQuality: e.target.value
+                               }))
                       }
                       name="ironQuality"
                       id="ironQuality"
@@ -527,18 +403,17 @@ function CreateOrder({ notify }) {
                     </select>
                   </label>
 
-                  {formData[index].type !== "Flat" && (
+                  {formData.type !== "Flat" && (
                     <label>
                       <p>DIAMETER</p>
                       <input
                         onChange={(e) =>
-                          handleFormDataChange(
-                            index,
-                            "Diameter",
-                            e.target.value,
-                          )
+                         setFormData((prev)=>({
+                            ...prev ,
+                            Diameter: e.target.value
+                         }))
                         }
-                        value={formData[index].Diameter}
+                        value={formData.Diameter}
                         name="Diameter"
                         type="number"
                         maxLength="4"
@@ -548,14 +423,17 @@ function CreateOrder({ notify }) {
                     </label>
                   )}
 
-                  {formData[index].type !== "Round" && (
+                  {formData.type !== "Round" && (
                     <label htmlFor="Height">
                       <p>HEIGHT</p>
                       <input
                         onChange={(e) =>
-                          handleFormDataChange(index, "Height", e.target.value)
+                            setFormData((prev)=>({
+                                ...prev ,
+                                Height: e.target.value
+                             }))
                         }
-                        value={formData[index].Height}
+                        value={formData.Height}
                         name="Height"
                         type="number"
                         maxLength="4"
@@ -566,14 +444,17 @@ function CreateOrder({ notify }) {
                     </label>
                   )}
 
-                  {formData[index].type !== "Round" && (
+                  {formData.type !== "Round" && (
                     <label htmlFor="">
                       <p>WIDTH</p>
                       <input
                         onChange={(e) =>
-                          handleFormDataChange(index, "Width", e.target.value)
+                            setFormData((prev)=>({
+                                ...prev ,
+                                Width: e.target.value
+                             }))
                         }
-                        value={formData[index].Width}
+                        value={formData.Width}
                         name="Width"
                         type="number"
                         maxLength="4"
@@ -588,9 +469,12 @@ function CreateOrder({ notify }) {
                     <p>LENGTH</p>
                     <input
                       onChange={(e) =>
-                        handleFormDataChange(index, "Length", e.target.value)
+                        setFormData((prev)=>({
+                            ...prev ,
+                            Length: e.target.value
+                         }))
                       }
-                      value={formData[index].Length}
+                      value={formData.Length}
                       name="Length"
                       type="number"
                       maxLength={4}
@@ -604,9 +488,12 @@ function CreateOrder({ notify }) {
                     <p>QUANTITY</p>
                     <input
                       onChange={(e) =>
-                        handleFormDataChange(index, "quantity", e.target.value)
+                        setFormData((prev)=>({
+                            ...prev ,
+                            quantity: e.target.value
+                         }))
                       }
-                      value={formData[index].quantity}
+                      value={formData.quantity}
                       name="quantity"
                       type="number"
                       maxLength="4"
@@ -620,9 +507,12 @@ function CreateOrder({ notify }) {
                     <p>WEIGHT</p>
                     <input
                       onChange={(e) =>
-                        handleFormDataChange(index, "Weight", e.target.value)
+                        setFormData((prev)=>({
+                            ...prev ,
+                            Weight: e.target.value
+                         }))
                       }
-                      value={formData[index].Weight}
+                      value={formData.Weight}
                       name="Weight"
                       type="number"
                       // maxLength="4"
@@ -635,13 +525,12 @@ function CreateOrder({ notify }) {
                     <p>CUTTING PRICE</p>
                     <input
                       onChange={(e) =>
-                        handleFormDataChange(
-                          index,
-                          "CuttingPrice",
-                          e.target.value
-                        )
+                        setFormData((prev)=>({
+                            ...prev ,
+                            CuttingPrice: e.target.value
+                         }))
                       }
-                      value={formData[index].CuttingPrice}
+                      value={formData.CuttingPrice}
                       name="CuttingPrice"
                       type="number"
                       required
@@ -654,18 +543,19 @@ function CreateOrder({ notify }) {
                   <button type="submit" className="submitBtn">
                     Submit
                   </button>
-                  <button onClick={addForm} className="AdBtn">
-                    Add <img src={plus} alt="" />
-                  </button>
+                
                 </div>
 
               </form>
-            ))}
+        
           </div>
+
+
+
         </main>
       </div>
     </div>
   );
 }
 
-export default CreateOrder;
+export default UserOrder;

@@ -274,7 +274,25 @@ const MainState = (props) => {
     return data;
   }
 
+  const createIronOrder2 = async (formdata , id) => {
+  
+    const token = localStorage.getItem('iron_token');
 
+    const resp = await fetch(`${baseUrl}/order/createOrder/${id}`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        formdata
+      })
+    });
+
+    const data = await resp.json();
+    console.log("data",data);
+    return data;
+  }
   const updateOrders = async (formdata , orderId) => {
 
 console.log("update form ",formdata);
@@ -412,7 +430,7 @@ console.log("update form ",formdata);
 
   return (
 
-    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality,getRoundWeight,getFlatWeight,sendOtp,submitOtp,changePassword,resetPassword,resp1 , fetchOrderDetails }}>
+    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder,createIronOrder2, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality,getRoundWeight,getFlatWeight,sendOtp,submitOtp,changePassword,resetPassword,resp1 , fetchOrderDetails }}>
       {props.children}
     </MainContext.Provider>
   );
