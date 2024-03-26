@@ -170,7 +170,7 @@ function Selectround({ notify }) {
             <div className="ordery">
               
               <div ref={contonentPDF} className="order_de">
-                {/* {
+                {
                   item?.form?.map((val,index)=>{
                     return (
                       <div className='hinh' key={index}>
@@ -182,7 +182,7 @@ function Selectround({ notify }) {
                           <p>Party Name: <span>{val?.client}</span></p>
                         </div>
                         <div className="party2">
-                          <p>Date: <span> {new Date(item?.Date).getDate()}/{new Date(val?.Date).getMonth() + 1}/{new Date(val?.Date).getFullYear()}</span></p>
+                          <p>Date: <span> {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}</span></p>
                         </div>
                       </div>
                       <div className="order_body">
@@ -207,11 +207,11 @@ function Selectround({ notify }) {
                       </div>
                     )
                   })
-                } */}
+                }
                
 
                 
-                <div className="order_head">
+                {/* <div className="order_head">
                   <h2>Orders Details #{(item?._id)?.slice(0, 4)}</h2>
                 </div>
                 <div className="order_head1">
@@ -227,7 +227,7 @@ function Selectround({ notify }) {
                     <p>Quality:
                        {
                         allQuality?.map((item ,index)=>(
-                          <span key={index} className='sites'>{item} {index !== allQuality.length-1 && <span>,</span>}</span>
+                          <span key={index} className='sites'>{item} {index !== allQuality.length-1 &&<span>,</span>}</span>
 
                         ))
                        } 
@@ -245,9 +245,9 @@ function Selectround({ notify }) {
                     <p>Cutting price total: <span>{item?.CuttingPrice}</span></p>
                   </div>
                   <div className="order_footer2">
-                    <p>Approx Weight: <span>{item?.Weight}Kg</span></p>
+                    <p>Approx Weight: <span>{Number(item?.Weight).toFixed(2)}Kg</span></p>
                   </div>
-                </div>
+                </div> */}
                 </div>
 
               </div>

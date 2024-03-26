@@ -397,7 +397,7 @@ function Dashboard({ notify }) {
                             {item.Width}
                           </td> */}
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
-                            {item.Weight}
+                            {Number(item.Weight).toFixed(2)}
                           </td>
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {item.CuttingPrice}
