@@ -601,3 +601,90 @@ input::-webkit-outer-spin-button,
   font-size: 15px;
   font-family: gilroy-medium !important;
 }
+.sets{
+  color: #232E38;
+  font-weight: 400;
+  font-size: 15.5px;
+  font-family: gilroy-medium !important;
+}
+.sof{
+  font-family: gilroy-semibold !important;
+  color: #232E38;
+  font-weight: 400;
+  font-size: 16px;
+  text-transform: capitalize;
+}
+.saty{
+  background-color: #232E38;
+}
+.saty th{
+  color: #FFFFFF;
+  font-weight: 400;
+  font-size: 15px;
+  font-family: gilroy-medium !important;
+}
+.salar th,
+.salar td{
+  color: #000000;
+  font-weight: 400;
+  font-size: 15.5px;
+  font-family: gilroy-medium !important;
+}
+.salar img{
+  height: 23px;
+  width: 23px;
+}
+/* .sall1{
+  max-width: 550px;
+  width: 100%;
+} */
+.sall1 th,td{
+ white-space: nowrap;
+}
+/* .sall2{
+  max-width: 550px;
+  width: 100%;
+} */
+.sall2 th,td{
+  white-space: nowrap;
+}
+.sing{
+  max-width: 596px;
+  width: 100%;
+}
+.pko{
+  background-color: #F9F8F8;
+}
+.sara11{
+  background-color: white;
+  max-width: 596px;
+  width: 100%;
+  /* padding: 20px 0px; */
+}
+.party_name{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 30px;
+}
+.party1 h2{
+  color: #060606;
+  font-weight: 400;
+  font-size: 16px;
+}
+.party1 span{
+  color: #060606;
+  font-weight: 400;
+  font-size: 16px;
+}
+.pko th{
+  color: #060606;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: gilroy-medium !important;
+  opacity: 80%;
+}
+.party1{
+  border-bottom: 1px dashed #c7c5c5;
+  padding: 2px 0px;
+}
