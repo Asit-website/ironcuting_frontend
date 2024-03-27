@@ -7,6 +7,7 @@ const baseUrl = 'http://localhost:5000';
 const MainState = (props) => {
 
   const [user, setUser] = useState({})
+  const [ping,setPing] = useState(false);
 
   const login = async ({ email, password }) => {
     const resp = await fetch(`${baseUrl}/user/login`, {
@@ -430,7 +431,7 @@ console.log("update form ",formdata);
 
   return (
 
-    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder,createIronOrder2, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality,getRoundWeight,getFlatWeight,sendOtp,submitOtp,changePassword,resetPassword,resp1 , fetchOrderDetails }}>
+    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder,createIronOrder2, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality,getRoundWeight,getFlatWeight,sendOtp,submitOtp,changePassword,resetPassword,resp1 , fetchOrderDetails,ping,setPing }}>
       {props.children}
     </MainContext.Provider>
   );

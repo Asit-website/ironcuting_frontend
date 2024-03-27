@@ -367,7 +367,8 @@ function Dashboard({ notify }) {
                       order.map((item, index) => (
                         <tr key={index} class="bg-white border-b border-[#CED4DA]">
                           <td class="px-3 py-4 text-[#293240] ansDataItem ">
-                            {(item._id).slice(4, 6)}
+                            {/* {(item._id).slice(4, 6)} */}
+                            {index+1}
                           </td>
                           <td class="px-3 py-4 text-[#293240] ansDataItem ">
                             {item.client}

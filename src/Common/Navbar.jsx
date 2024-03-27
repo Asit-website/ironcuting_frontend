@@ -6,9 +6,9 @@ import dashImg from "../image/dashboard.png";
 import logout from "../image/logout.png";
 import system from "../image/settings-sliders.png";
 import alas from '../image/alas.png'
+import { useMain } from "../hooks/useMain";
 
-
-function Navbar({ hideCreateOrder = false }) {
+function Navbar({ hideCreateOrder = false,data,setData }) {
   const user = JSON.parse(localStorage.getItem("iron_user"));
 
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -16,6 +16,8 @@ function Navbar({ hideCreateOrder = false }) {
 
 
   const navigate = useNavigate();
+
+  // const {setPing} = useMain()
 
   return (
     <div className="navBr_wrap">
@@ -99,7 +101,10 @@ function Navbar({ hideCreateOrder = false }) {
 
         {!hideCreateOrder && (
           <button
-            onClick={() => navigate("/createOrder")}
+            onClick={() => {
+              navigate("/createOrder");
+              // setPing(true)
+            } }
             className="createOBtn"
           >
             <span>Create Order</span>
