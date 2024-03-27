@@ -23,7 +23,7 @@ function Dashboard({ notify }) {
   const [refreshFlag, setRefreshFlag] = useState(false);
 
    const [primarydata , setPrimaryData] = useState({
-    completeOrder:"0",
+    completeOrder:0,
     todayOrder:0 , 
     totalOrder:0
    });
@@ -49,6 +49,7 @@ function Dashboard({ notify }) {
      })
   }
 
+  console.log(primarydata?.completeOrder);
   const handleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import MainContext from "./MainContext";
 
-const baseUrl = 'http://localhost:5000';
-// const baseUrl = 'https://ironcut-backend.onrender.com';
+// const baseUrl = 'http://localhost:5000';
+const baseUrl = 'https://ironcut-backend.onrender.com';
 
 const MainState = (props) => {
 
@@ -323,10 +323,11 @@ const MainState = (props) => {
 
     const {_id} = user;
 
-    const resp = await fetch(`${baseUrl}/order/deleteOrders/${id}/${_id}`, {
+    const resp = await fetch(`${baseUrl}/order/deleteOrders/${id}`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json',
+        // 'token': localStorage.getItem('iron_token')
       }
     });
     const data = await resp.json();
@@ -403,7 +404,7 @@ const MainState = (props) => {
 
   const fetchOrderDetails = async(id)=>{
     
-    const resp = await fetch(`${baseUrl}/order/getOrderPrimaryDetail/${id}`,{
+    const resp = await fetch(`${baseUrl}/order/getOrderPrimaryDetail`,{
       method:"GET",
       headers:{
         'content-type': 'application/json',
