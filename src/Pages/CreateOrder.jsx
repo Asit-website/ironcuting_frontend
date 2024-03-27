@@ -1,18 +1,20 @@
 import Navbar from "../Common/Navbar";
 import Sidebar from "../Common/Sidebar";
 import "./createOrder.css";
-import cross from "../image/cross.png";
-import plus from "../image/plus 2.png";
+import add from "../image/add1.png"
+import d from "../image/delete1.png"
+import edit from "../image/edit1.png"
 import { useEffect, useState } from "react";
 import { useMain } from "../hooks/useMain";
 import { useLocation, useNavigate } from "react-router-dom";
 
+
+
 function UserOrder({ notify }) {
   const location = useLocation();
-  const order = location?.state?.item;
+  const order1 = location?.state?.item;
 
-
-   console.log('order ',order);
+  const [order , setOrder] = useState([]);
 
   const [formData, setFormData] = useState(
     {
@@ -30,6 +32,10 @@ function UserOrder({ notify }) {
   );
 
   const [allType, setAllType] = useState([]);
+
+  const [updatedId , setUpdatedId] = useState(null);
+
+   const [openForm , setOpenForm] = useState(false);
 
   const [allIronQuality, setAllIronQuality] = useState([]);
 
@@ -58,7 +64,10 @@ function UserOrder({ notify }) {
     fetchIronQuality,
     getRoundWeight,
     getFlatWeight,
-    getRoundCuttingPrice
+    getRoundCuttingPrice , 
+    deleteForm , 
+    fetchUserFormWithId ,
+    updateFormHadler
   } = useMain();
 
 
@@ -79,6 +88,29 @@ function UserOrder({ notify }) {
   };
 
 
+  const fetchUserForm = async()=>{
+           const ans = await fetchUserFormWithId(order1?._id);
+           if(ans.status){
+            setOrder(ans?.data);
+           }
+            
+  }
+
+  const getRoundweight = async () => {
+    const resp = await getRoundWeight({
+      type: formData.type,
+      Length: formData.Length,
+      Diameter: formData.Diameter,
+    });
+
+    if (resp.status) {
+            setFormData((prev)=>({
+                ...prev ,
+                Weight: resp?.Weight
+            }))
+    }
+  };
+
   const getFlatCuttingPrice = async () => {
     const resp = await getFlatIronCutting({
       type: formData.type,
@@ -93,21 +125,6 @@ function UserOrder({ notify }) {
         ...prev ,
         CuttingPrice: resp?.CuttingPrice
     }))
-    }
-  };
-
-  const getRoundweight = async () => {
-    const resp = await getRoundWeight({
-      type: formData.type,
-      Length: formData.Length,
-      Diameter: formData.Diameter,
-    });
-
-    if (resp.status) {
-            setFormData((prev)=>({
-                ...prev ,
-                Weight: resp?.Weight
-            }))
     }
   };
 
@@ -134,11 +151,12 @@ function UserOrder({ notify }) {
      e.preventDefault();
     try{
 
-        if(order){
-          const resp = await createIronOrder2(formData , order._id);
+        if(order1){
+          const resp = await createIronOrder2(formData , order1._id);
           if(resp?.status){
             alert("Successfully created");
-            navigate("/dashboard");
+            fetchUserForm();
+            setOpenForm(false);
           }
         }
         else {
@@ -154,8 +172,18 @@ function UserOrder({ notify }) {
  }
 
   useEffect(() => {
+    fetchUserForm();
     getTypeFuntion();
     getqualityFunction();
+
+
+     if(order1){
+      setOpenForm(false);
+     }
+     else {
+      setOpenForm(true);
+     }
+
   }, []);
 
 
@@ -220,6 +248,40 @@ function UserOrder({ notify }) {
     formData?.Diameter,
   ]);
 
+   const deleteOrder = async(id)=>{
+    try{
+
+      const ans = await deleteForm(id , order1?._id);
+      fetchUserForm();
+
+    } catch(error){
+      console.log(error);
+    }
+   }
+
+   const updateHandler = async(e)=>{
+    e.preventDefault();
+    const ans = await updateFormHadler(formData , updatedId , order1?._id);
+    if(ans?.status){
+      fetchUserForm();
+      alert("Successfuly updated");
+      setOpenForm(false);
+      setFormData({
+        client: "",
+        type: "",
+        ironQuality: "",
+        Diameter: "",
+        quantity: "",
+        Length: "",
+        Height: "",
+        Width: "",
+        Weight: "",
+        CuttingPrice: "",
+      },)
+    }
+   }
+   
+
   return (
     <div className="cretOrdrWrap">
       <Navbar hideCreateOrder={true} />
@@ -229,12 +291,12 @@ function UserOrder({ notify }) {
 
         <main className="mainOrdCon">
 
-           <h2>{order?.client}</h2>
+           <h2>{order1?.client}</h2>
 
 
 
       {
-        order && 
+        order1 && 
           
 
 <div class="relative overflow-x-auto">
@@ -275,7 +337,7 @@ function UserOrder({ notify }) {
         <tbody>
 
             {
-                order?.form?.map((item ,index)=>(
+                order?.map((item ,index)=>(
                     <tr key={index} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                      {index+1}
@@ -301,8 +363,48 @@ function UserOrder({ notify }) {
                     <td class="px-6 py-4">
                         {item?.CuttingPrice}
                     </td>
-                    <td class="px-6 py-4">
-                        ACTIONS 
+
+                    <td class="px-6 py-4 flex gap-2">
+
+                       <img onClick={()=>{
+                        setOpenForm(true);
+                        setFormData({
+                          type: "" ,
+                           ironQuality: "" ,
+                           Diameter: "" , 
+                           Length:"", 
+                           quantity:"" , 
+                           Weight: "",
+                           CuttingPrice:"" ,
+                           Height: "" , 
+                           Width:""
+                        })
+                        setUpdatedId(null);
+                        
+                        }} className="cursor-pointer" src={add} alt="add" />
+                    
+                       <img onClick={()=>{
+                        setOpenForm(true);
+                        setFormData({
+                          type: item?.type ,
+                           ironQuality: item?.ironQuality ,
+                           Diameter: item?.Diameter , 
+                           Length: item?.Length , 
+                           quantity: item?.quantity , 
+                           Weight: item?.Weight,
+                           CuttingPrice: item?.CuttingPrice ,
+                           Height: item?.Height , 
+                           Width: item?.Width
+                        })
+                        setUpdatedId(item?._id);
+                       }} src={edit} alt="edit" className="cursor-pointer" />
+                    
+                       <img onClick={()=>{
+                        deleteOrder(item?._id);
+                        setOpenForm(false);
+                        setUpdatedId(null);
+                       }} src={d} alt="delete" className="cursor-pointer" />
+                      
                     </td>
                 </tr>
                 ))
@@ -317,238 +419,242 @@ function UserOrder({ notify }) {
 
 
 
-          <div  className="mainRcc">
+    {
+      openForm && 
+      <div  className="mainRcc">
      
-              <form
-                onSubmit={ submitHandler }
-                className="ordForm"
-              >
-                <nav className="orFiNa">
-                  <p>Create Order</p>
-                
-                </nav>
-
-                <hr />
-
-                <div className="allFields">
-
-
- { 
-  !order  && 
-
-
-                  <label htmlFor="type">
-                    <p>CLIENT NAME</p>
-
-                    <input
-                        onChange={(e) =>
-                         setFormData((prev)=>({
-                            ...prev ,
-                            client: e.target.value
-                         }))
-                        }
-                        value={formData.client}
-                        name="client"
-                        type="text"
-                        required
-                      />
-                
-                  </label>
-
-
-                      }
-
-                  <label htmlFor="type">
-                    <p>TYPE</p>
-                    <select
-                      value={formData?.type}
-                      onChange={(e)=>{
-                        setFormData((prev)=>({
-                            ...prev ,
-                            type: e.target.value
-                        }))
-                      }}
-                      name="type"
-                      id="type"
-                    
-                    >
-                      <option selected>Select</option>
-                      {allType?.map((item) => (
-                        <option key={item?._id} value={item?.Name}>
-                          {item?.Name}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-
-                  <label htmlFor="ironQuality">
-                    <p>IRON QUALITY</p>
-                    <select
-                      value={formData?.ironQuality}
-                      onChange={(e) =>
-                               setFormData((prev)=>({
-                                ...prev ,
-                                ironQuality: e.target.value
-                               }))
-                      }
-                      name="ironQuality"
-                      id="ironQuality"
-                    >
-                      <option selected>Select</option>
-                      {allIronQuality?.map((item) => (
-                        <option key={item?._id} value={item?.Name}>
-                          {item?.Name}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-
-                  {formData.type !== "Flat" && (
-                    <label>
-                      <p>DIAMETER</p>
-                      <input
-                        onChange={(e) =>
-                         setFormData((prev)=>({
-                            ...prev ,
-                            Diameter: e.target.value
-                         }))
-                        }
-                        value={formData.Diameter}
-                        name="Diameter"
-                        type="number"
-                        maxLength="4"
-                        required
-                        autoComplete="off"
-                      />
-                    </label>
-                  )}
-
-                  {formData.type !== "Round" && (
-                    <label htmlFor="Height">
-                      <p>HEIGHT</p>
-                      <input
-                        onChange={(e) =>
-                            setFormData((prev)=>({
-                                ...prev ,
-                                Height: e.target.value
-                             }))
-                        }
-                        value={formData.Height}
-                        name="Height"
-                        type="number"
-                        maxLength="4"
-                        required
-                        className="hit"
-                        autoComplete="off"
-                      />
-                    </label>
-                  )}
-
-                  {formData.type !== "Round" && (
-                    <label htmlFor="">
-                      <p>WIDTH</p>
-                      <input
-                        onChange={(e) =>
-                            setFormData((prev)=>({
-                                ...prev ,
-                                Width: e.target.value
-                             }))
-                        }
-                        value={formData.Width}
-                        name="Width"
-                        type="number"
-                        maxLength="4"
-                        required
-                        className="hit"
-                        autoComplete="off"
-                      />
-                    </label>
-                  )}
-
-                  <label>
-                    <p>LENGTH</p>
-                    <input
-                      onChange={(e) =>
-                        setFormData((prev)=>({
-                            ...prev ,
-                            Length: e.target.value
-                         }))
-                      }
-                      value={formData.Length}
-                      name="Length"
-                      type="number"
-                      maxLength={4}
-                      required
-                      className="hit"
-                      autoComplete="off"
-                    />
-                  </label>
-
-                  <label>
-                    <p>QUANTITY</p>
-                    <input
-                      onChange={(e) =>
-                        setFormData((prev)=>({
-                            ...prev ,
-                            quantity: e.target.value
-                         }))
-                      }
-                      value={formData.quantity}
-                      name="quantity"
-                      type="number"
-                      maxLength="4"
-                      required
-                      className="hit"
-                      autoComplete="off"
-                    />
-                  </label>
-
-                  <label>
-                    <p>WEIGHT</p>
-                    <input
-                      onChange={(e) =>
-                        setFormData((prev)=>({
-                            ...prev ,
-                            Weight: e.target.value
-                         }))
-                      }
-                      value={formData.Weight}
-                      name="Weight"
-                      type="number"
-                      // maxLength="4"
-                      required
-                      autoComplete="off"
-                    />
-                  </label>
-
-                  <label>
-                    <p>CUTTING PRICE</p>
-                    <input
-                      onChange={(e) =>
-                        setFormData((prev)=>({
-                            ...prev ,
-                            CuttingPrice: e.target.value
-                         }))
-                      }
-                      value={formData.CuttingPrice}
-                      name="CuttingPrice"
-                      type="number"
-                      required
-                      autoComplete="off"
-                    />
-                  </label>
-                </div>
-
-                <div className="btnSec">
-                  <button type="submit" className="submitBtn">
-                    Submit
-                  </button>
-                
-                </div>
-
-              </form>
+      <form
+        onSubmit={ updatedId ? updateHandler : submitHandler }
+        className="ordForm"
+      >
+        <nav className="orFiNa">
+          <p>Create Order</p>
         
-          </div>
+        </nav>
+
+        <hr />
+
+        <div className="allFields">
+
+
+{ 
+!order1  && 
+
+
+          <label htmlFor="type">
+            <p>CLIENT NAME</p>
+
+            <input
+                onChange={(e) =>
+              
+                 setFormData((prev)=>({
+                    ...prev ,
+                    client: e.target.value
+                 }))
+                }
+                value={formData.client}
+                name="client"
+                type="text"
+                required
+              />
+        
+          </label>
+
+
+              }
+
+          <label htmlFor="type">
+            <p>TYPE</p>
+            <select
+              value={formData?.type}
+              onChange={(e)=>{
+                setFormData((prev)=>({
+                    ...prev ,
+                    type: e.target.value
+                }))
+              }}
+              name="type"
+              id="type"
+            
+            >
+              <option selected>Select</option>
+              {allType?.map((item) => (
+                <option key={item?._id} value={item?.Name}>
+                  {item?.Name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label htmlFor="ironQuality">
+            <p>IRON QUALITY</p>
+            <select
+              value={formData?.ironQuality}
+              onChange={(e) =>
+                       setFormData((prev)=>({
+                        ...prev ,
+                        ironQuality: e.target.value
+                       }))
+              }
+              name="ironQuality"
+              id="ironQuality"
+            >
+              <option selected>Select</option>
+              {allIronQuality?.map((item) => (
+                <option key={item?._id} value={item?.Name}>
+                  {item?.Name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          {formData.type !== "Flat" && (
+            <label>
+              <p>DIAMETER</p>
+              <input
+                onChange={(e) =>
+                 setFormData((prev)=>({
+                    ...prev ,
+                    Diameter: e.target.value
+                 }))
+                }
+                value={formData.Diameter}
+                name="Diameter"
+                type="number"
+                maxLength="4"
+                required
+                autoComplete="off"
+              />
+            </label>
+          )}
+
+          {formData.type !== "Round" && (
+            <label htmlFor="Height">
+              <p>HEIGHT</p>
+              <input
+                onChange={(e) =>
+                    setFormData((prev)=>({
+                        ...prev ,
+                        Height: e.target.value
+                     }))
+                }
+                value={formData.Height}
+                name="Height"
+                type="number"
+                maxLength="4"
+                required
+                className="hit"
+                autoComplete="off"
+              />
+            </label>
+          )}
+
+          {formData.type !== "Round" && (
+            <label htmlFor="">
+              <p>WIDTH</p>
+              <input
+                onChange={(e) =>
+                    setFormData((prev)=>({
+                        ...prev ,
+                        Width: e.target.value
+                     }))
+                }
+                value={formData.Width}
+                name="Width"
+                type="number"
+                maxLength="4"
+                required
+                className="hit"
+                autoComplete="off"
+              />
+            </label>
+          )}
+
+          <label>
+            <p>LENGTH</p>
+            <input
+              onChange={(e) =>
+                setFormData((prev)=>({
+                    ...prev ,
+                    Length: e.target.value
+                 }))
+              }
+              value={formData.Length}
+              name="Length"
+              type="number"
+              maxLength={4}
+              required
+              className="hit"
+              autoComplete="off"
+            />
+          </label>
+
+          <label>
+            <p>QUANTITY</p>
+            <input
+              onChange={(e) =>
+                setFormData((prev)=>({
+                    ...prev ,
+                    quantity: e.target.value
+                 }))
+              }
+              value={formData.quantity}
+              name="quantity"
+              type="number"
+              maxLength="4"
+              required
+              className="hit"
+              autoComplete="off"
+            />
+          </label>
+
+          <label>
+            <p>WEIGHT</p>
+            <input
+              onChange={(e) =>
+                setFormData((prev)=>({
+                    ...prev ,
+                    Weight: e.target.value
+                 }))
+              }
+              value={formData.Weight}
+              name="Weight"
+              type="number"
+              // maxLength="4"
+              required
+              autoComplete="off"
+            />
+          </label>
+
+          <label>
+            <p>CUTTING PRICE</p>
+            <input
+              onChange={(e) =>
+                setFormData((prev)=>({
+                    ...prev ,
+                    CuttingPrice: e.target.value
+                 }))
+              }
+              value={formData.CuttingPrice}
+              name="CuttingPrice"
+              type="number"
+              required
+              autoComplete="off"
+            />
+          </label>
+        </div>
+
+        <div className="btnSec">
+          <button type="submit" className="submitBtn">
+            Submit
+          </button>
+        
+        </div>
+
+      </form>
+
+  </div>
+    }
 
 
 

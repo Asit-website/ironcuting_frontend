@@ -256,8 +256,6 @@ const MainState = (props) => {
   
     const token = localStorage.getItem('iron_token');
 
-    console.log("form ",formdata);
-
     const resp = await fetch(`${baseUrl}/order/createOrder`, {
       method: 'POST',
       headers: {
@@ -294,8 +292,6 @@ const MainState = (props) => {
     return data;
   }
   const updateOrders = async (formdata , orderId) => {
-
-console.log("update form ",formdata);
 
     try {
       const resp = await fetch(`${baseUrl}/order/updateOrders/${orderId}`, {
@@ -405,16 +401,13 @@ console.log("update form ",formdata);
     return data;
   }
 
-  const fetchOrderDetails = async()=>{
-
-    const user = JSON.parse(localStorage.getItem("iron_user"));
-
-    const {_id} = user;
+  const fetchOrderDetails = async(id)=>{
     
-    const resp = await fetch(`${baseUrl}/order/getOrderPrimaryDetail/${_id}`,{
+    const resp = await fetch(`${baseUrl}/order/getOrderPrimaryDetail/${id}`,{
       method:"GET",
       headers:{
         'content-type': 'application/json',
+        'token': localStorage.getItem('iron_token')
       },
 
     
@@ -425,12 +418,63 @@ console.log("update form ",formdata);
 
   }
 
+  const deleteForm = async(id , orderId)=>{
 
+    const resp = await fetch(`${baseUrl}/order/deleteForm/${id}/${orderId}`,{
+      method:"DELETE",
+      headers:{
+        'content-type': 'application/json',
+      },
+
+    
+  })
+
+  const data = await resp.json();
+  return data;
+  }
+
+
+  const fetchUserFormWithId = async(id)=>{
+
+    const resp = await fetch(`${baseUrl}/order/fetchUserForm/${id}`,{
+      method:"GET",
+      headers:{
+        'content-type': 'application/json',
+        'token': localStorage.getItem('iron_token')
+
+      },
+
+    
+  })
+
+  const data = await resp.json();
+  return data;
+  }
+
+  const updateFormHadler = async(formdata , id , orderId)=>{
+
+
+    const token = localStorage.getItem('iron_token');
+
+    const resp = await fetch(`${baseUrl}/order/updateForm/${id}/${orderId}`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        formdata
+      })
+    });
+
+    const data = await resp.json();
+    return data;
+  }
  
 
   return (
 
-    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder,createIronOrder2, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality , updateQuality,getRoundWeight,getFlatWeight,sendOtp,submitOtp,changePassword,resetPassword,resp1 , fetchOrderDetails }}>
+    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder,createIronOrder2, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality ,deleteForm, updateQuality,getRoundWeight,getFlatWeight,sendOtp,submitOtp,changePassword,resetPassword,resp1 , fetchOrderDetails ,fetchUserFormWithId , updateFormHadler }}>
       {props.children}
     </MainContext.Provider>
   );
