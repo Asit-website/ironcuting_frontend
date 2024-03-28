@@ -649,7 +649,7 @@ input::-webkit-outer-spin-button,
   white-space: nowrap;
 }
 .sing{
-  /* max-width: 596px; */
+  max-width: 596px;
   width: 100%;
 }
 .pko{
@@ -657,7 +657,7 @@ input::-webkit-outer-spin-button,
 }
 .sara11{
   background-color: white;
-  /* max-width: 596px; */
+  max-width: 596px;
   width: 100%;
   /* padding: 20px 0px; */
 }
@@ -687,10 +687,21 @@ input::-webkit-outer-spin-button,
   color: #060606;
   font-weight: 400;
   font-size: 14px;
-  font-family: gilroy-medium !important;
+  /* font-family: gilroy-medium !important; */
+  /* font-family: gilroy-semibold !important; */
+  font-family: gilroy-bold !important;
   opacity: 80%;
 }
 .party1{
   border-bottom: 1px dashed #c7c5c5;
   padding: 2px 0px;
+}
+.soik{
+  height: 90px;
+}
+.lokiu{
+  border-bottom: 1px dashed #d3d1d1;
+    width: 295%;
+    position: relative;
+    top: -20px;
 }

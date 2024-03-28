@@ -158,13 +158,17 @@ function UserOrder({ notify }) {
           alert("Successfully created");
           fetchUserForm();
           setOpenForm(false);
+          navigate("/createOrder");
         }
       }
       else {
         const resp = await createIronOrder(formData);
         if (resp?.status) {
           alert("Successfully created");
-          navigate("/dashboard");
+          fetchUserForm();
+          setOpenForm(false)
+          // navigate("/dashboard");
+          navigate("/createOrder");
         }
       }
     } catch (error) {

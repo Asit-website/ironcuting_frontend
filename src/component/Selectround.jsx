@@ -98,8 +98,8 @@ function Selectround({ notify }) {
                 item?.form?.map((val,index)=>{
                   return (
                     val.type === "Round" ?    
-                    <div key={index} className='sent'>
-                    <table class="w-full sall1 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <div key={index} className=''>
+                    <table class="w-full  sall1 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                       <thead class="pk pko">
                         <tr>
                           <th scope="col" class="px-10 py-3">
@@ -160,7 +160,8 @@ function Selectround({ notify }) {
                         </tr>
                       </thead>
                       <tbody className='pk1'>
-                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
+                        <tr class="odd:bg-white soik odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
+                         
                           <td class="px-10 py-3">
                             {val?.Weight}KG
                           </td>
@@ -171,6 +172,7 @@ function Selectround({ notify }) {
                             {item?.Height}
                           </td> */}
                         </tr>
+                        <div className='lokiu'></div>
                       </tbody>
                     </table>
                     </div> 
@@ -206,7 +208,7 @@ function Selectround({ notify }) {
                             {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}
                           </td> */}
                           <td class="px-6 py-3">
-                            {val?.ironQuality}
+                            {val?.Length}
                           </td>
                           <td class="px-6 py-3">
                             {val?.quantity}
@@ -234,7 +236,7 @@ function Selectround({ notify }) {
                         </tr>
                       </thead>
                       <tbody className='pk1'>
-                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
+                        <tr class="odd:bg-white soik odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
                           <td class="px-10 py-3">
                             {val?.Weight}KG
                           </td>
@@ -245,6 +247,8 @@ function Selectround({ notify }) {
                             {item?.Height}
                           </td> */}
                         </tr>
+
+                        <div className='lokiu'></div>
                       </tbody>
                     </table>
                     </div>
