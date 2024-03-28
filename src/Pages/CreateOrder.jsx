@@ -12,7 +12,8 @@ import deleting from '../image/deleteing.svg'
 import sonta from '../image/sonta.svg';
 function UserOrder({ notify }) {
   const location = useLocation();
-  const order1 = location?.state?.item;
+  let data  = location?.state?.item;
+  const [order1 , setOrder1] = useState(data);
 
   const [order, setOrder] = useState([]);
   
@@ -89,8 +90,16 @@ function UserOrder({ notify }) {
   };
 
 
-  const fetchUserForm = async () => {
-    const ans = await fetchUserFormWithId(order1?._id);
+  const fetchUserForm = async (id = false) => {
+      let ans;
+      if(id){
+         ans = await fetchUserFormWithId(id);
+         
+        }
+        else {
+          ans = await fetchUserFormWithId(order1?._id);
+      }
+     console.log("fetucn user form ",ans);
     if (ans.status) {
       setOrder(ans?.data);
     }
@@ -164,11 +173,12 @@ function UserOrder({ notify }) {
       else {
         const resp = await createIronOrder(formData);
         if (resp?.status) {
+           const {orderCreate} = resp;
+           setOrder1(orderCreate);
           alert("Successfully created");
-          fetchUserForm();
-          setOpenForm(false)
-          // navigate("/dashboard");
-          navigate("/createOrder");
+          fetchUserForm(orderCreate?._id);
+          setOpenForm(false);
+                       
         }
       }
     } catch (error) {
