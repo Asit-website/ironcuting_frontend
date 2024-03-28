@@ -336,7 +336,7 @@ function Dashboard({ notify }) {
                   <thead class="gg">
                     <tr>
                       <th scope="col" class="px-3 py-3 text-[#060606]">
-                        order id
+                        order no
                       </th>
                       <th scope="col" class="px-3 py-3 text-[#060606]">
                         client
@@ -387,7 +387,8 @@ function Dashboard({ notify }) {
                       order.map((item, index) => (
                         <tr key={index} class="bg-white border-b border-[#CED4DA]">
                           <td class="px-3 py-4 text-[#293240] ansDataItem ">
-                            {(item._id).slice(4, 6)}
+                            {/* {(item._id)?.slice(0,2)} */}
+                            {item?.orderNumber}
                           </td>
                           <td class="px-3 py-4 text-[#293240] ansDataItem ">
                             {item.client}
@@ -417,7 +418,7 @@ function Dashboard({ notify }) {
                             {item.Width}
                           </td> */}
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
-                            {Number(item.Weight).toFixed(2)}
+                            {Number(item.Weight).toFixed(2)}KG
                           </td>
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {item.CuttingPrice}
@@ -431,7 +432,7 @@ function Dashboard({ notify }) {
                                 }
                               }}
                             >
-                              <img onClick={() => {
+                              <img className='cursor-pointer' onClick={() => {
                                 document.getElementById(`action_box${index}`).classList.toggle('hidden');
                               }} src={fg} alt="sdfg" />
                               <div id={`action_box${index}`} className='hidden action_box'>
@@ -442,11 +443,12 @@ function Dashboard({ notify }) {
                                   deleteOrders1(item._id)
                                 }}>Delete</p>
                                 <p className='cursor-pointer' onClick={() => {
-                                  navigate(`/selectRound/${item._id}`)
-                                }}>View Details</p>
-                                <p onClick={()=>{
+                                  // navigate(`/selectRound/${item._id}`)
+                                  navigate(`/selectRound/${item._id}` , { state: { index } })
+                                }}>Print this</p>
+                                {/* <p onClick={()=>{
                                   navigate(`/orderHistory/${item._id}`)
-                                }} className='cursor-pointer'>Order History</p>
+                                }} className='cursor-pointer'>Order History</p> */}
                               </div>
                             </OutsideClickHandler>
                           </td>

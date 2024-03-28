@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useMain } from '../hooks/useMain';
 import { useReactToPrint } from 'react-to-print'
 import Navbar from '../Common/Navbar';
@@ -8,6 +8,9 @@ function Selectround({ notify }) {
   const { getOrders } = useMain();
   const { id } = useParams();
   const [item, setItem] = useState({});
+
+  const location = useLocation();
+  const product = location?.state?.index;
 
   const [allQuality, setAllQuality] = useState([]);
 
@@ -84,180 +87,199 @@ function Selectround({ notify }) {
               <h2>Orders Details #{(item?._id)?.slice(0, 5)}</h2>
             </div>
           </div> */}
-          <div className='sara11'>
-             <div className="party_name">
-                 <div className="party1">
-                      <h2><span>PARTY NAME : </span> {item?.client}</h2>
-                 </div>
-                 <div className="party1">
-                      <h2><span>Date : </span> {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}</h2>
-                 </div>
-             </div>
-            <div ref={contonentPDF} class="relative overflow-x-auto lt sing  sm:rounded-lg">
-              {
-                item?.form?.map((val,index)=>{
-                  return (
-                    val.type === "Round" ?    
-                    <div key={index} className=''>
-                    <table class="w-full  sall1 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                      <thead class="pk pko">
-                        <tr>
-                          <th scope="col" class="px-10 py-3">
-                            ORDER NO.
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            TYPE
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            DIAMETER
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            LENGTH
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            QUANTITY
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className='pk1'>
-                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
-                          <td class="px-10 py-3">
-                            #{index+1}
-                          </td>
-                          <td class="px-6 py-3">
-                            {val?.type}
-                          </td>
-                          <td class="px-6 py-3">
-                            {/* {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()} */}
-                            {val?.Diameter}
-                          </td>
-                          <td class="px-6 py-3">
-                            {val?.Length}
-                          </td>
-                          <td class="px-6 py-3">
-                            {val?.quantity}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <table class="w-full sall2 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                      <thead class="pk pko">
-                        <tr>
-                          <th  scope="col" class="px-10 py-3 lpo">
-                          APPROX WEIGHT
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                          CUTTING PRICE
-                          </th>
-                          {/* <th scope="col" class="px-6 py-3">
-                          CUTTING PRICE
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            TYpe
-                          </th> */}
-                          
-                         
-                        </tr>
-                      </thead>
-                      <tbody className='pk1'>
-                        <tr class="odd:bg-white soik odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
-                         
-                          <td class="px-10 py-3">
-                            {val?.Weight}KG
-                          </td>
-                          <td class="px-6 py-3">
-                            {val?.CuttingPrice}
-                          </td>
-                          {/* <td class="px-6 py-3">
-                            {item?.Height}
-                          </td> */}
-                        </tr>
-                        <div className='lokiu'></div>
-                      </tbody>
-                    </table>
-                    </div> 
-                    :
-                    <div className='sent1'>
-                    <table class="w-full sall1 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                      <thead class="pk pko">
-                        <tr>
-                          <th scope="col" class="px-10 py-3">
-                            ORDER NO.
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            TYPE
-                          </th>
-                         
-                          <th scope="col" class="px-6 py-3">
-                            LENGTH
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            QUANTITY
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className='pk1'>
-                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
-                          <td class="px-10 py-3">
-                            #{index+1}
-                          </td>
-                          <td class="px-6 py-3">
-                            {val?.type}
-                          </td>
-                          {/* <td class="px-6 py-3">
-                            {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}
-                          </td> */}
-                          <td class="px-6 py-3">
-                            {val?.Length}
-                          </td>
-                          <td class="px-6 py-3">
-                            {val?.quantity}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <table class="w-full sall2 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                      <thead class="pk pko">
-                        <tr>
-                          <th  scope="col" class="px-10 py-3 lpo">
-                          APPROX WEIGHT
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                          CUTTING PRICE
-                          </th>
-                          {/* <th scope="col" class="px-6 py-3">
-                          CUTTING PRICE
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            TYpe
-                          </th> */}
-                          
-                         
-                        </tr>
-                      </thead>
-                      <tbody className='pk1'>
-                        <tr class="odd:bg-white soik odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
-                          <td class="px-10 py-3">
-                            {val?.Weight}KG
-                          </td>
-                          <td class="px-6 py-3">
-                            {val?.CuttingPrice}
-                          </td>
-                          {/* <td class="px-6 py-3">
-                            {item?.Height}
-                          </td> */}
-                        </tr>
+            <div className='sara11'>
 
+              <div className="party_name">
+                <div className="party1">
+                  <h2><span>PARTY NAME : </span> {item?.client}</h2>
+                </div>
+                <div className="party1">
+                  <h2><span>ORDER NO : </span>{item?.orderNumber}</h2>
+                </div>
+                <div className="party1">
+                  <h2><span>DATE : </span> {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}</h2>
+                </div>
+              </div>
+              <div ref={contonentPDF} class="relative overflow-x-auto lt sing  sm:rounded-lg">
+
+
+                <div className='overflow-x-auto'>
+                  <table class="w-full  sall1 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="pk pko">
+                      <tr>
+                        {/* <th scope="col" class="px-10 py-3">
+                            ORDER NO.
+                          </th> */}
+                        <th scope="col" class="px-6 py-3">
+                          IRON QUALITY
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                          TYPE
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                          SIZE
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                          QUANTITY
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className='pk1 polor'>
+                      {
+                        item?.form?.map((val, index) => {
+                          return (
+                            <tr style={{ background: "white" }} key={index} class="odd:bg-white  odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
+                              {/* <td class="px-10 py-3">
+                                #{index+1}
+                              </td> */}
+                              <td class="px-6 py-3">
+                                {val?.ironQuality}
+                              </td>
+                              <td class="px-6 py-3">
+                                {/* {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()} */}
+                                {val?.type}
+                              </td>
+                              <td class="px-6 py-3">
+                                {val.type === "Flat" ? `${(val?.Height)} X ${(val?.Width)} X ${(val?.Length)} ` : `${(val?.Diameter)} Ø  X ${(val?.Length)}`}
+                              </td>
+                              <td class="px-6 py-3 sitsd">
+                                {val?.quantity}
+                              </td>
+                            </tr>
+                          )
+                        })
+                      }
+
+                    </tbody>
+                  </table>
+
+                  {/* <table class="w-full sall2 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                      <thead class="pk pko">
+                        <tr>
+                          <th  scope="col" class="px-10 py-3 lpo">
+                          APPROX WEIGHT
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                          CUTTING PRICE
+                          </th>
+                        
+                         
+                        </tr>
+                      </thead>
+                      <tbody className='pk1'>
+                        <tr class="odd:bg-white soik odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
+                         
+                          <td class="px-10 py-3">
+                            {val?.Weight}KG
+                          </td>
+                          <td class="px-6 py-3">
+                            {val?.CuttingPrice}
+                          </td>
+                        
+                        </tr>
                         <div className='lokiu'></div>
                       </tbody>
-                    </table>
-                    </div>
-                  )
-                })
-              }
-            
-            
-            </div>
+                    </table> */}
+                </div>
+
+                {/* // <div className='sent1'>
+                    // <table class="w-full sall1 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    //   <thead class="pk pko">
+                    //     <tr>
+                    //       <th scope="col" class="px-10 py-3">
+                    //         ORDER NO.
+                    //       </th>
+                    //       <th scope="col" class="px-6 py-3">
+                    //         TYPE
+                    //       </th>
+                         
+                    //       <th scope="col" class="px-6 py-3">
+                    //         LENGTH
+                    //       </th>
+                    //       <th scope="col" class="px-6 py-3">
+                    //         QUANTITY
+                    //       </th>
+                    //     </tr>
+                    //   </thead>
+                    //   <tbody className='pk1'>
+                    //     <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
+                    //       <td class="px-10 py-3">
+                    //         #{index+1}
+                    //       </td>
+                    //       <td class="px-6 py-3">
+                    //         {val?.type}
+                    //       </td>
+                       
+                    //       <td class="px-6 py-3">
+                    //         {val?.Length}
+                    //       </td>
+                    //       <td class="px-6 py-3">
+                    //         {val?.quantity}
+                    //       </td>
+                    //     </tr>
+                    //   </tbody>
+                    // </table>
+                    // <table class="w-full sall2 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    //   <thead class="pk pko">
+                    //     <tr>
+                    //       <th  scope="col" class="px-10 py-3 lpo">
+                    //       APPROX WEIGHT
+                    //       </th>
+                    //       <th scope="col" class="px-6 py-3">
+                    //       CUTTING PRICE
+                    //       </th>
+                       
+                         
+                    //     </tr>
+                    //   </thead>
+                    //   <tbody className='pk1'>
+                    //     <tr class="odd:bg-white soik odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
+                    //       <td class="px-10 py-3">
+                    //         {val?.Weight}KG
+                    //       </td>
+                    //       <td class="px-6 py-3">
+                    //         {val?.CuttingPrice}
+                    //       </td>
+                         
+                    //     </tr>
+
+                    //     <div className='lokiu'></div>
+                    //   </tbody>
+                    // </table>
+                    // </div> */}
+
+
+
+
+
+                <div class="relative overflow-x-auto">
+                  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                      <tr className='ooo'>
+                        <th scope="col" class="px-6 py-3">
+                          APPROX WEIGHT
+                        </th>
+                        <th scope="col" class="px-6 py-3 sonm">
+                          CUTTING PRICE
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 oo1">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          {Number(item.Weight).toFixed(2)}KG
+                        </th>
+                        <td class="px-6 py-4 sonm">
+                          {item?.CuttingPrice}
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+
+
+              </div>
             </div>
             {/* <div className="ordery">
               

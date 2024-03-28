@@ -21,6 +21,7 @@ function UserOrder({ notify }) {
   const [formData, setFormData] = useState(
     {
       client: "",
+      orderNumber:"",
       type: "",
       ironQuality: "",
       Diameter: "",
@@ -164,7 +165,8 @@ function UserOrder({ notify }) {
       if (order1) {
         const resp = await createIronOrder2(formData, order1._id);
         if (resp?.status) {
-          alert("Successfully created");
+          // alert("Successfully created");
+          notify("success","successfully created");
           fetchUserForm();
           setOpenForm(false);
           navigate("/createOrder");
@@ -172,17 +174,19 @@ function UserOrder({ notify }) {
       }
       else {
         const resp = await createIronOrder(formData);
+        console.log(resp)
         if (resp?.status) {
            const {orderCreate} = resp;
            setOrder1(orderCreate);
-          alert("Successfully created");
+          // alert("Successfully created");
+          notify("success","successfully created");
           fetchUserForm(orderCreate?._id);
           setOpenForm(false);
                        
         }
       }
     } catch (error) {
-      console.log(error);
+       console.log(error);
     }
   }
 
@@ -329,6 +333,12 @@ function UserOrder({ notify }) {
                       DIAMETER
                     </th>
                     <th scope="col" class="px-6 py-3">
+                      HEIGHT
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      WIDTH
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                       LENGTH
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -352,7 +362,7 @@ function UserOrder({ notify }) {
                     order?.map((item, index) => (
                       <tr key={index} class="bg-white border-b salar">
                         <th scope="row" class="px-6 py-4 whitespace-nowrap">
-                          {index + 1}
+                          {index+1}
                         </th>
                         <td class="px-6 py-4">
                           {item?.type}
@@ -361,7 +371,14 @@ function UserOrder({ notify }) {
                           {item?.ironQuality}
                         </td>
                         <td class="px-6 py-4">
-                          {item?.Diameter}
+                          {item?.type === "Round" ? item?.Diameter : "-"}
+                          
+                        </td>
+                        <td class="px-6 py-4">
+                          {item?.type === "Flat" ? item?.Height : "-"}
+                        </td>
+                        <td class="px-6 py-4">
+                          {item?.type === "Flat" ? item?.Width : "-"}
                         </td>
                         <td class="px-6 py-4">
                           {item?.Length}
@@ -443,7 +460,27 @@ function UserOrder({ notify }) {
 
                 <div className="allFields">
 
+                  {
+                    !order1 && 
+                    <label htmlFor="type">
+                    <p>ORDER NUMBER</p>
 
+                    <input
+                      onChange={(e) =>
+
+                        setFormData((prev) => ({
+                          ...prev,
+                          orderNumber: e.target.value
+                        }))
+                      }
+                      value={formData.orderNumber}
+                      name="orderNumber"
+                      type="Number"
+                      required
+                    />
+
+                  </label>
+                  }
                   {
                     !order1 &&
 
