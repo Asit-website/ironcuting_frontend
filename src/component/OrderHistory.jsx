@@ -4,7 +4,7 @@ import { useMain } from '../hooks/useMain';
 import { useReactToPrint } from 'react-to-print'
 import Navbar from '../Common/Navbar';
 import Sidebar from '../Common/Sidebar';
-function Selectround({ notify }) {
+function OrderHistory({ notify }) {
   const { getOrders } = useMain();
   const { id } = useParams();
   const [item, setItem] = useState({});
@@ -109,13 +109,13 @@ function Selectround({ notify }) {
                             TYPE
                           </th>
                           <th scope="col" class="px-6 py-3">
-                            DIAMETER
+                          Date
                           </th>
                           <th scope="col" class="px-6 py-3">
-                            LENGTH
+                           Weight
                           </th>
                           <th scope="col" class="px-6 py-3">
-                            QUANTITY
+                            CuttingPrice
                           </th>
                         </tr>
                       </thead>
@@ -128,51 +128,19 @@ function Selectround({ notify }) {
                             {val?.type}
                           </td>
                           <td class="px-6 py-3">
-                            {/* {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()} */}
-                            {val?.Diameter}
+                            {new Date(val?.Date).getDate()}/{new Date(val?.Date).getMonth() + 1}/{new Date(val?.Date).getFullYear()}
+                            {/* {val?.Diameter} */}
                           </td>
                           <td class="px-6 py-3">
-                            {val?.Length}
-                          </td>
-                          <td class="px-6 py-3">
-                            {val?.quantity}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <table class="w-full sall2 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                      <thead class="pk pko">
-                        <tr>
-                          <th  scope="col" class="px-10 py-3 lpo">
-                          APPROX WEIGHT
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                          CUTTING PRICE
-                          </th>
-                          {/* <th scope="col" class="px-6 py-3">
-                          CUTTING PRICE
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            TYpe
-                          </th> */}
-                          
-                         
-                        </tr>
-                      </thead>
-                      <tbody className='pk1'>
-                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
-                          <td class="px-10 py-3">
-                            {val?.Weight}KG
+                            {val?.Weight}
                           </td>
                           <td class="px-6 py-3">
                             {val?.CuttingPrice}
                           </td>
-                          {/* <td class="px-6 py-3">
-                            {item?.Height}
-                          </td> */}
                         </tr>
                       </tbody>
                     </table>
+                  
                     </div> 
                     :
                     <div className='sent1'>
@@ -187,10 +155,13 @@ function Selectround({ notify }) {
                           </th>
                          
                           <th scope="col" class="px-6 py-3">
-                            LENGTH
+                            Date
                           </th>
                           <th scope="col" class="px-6 py-3">
-                            QUANTITY
+                            Weight
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                            Price
                           </th>
                         </tr>
                       </thead>
@@ -206,47 +177,18 @@ function Selectround({ notify }) {
                             {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}
                           </td> */}
                           <td class="px-6 py-3">
-                            {val?.ironQuality}
+                          {new Date(val?.Date).getDate()}/{new Date(val?.Date).getMonth() + 1}/{new Date(val?.Date).getFullYear()}
                           </td>
                           <td class="px-6 py-3">
-                            {val?.quantity}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <table class="w-full sall2 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                      <thead class="pk pko">
-                        <tr>
-                          <th  scope="col" class="px-10 py-3 lpo">
-                          APPROX WEIGHT
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                          CUTTING PRICE
-                          </th>
-                          {/* <th scope="col" class="px-6 py-3">
-                          CUTTING PRICE
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            TYpe
-                          </th> */}
-                          
-                         
-                        </tr>
-                      </thead>
-                      <tbody className='pk1'>
-                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
-                          <td class="px-10 py-3">
-                            {val?.Weight}KG
+                            {val?.Weight}
                           </td>
                           <td class="px-6 py-3">
                             {val?.CuttingPrice}
                           </td>
-                          {/* <td class="px-6 py-3">
-                            {item?.Height}
-                          </td> */}
                         </tr>
                       </tbody>
                     </table>
+                   
                     </div>
                   )
                 })
@@ -326,4 +268,4 @@ function Selectround({ notify }) {
   )
 }
 
-export default Selectround
+export default OrderHistory

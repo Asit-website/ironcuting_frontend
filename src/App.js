@@ -15,6 +15,7 @@ import {
 } from "react-notifications";
 import Table from './component/Table';
 import GetOtp from './component/Auth/GetOtp';
+import OrderHistory from './component/OrderHistory';
 function App() {
   const notify = (status, message) => {
     if (status) {
@@ -35,6 +36,7 @@ function App() {
             <Route path="/createOrder" element={<CreateOrder notify={notify} /> } />
             <Route path='/systemSetting' element={<SystemSetting notify={notify} />}  />
             <Route path='/selectRound/:id' element={<Selectround notify={notify} />} />
+            <Route path='/orderHistory/:id' element={<OrderHistory notify={notify}/>}/>
             <Route path='/table' element={<Table/>}/>
             <Route path="forgotPassword" element={<ForgotPass notify={notify} />} />
             <Route path="/getOtp" element={<GetOtp notify={notify} />} />

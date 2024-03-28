@@ -327,7 +327,6 @@ const MainState = (props) => {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json',
-        // 'token': localStorage.getItem('iron_token')
       }
     });
     const data = await resp.json();
