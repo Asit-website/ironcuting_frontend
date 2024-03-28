@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import MainContext from "./MainContext";
 
-// const baseUrl = 'http://localhost:5000';
-const baseUrl = 'https://ironcut-backend.onrender.com';
+const baseUrl = 'http://localhost:5000';
+// const baseUrl = 'https://ironcut-backend.onrender.com';
 
 const MainState = (props) => {
 
@@ -323,7 +323,7 @@ const MainState = (props) => {
 
     const {_id} = user;
 
-    const resp = await fetch(`${baseUrl}/order/deleteOrders/${id}`, {
+    const resp = await fetch(`${baseUrl}/order/deleteOrders/${id}/${_id}`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json',

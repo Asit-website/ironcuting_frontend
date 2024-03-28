@@ -44,6 +44,8 @@ function Dashboard({ notify }) {
 
   const fetchPrimaryData = async()=>{
     const data = await fetchOrderDetails();
+
+     console.log("primary ",data);
      
      setPrimaryData({
       completeOrder: data?.completeOrder , 
@@ -51,8 +53,6 @@ function Dashboard({ notify }) {
       totalOrder : data?.totalOrder
      })
   }
-
-  console.log(primarydata?.completeOrder);
   const handleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
@@ -64,7 +64,6 @@ function Dashboard({ notify }) {
 
   const getData = async () => {
     const ans = await getOrders("", value.query, page, perPage);
-    console.log("orders",ans);
     setOrder(ans?.data);
     setTotal(ans?.count);
     // setPage(page);
@@ -88,7 +87,6 @@ function Dashboard({ notify }) {
           },
           onClick: async () => {
             const ans = await deleteOrders(id);
-            console.log(ans);
             if (ans.status) {
               notify("error", "deleted successfully");
               setRefreshFlag(!refreshFlag);
@@ -107,7 +105,6 @@ function Dashboard({ notify }) {
     });
   };
 
- 
 
   useEffect(() => {
     localStorage.setItem('comp', JSON?.stringify(comp));
@@ -141,7 +138,6 @@ function Dashboard({ notify }) {
     }
   }
 
-  
   const adjustFilterData = async () => {
 
     let dummyArray = [...order1];
@@ -213,11 +209,7 @@ function Dashboard({ notify }) {
 
   useEffect(() => {
     getData1();
-    // console.log(refreshFlag)
   }, [refreshFlag])
-
-
-
 
   return (
 
@@ -282,7 +274,7 @@ function Dashboard({ notify }) {
 
                 <img src={das4} alt="" />
                 <h2>Complete Orders </h2>
-                <p>{comp}</p>
+                <p>{primarydata?.completeOrder}</p>
 
 
               </div>
@@ -462,7 +454,7 @@ function Dashboard({ notify }) {
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {/* <button className='text-[]'>Complete</button> */}
                             <button onClick={()=>{
-                               completeOrder(item?._id)
+                               completeOrder(item?._id);
                                compise();
                             }} type="button" class="focus:outline-none text-white bg-[#4D3292] hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Complete</button>
                           </td>
