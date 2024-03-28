@@ -649,7 +649,7 @@ input::-webkit-outer-spin-button,
   white-space: nowrap;
 }
 .sing{
-  max-width: 596px;
+  /* max-width: 596px; */
   width: 100%;
 }
 .pko{
@@ -657,10 +657,16 @@ input::-webkit-outer-spin-button,
 }
 .sara11{
   background-color: white;
-  max-width: 596px;
+  /* max-width: 596px; */
   width: 100%;
   /* padding: 20px 0px; */
 }
+.lpo{
+  width: 34%;
+}
+/* .saty th{
+  white-space: nowrap;
+} */
 .party_name{
   display: flex;
   align-items: center;

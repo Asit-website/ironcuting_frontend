@@ -14,6 +14,7 @@ import das1 from '../../image/das1.svg';
 import das2 from '../../image/das2.svg';
 import das4 from '../../image/das4.svg';
 import OutsideClickHandler from 'react-outside-click-handler';
+import OrderHistory from '../OrderHistory'
 
 function Dashboard({ notify }) {
   const navigate = useNavigate();
@@ -21,12 +22,14 @@ function Dashboard({ notify }) {
   const [order, setOrder] = useState([]);
   const [order1, setOrder1] = useState([]);
   const [refreshFlag, setRefreshFlag] = useState(false);
-
+  
    const [primarydata , setPrimaryData] = useState({
     completeOrder:0,
     todayOrder:0 , 
     totalOrder:0
    });
+
+   const [comp,setComp] = useState(0);
 
   const [value, setValue] = useState({
     query: ""
@@ -41,7 +44,7 @@ function Dashboard({ notify }) {
 
   const fetchPrimaryData = async()=>{
     const data = await fetchOrderDetails();
-
+     
      setPrimaryData({
       completeOrder: data?.completeOrder , 
       todayOrder: data?.todayOrder ,
@@ -73,6 +76,7 @@ function Dashboard({ notify }) {
   }
 
   const deleteOrders1 = async (id) => {
+    
     confirmAlert({
       title: 'Are you sure to delete this data?',
       message: 'All related data to this will be deleted',
@@ -103,18 +107,41 @@ function Dashboard({ notify }) {
     });
   };
 
+ 
+
+  useEffect(() => {
+    localStorage.setItem('comp', JSON?.stringify(comp));
+  }, [comp]);
+
+  useEffect(() => {
+    const comp = JSON.parse(localStorage?.getItem('comp'));
+    if (comp) {
+       setComp(comp);
+    }
+  }, []);
+
+  const compise = () =>{
+    setComp(comp+1);
+
+  }
+  useEffect(()=>{
+    compise()
+  },[])
+
   const completeOrder = async(id) =>{
     const ans = await deleteOrders(id);
     if (ans.status) {
       notify("success", "order completed successfully");
       setRefreshFlag(!refreshFlag);
       fetchPrimaryData();
+      // setComp(comp+1)
     }
     else {
       alert('Something went wrong! ');
     }
   }
 
+  
   const adjustFilterData = async () => {
 
     let dummyArray = [...order1];
@@ -168,7 +195,7 @@ function Dashboard({ notify }) {
 
   useEffect(()=>{
     fetchPrimaryData();
-  },[])
+  },[refreshFlag])
 
   useEffect(() => {
 
@@ -235,7 +262,7 @@ function Dashboard({ notify }) {
 
                 <img src={das2} alt="" />
                 <h2>Today Orders</h2>
-                <p>{primarydata.todayOrder}</p>
+                <p>{primarydata?.todayOrder}</p>
 
 
               </div>
@@ -255,7 +282,7 @@ function Dashboard({ notify }) {
 
                 <img src={das4} alt="" />
                 <h2>Complete Orders </h2>
-                <p>{primarydata?.completeOrder}</p>
+                <p>{comp}</p>
 
 
               </div>
@@ -425,14 +452,19 @@ function Dashboard({ notify }) {
                                 <p className='cursor-pointer' onClick={() => {
                                   navigate(`/selectRound/${item._id}`)
                                 }}>View Details</p>
+                                <p onClick={()=>{
+                                  navigate(`/orderHistory/${item._id}`)
+                                }} className='cursor-pointer'>Order History</p>
                               </div>
                             </OutsideClickHandler>
                           </td>
 
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
+                            {/* <button className='text-[]'>Complete</button> */}
                             <button onClick={()=>{
                                completeOrder(item?._id)
-                            }} type="button" class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Complete</button>
+                               compise();
+                            }} type="button" class="focus:outline-none text-white bg-[#4D3292] hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Complete</button>
                           </td>
 
                         </tr>

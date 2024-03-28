@@ -9,7 +9,7 @@ import { useMain } from "../hooks/useMain";
 import { useLocation, useNavigate } from "react-router-dom";
 import adding from '../image/adding.svg';
 import deleting from '../image/deleteing.svg'
-
+import sonta from '../image/sonta.svg';
 function UserOrder({ notify }) {
   const location = useLocation();
   const order1 = location?.state?.item;
@@ -395,7 +395,7 @@ function UserOrder({ notify }) {
                               Width: item?.Width
                             })
                             setUpdatedId(item?._id);
-                          }} src={edit} alt="edit" className="cursor-pointer" />
+                          }} src={sonta} alt="edit" className="cursor-pointer" />
 
                           <img onClick={() => {
                             deleteOrder(item?._id);
