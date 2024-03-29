@@ -87,7 +87,7 @@ function Selectround({ notify }) {
               <h2>Orders Details #{(item?._id)?.slice(0, 5)}</h2>
             </div>
           </div> */}
-            <div className='sara11'>
+            <div className='sara11' ref={contonentPDF}>
 
               <div className="party_name">
                 <div className="party1">
@@ -100,7 +100,7 @@ function Selectround({ notify }) {
                   <h2><span>DATE : </span> {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}</h2>
                 </div>
               </div>
-              <div ref={contonentPDF} class="relative overflow-x-auto lt sing  sm:rounded-lg">
+              <div  class="relative overflow-x-auto lt sing  sm:rounded-lg">
 
 
                 <div className='overflow-x-auto'>

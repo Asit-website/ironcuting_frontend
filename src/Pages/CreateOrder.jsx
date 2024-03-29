@@ -12,17 +12,17 @@ import deleting from '../image/deleteing.svg'
 import sonta from '../image/sonta.svg';
 function UserOrder({ notify }) {
   const location = useLocation();
-  let data  = location?.state?.item;
-  const [order1 , setOrder1] = useState(data);
+  let data = location?.state?.item;
+  const [order1, setOrder1] = useState(data);
 
   const [order, setOrder] = useState([]);
-  
-  
+
+
 
   const [formData, setFormData] = useState(
     {
       client: "",
-      orderNumber:"",
+      orderNumber: "",
       type: "",
       ironQuality: "",
       Diameter: "",
@@ -93,15 +93,15 @@ function UserOrder({ notify }) {
 
 
   const fetchUserForm = async (id = false) => {
-      let ans;
-      if(id){
-         ans = await fetchUserFormWithId(id);
-         
-        }
-        else {
-          ans = await fetchUserFormWithId(order1?._id);
-      }
-     console.log("fetucn user form ",ans);
+    let ans;
+    if (id) {
+      ans = await fetchUserFormWithId(id);
+
+    }
+    else {
+      ans = await fetchUserFormWithId(order1?._id);
+    }
+    console.log("fetucn user form ", ans);
     if (ans.status) {
       setOrder(ans?.data);
     }
@@ -167,7 +167,7 @@ function UserOrder({ notify }) {
         const resp = await createIronOrder2(formData, order1._id);
         if (resp?.status) {
           // alert("Successfully created");
-          notify("success","successfully created");
+          notify("success", "successfully created");
           fetchUserForm();
           setOpenForm(false);
           navigate("/createOrder");
@@ -175,23 +175,23 @@ function UserOrder({ notify }) {
       }
       else {
         const resp = await createIronOrder(formData);
-         
+
         if (resp?.status) {
-          notify("success",resp?.message);
-          const {orderCreate} = resp;
-          setOrder1(orderCreate);        
+          notify("success", resp?.message);
+          const { orderCreate } = resp;
+          setOrder1(orderCreate);
           fetchUserForm(orderCreate?._id);
           setOpenForm(false);
-          
+
         }
         else {
-          if(resp?.code === 403){
-  alert(resp?.message);
+          if (resp?.code === 403) {
+            alert(resp?.message);
           }
         }
       }
     } catch (error) {
-       console.log(error);
+      console.log(error);
       //  alert("error")
     }
   }
@@ -290,7 +290,7 @@ function UserOrder({ notify }) {
     if (ans?.status) {
       fetchUserForm();
       // alert("Successfuly updated");
-      notify("success","successfully updated")
+      notify("success", "successfully updated")
       setOpenForm(false);
       setFormData({
         client: "",
@@ -317,141 +317,141 @@ function UserOrder({ notify }) {
 
         <main className="mainOrdCon">
           <div className="mainRcc">
-          <h2 className="sof"> <span className="sets">CLIENT NAME : </span> {order1?.client}</h2>
-          {
-            order1 &&
+            <h2 className="sof"> <span className="sets">CLIENT NAME : </span> {order1?.client}</h2>
+            {
+              order1 &&
 
 
-            <div class="relative overflow-x-auto">
-              <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <div class="relative overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
 
-                <thead class="text-xs  uppercase saty">
-                  <tr>
-                    <th scope="col" class="px-6 py-3">
-                      ORDER NO.
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      TYPE
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      IRON QUALITY
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      DIAMETER
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      HEIGHT
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      WIDTH
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      LENGTH
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      QUANTITY
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      WEIGHT
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      CUTTING PRICE
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      ACTION
-                    </th>
-                  </tr>
-                </thead>
+                  <thead class="text-xs  uppercase saty">
+                    <tr>
+                      <th scope="col" class="px-6 py-3">
+                        ORDER NO.
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        TYPE
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        IRON QUALITY
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        DIAMETER
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        HEIGHT
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        WIDTH
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        LENGTH
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        QUANTITY
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        WEIGHT
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        CUTTING PRICE
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        ACTION
+                      </th>
+                    </tr>
+                  </thead>
 
-                <tbody>
+                  <tbody>
 
-                  {
-                    order?.map((item, index) => (
-                      <tr key={index} class="bg-white border-b salar">
-                        <th scope="row" class="px-6 py-4 whitespace-nowrap">
-                          {index+1}
-                        </th>
-                        <td class="px-6 py-4">
-                          {item?.type}
-                        </td>
-                        <td class="px-6 py-4">
-                          {item?.ironQuality}
-                        </td>
-                        <td class="px-6 py-4">
-                          {item?.type === "Round" ? item?.Diameter : "-"}
-                          
-                        </td>
-                        <td class="px-6 py-4">
-                          {item?.type === "Flat" ? item?.Height : "-"}
-                        </td>
-                        <td class="px-6 py-4">
-                          {item?.type === "Flat" ? item?.Width : "-"}
-                        </td>
-                        <td class="px-6 py-4">
-                          {item?.Length}
-                        </td>
-                        <td class="px-6 py-4">
-                          {item?.quantity}
-                        </td>
-                        <td class="px-6 py-4">
-                          {item?.Weight}
-                        </td>
-                        <td class="px-6 py-4">
-                          {item?.CuttingPrice}
-                        </td>
+                    {
+                      order?.map((item, index) => (
+                        <tr key={index} class="bg-white border-b salar">
+                          <th scope="row" class="px-6 py-4 whitespace-nowrap">
+                            {index + 1}
+                          </th>
+                          <td class="px-6 py-4">
+                            {item?.type}
+                          </td>
+                          <td class="px-6 py-4">
+                            {item?.ironQuality}
+                          </td>
+                          <td class="px-6 py-4">
+                            {item?.type === "Round" ? item?.Diameter : "-"}
 
-                        <td class="px-6 py-4 flex gap-2">
+                          </td>
+                          <td class="px-6 py-4">
+                            {item?.type === "Flat" ? item?.Height : "-"}
+                          </td>
+                          <td class="px-6 py-4">
+                            {item?.type === "Flat" ? item?.Width : "-"}
+                          </td>
+                          <td class="px-6 py-4">
+                            {item?.Length}
+                          </td>
+                          <td class="px-6 py-4">
+                            {item?.quantity}
+                          </td>
+                          <td class="px-6 py-4">
+                            {item?.Weight}
+                          </td>
+                          <td class="px-6 py-4">
+                            {item?.CuttingPrice}
+                          </td>
 
-                          <img onClick={() => {
-                            setOpenForm(true);
-                            setFormData({
-                              type: "",
-                              ironQuality: "",
-                              Diameter: "",
-                              Length: "",
-                              quantity: "",
-                              Weight: "",
-                              CuttingPrice: "",
-                              Height: "",
-                              Width: ""
-                            })
-                            setUpdatedId(null);
+                          <td class="px-6 py-4 flex gap-2">
 
-                          }} className="cursor-pointer" src={adding} alt="add" />
+                            <img onClick={() => {
+                              setOpenForm(true);
+                              setFormData({
+                                type: "",
+                                ironQuality: "",
+                                Diameter: "",
+                                Length: "",
+                                quantity: "",
+                                Weight: "",
+                                CuttingPrice: "",
+                                Height: "",
+                                Width: ""
+                              })
+                              setUpdatedId(null);
 
-                          <img onClick={() => {
-                            setOpenForm(true);
-                            setFormData({
-                              type: item?.type,
-                              ironQuality: item?.ironQuality,
-                              Diameter: item?.Diameter,
-                              Length: item?.Length,
-                              quantity: item?.quantity,
-                              Weight: item?.Weight,
-                              CuttingPrice: item?.CuttingPrice,
-                              Height: item?.Height,
-                              Width: item?.Width
-                            })
-                            setUpdatedId(item?._id);
-                          }} src={sonta} alt="edit" className="cursor-pointer" />
+                            }} className="cursor-pointer" src={adding} alt="add" />
 
-                          <img onClick={() => {
-                            deleteOrder(item?._id);
-                            setOpenForm(false);
-                            setUpdatedId(null);
-                          }} src={deleting} alt="delete" className="cursor-pointer" />
+                            <img onClick={() => {
+                              setOpenForm(true);
+                              setFormData({
+                                type: item?.type,
+                                ironQuality: item?.ironQuality,
+                                Diameter: item?.Diameter,
+                                Length: item?.Length,
+                                quantity: item?.quantity,
+                                Weight: item?.Weight,
+                                CuttingPrice: item?.CuttingPrice,
+                                Height: item?.Height,
+                                Width: item?.Width
+                              })
+                              setUpdatedId(item?._id);
+                            }} src={sonta} alt="edit" className="cursor-pointer" />
 
-                        </td>
-                      </tr>
-                    ))
-                  }
+                            <img onClick={() => {
+                              deleteOrder(item?._id);
+                              setOpenForm(false);
+                              setUpdatedId(null);
+                            }} src={deleting} alt="delete" className="cursor-pointer" />
+
+                          </td>
+                        </tr>
+                      ))
+                    }
 
 
-                </tbody>
-              </table>
-            </div>
+                  </tbody>
+                </table>
+              </div>
 
-          }
+            }
 
             {
               openForm && <form
@@ -468,25 +468,25 @@ function UserOrder({ notify }) {
                 <div className="allFields">
 
                   {
-                    !order1 && 
+                    !order1 &&
                     <label htmlFor="type">
-                    <p>ORDER NUMBER</p>
+                      <p>ORDER NUMBER</p>
 
-                    <input
-                      onChange={(e) =>
+                      <input
+                        onChange={(e) =>
 
-                        setFormData((prev) => ({
-                          ...prev,
-                          orderNumber: e.target.value
-                        }))
-                      }
-                      value={formData.orderNumber}
-                      name="orderNumber"
-                      type="Number"
-                      required
-                    />
+                          setFormData((prev) => ({
+                            ...prev,
+                            orderNumber: e.target.value
+                          }))
+                        }
+                        value={formData.orderNumber}
+                        name="orderNumber"
+                        type="Number"
+                        required
+                      />
 
-                  </label>
+                    </label>
                   }
                   {
                     !order1 &&
