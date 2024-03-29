@@ -17,6 +17,7 @@ function UserOrder({ notify }) {
 
   const [order, setOrder] = useState([]);
   
+  
 
   const [formData, setFormData] = useState(
     {
@@ -175,11 +176,12 @@ function UserOrder({ notify }) {
       else {
         const resp = await createIronOrder(formData);
         console.log(resp)
+        notify("success",resp.message);
         if (resp?.status) {
            const {orderCreate} = resp;
            setOrder1(orderCreate);
           // alert("Successfully created");
-          notify("success","successfully created");
+        
           fetchUserForm(orderCreate?._id);
           setOpenForm(false);
                        
@@ -187,6 +189,7 @@ function UserOrder({ notify }) {
       }
     } catch (error) {
        console.log(error);
+      //  alert("error")
     }
   }
 
@@ -283,7 +286,8 @@ function UserOrder({ notify }) {
     const ans = await updateFormHadler(formData, updatedId, order1?._id);
     if (ans?.status) {
       fetchUserForm();
-      alert("Successfuly updated");
+      // alert("Successfuly updated");
+      notify("success","successfully updated")
       setOpenForm(false);
       setFormData({
         client: "",
