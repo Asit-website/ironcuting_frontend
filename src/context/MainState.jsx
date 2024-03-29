@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import MainContext from "./MainContext";
 
-// const baseUrl = 'http://localhost:5000';
-const baseUrl = 'https://ironcut-backend.onrender.com';
+const baseUrl = 'http://localhost:5000';
+// const baseUrl = 'https://ironcut-backend.onrender.com';
 
 const MainState = (props) => {
 
@@ -253,6 +253,8 @@ const MainState = (props) => {
   };
 
   const createIronOrder = async (formdata) => {
+
+    console.log('formda ',formdata);
   
     const token = localStorage.getItem('iron_token');
 
@@ -268,7 +270,7 @@ const MainState = (props) => {
     });
 
     const data = await resp.json();
-    console.log("data",data);
+    console.log("ordercreate ",data);
     return data;
   }
 
