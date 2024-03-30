@@ -8,6 +8,37 @@ const MainState = (props) => {
 
   const [user, setUser] = useState({})
 
+  const Register = async ({ name, email, password }) => {
+    const resp = await fetch(`${baseUrl}/user/signin`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ name, email, password })
+    });
+    const data = await resp.json();
+    // setUser(data);
+    return data;
+  };
+
+  const createUser = async ({ name, email, password }) => {
+
+    const token = localStorage.getItem('iron_token');
+
+    const resp = await fetch(`${baseUrl}/user/createUser`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+      , body: JSON.stringify({ name, email, password })
+    });
+    const data = await resp.json();
+    return data;
+  }
+
+
+
   const login = async ({ email, password }) => {
     const resp = await fetch(`${baseUrl}/user/login`, {
       method: 'POST',
@@ -68,7 +99,7 @@ const MainState = (props) => {
     const token = localStorage.getItem('iron_token');
 
     const data = {
-       Name
+      Name
     };
 
 
@@ -107,7 +138,7 @@ const MainState = (props) => {
     return data;
   }
 
-  const createQuality = async ({ Name , CuttingPrice }) => {
+  const createQuality = async ({ Name, CuttingPrice }) => {
 
     const token = localStorage.getItem('iron_token');
 
@@ -117,7 +148,7 @@ const MainState = (props) => {
         'content-type': 'application/json',
         'Authorization': `Bearer ${token}`
       }
-      , body: JSON.stringify({ Name , CuttingPrice })
+      , body: JSON.stringify({ Name, CuttingPrice })
     });
     const data = await resp.json();
     return data;
@@ -136,13 +167,13 @@ const MainState = (props) => {
     return data;
   }
 
-  const updateQuality = async ({ id, Name,CuttingPrice }) => {
+  const updateQuality = async ({ id, Name, CuttingPrice }) => {
 
     const token = localStorage.getItem('iron_token');
 
     const data = {
-       Name,
-       CuttingPrice
+      Name,
+      CuttingPrice
     };
 
 
@@ -170,7 +201,7 @@ const MainState = (props) => {
 
 
 
-  const getRoundCuttingPrice = async ({ type, Diameter, quantity , ironQuality }) => {
+  const getRoundCuttingPrice = async ({ type, Diameter, quantity, ironQuality }) => {
 
 
     const token = localStorage.getItem('iron_token');
@@ -182,14 +213,14 @@ const MainState = (props) => {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        type, Diameter, quantity , ironQuality
+        type, Diameter, quantity, ironQuality
       })
     });
     const data = await resp.json();
     return data;
   }
 
-  const getRoundWeight = async ({type, Length,Diameter}) =>{
+  const getRoundWeight = async ({ type, Length, Diameter }) => {
     const token = localStorage.getItem('iron_token');
     const resp = await fetch(`${baseUrl}/order/getWeight`, {
       method: 'POST',
@@ -198,14 +229,14 @@ const MainState = (props) => {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        type, Length ,Diameter
+        type, Length, Diameter
       })
     });
     const data = await resp.json();
     return data;
   }
 
-  const getFlatWeight = async ({type, Length,Height,Width}) =>{
+  const getFlatWeight = async ({ type, Length, Height, Width }) => {
     const token = localStorage.getItem('iron_token');
     const resp = await fetch(`${baseUrl}/order/getWeight`, {
       method: 'POST',
@@ -214,14 +245,14 @@ const MainState = (props) => {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        type, Length ,Height, Width
+        type, Length, Height, Width
       })
     });
     const data = await resp.json();
     return data;
   }
 
-  const getFlatIronCutting = async ({ type, Height, Width, quantity , ironQuality }) => {
+  const getFlatIronCutting = async ({ type, Height, Width, quantity, ironQuality }) => {
 
 
     const token = localStorage.getItem('iron_token');
@@ -233,7 +264,7 @@ const MainState = (props) => {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        type, Height, Width, quantity , ironQuality
+        type, Height, Width, quantity, ironQuality
       })
     });
     const data = await resp.json();
@@ -254,8 +285,8 @@ const MainState = (props) => {
 
   const createIronOrder = async (formdata) => {
 
-    console.log('formda ',formdata);
-  
+    console.log('formda ', formdata);
+
     const token = localStorage.getItem('iron_token');
 
     const resp = await fetch(`${baseUrl}/order/createOrder`, {
@@ -270,12 +301,12 @@ const MainState = (props) => {
     });
 
     const data = await resp.json();
-    console.log("ordercreate ",data);
+    console.log("ordercreate ", data);
     return data;
   }
 
-  const createIronOrder2 = async (formdata , id) => {
-  
+  const createIronOrder2 = async (formdata, id) => {
+
     const token = localStorage.getItem('iron_token');
 
     const resp = await fetch(`${baseUrl}/order/createOrder/${id}`, {
@@ -290,10 +321,10 @@ const MainState = (props) => {
     });
 
     const data = await resp.json();
-    console.log("data",data);
+    console.log("data", data);
     return data;
   }
-  const updateOrders = async (formdata , orderId) => {
+  const updateOrders = async (formdata, orderId) => {
 
     try {
       const resp = await fetch(`${baseUrl}/order/updateOrders/${orderId}`, {
@@ -323,7 +354,7 @@ const MainState = (props) => {
 
     const user = JSON.parse(localStorage.getItem("iron_user"));
 
-    const {_id} = user;
+    const { _id } = user;
 
     const resp = await fetch(`${baseUrl}/order/deleteOrders/${id}/${_id}`, {
       method: 'DELETE',
@@ -388,72 +419,72 @@ const MainState = (props) => {
     return data;
   };
 
-  const resp1 = async ({id,link}) =>{
+  const resp1 = async ({ id, link }) => {
     const country = resp1(id);
-    const resp = await fetch(`${baseUrl}/user/link/${id}/${country}`,{
-        method:"GET",
-        headers:{
-          'content-type': 'application/json',
-          'token': localStorage.getItem('iron_token')
-        },
-        body:JSON.stringify({link})
+    const resp = await fetch(`${baseUrl}/user/link/${id}/${country}`, {
+      method: "GET",
+      headers: {
+        'content-type': 'application/json',
+        'token': localStorage.getItem('iron_token')
+      },
+      body: JSON.stringify({ link })
     })
     const data = await resp.json();
     console.log(data?.resp)
     return data;
   }
 
-  const fetchOrderDetails = async(id)=>{
-    
-    const resp = await fetch(`${baseUrl}/order/getOrderPrimaryDetail`,{
-      method:"GET",
-      headers:{
+  const fetchOrderDetails = async (id) => {
+
+    const resp = await fetch(`${baseUrl}/order/getOrderPrimaryDetail`, {
+      method: "GET",
+      headers: {
         'content-type': 'application/json',
         'token': localStorage.getItem('iron_token')
       },
 
-    
-  })
 
-  const data = await resp.json();
-  return data;
+    })
+
+    const data = await resp.json();
+    return data;
 
   }
 
-  const deleteForm = async(id , orderId)=>{
+  const deleteForm = async (id, orderId) => {
 
-    const resp = await fetch(`${baseUrl}/order/deleteForm/${id}/${orderId}`,{
-      method:"DELETE",
-      headers:{
+    const resp = await fetch(`${baseUrl}/order/deleteForm/${id}/${orderId}`, {
+      method: "DELETE",
+      headers: {
         'content-type': 'application/json',
       },
 
-    
-  })
 
-  const data = await resp.json();
-  return data;
+    })
+
+    const data = await resp.json();
+    return data;
   }
 
 
-  const fetchUserFormWithId = async(id)=>{
+  const fetchUserFormWithId = async (id) => {
 
-    const resp = await fetch(`${baseUrl}/order/fetchUserForm/${id}`,{
-      method:"GET",
-      headers:{
+    const resp = await fetch(`${baseUrl}/order/fetchUserForm/${id}`, {
+      method: "GET",
+      headers: {
         'content-type': 'application/json',
         'token': localStorage.getItem('iron_token')
 
       },
 
-    
-  })
 
-  const data = await resp.json();
-  return data;
+    })
+
+    const data = await resp.json();
+    return data;
   }
 
-  const updateFormHadler = async(formdata , id , orderId)=>{
+  const updateFormHadler = async (formdata, id, orderId) => {
 
 
     const token = localStorage.getItem('iron_token');
@@ -472,11 +503,11 @@ const MainState = (props) => {
     const data = await resp.json();
     return data;
   }
- 
+
 
   return (
 
-    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder,createIronOrder2, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders,deleteOrders,updateType ,fetchIronQuality , createQuality , deleteQuality ,deleteForm, updateQuality,getRoundWeight,getFlatWeight,sendOtp,submitOtp,changePassword,resetPassword,resp1 , fetchOrderDetails ,fetchUserFormWithId , updateFormHadler }}>
+    <MainContext.Provider value={{ login, setUser, getAllType, createType, DeleteType, createIronOrder, createIronOrder2, getRoundCuttingPrice, getFlatIronCutting, getOrders, updateOrders, deleteOrders, updateType, fetchIronQuality, createQuality, deleteQuality, deleteForm, updateQuality, getRoundWeight, getFlatWeight, sendOtp, submitOtp, changePassword, resetPassword, resp1, fetchOrderDetails, fetchUserFormWithId, updateFormHadler, Register, createUser }}>
       {props.children}
     </MainContext.Provider>
   );

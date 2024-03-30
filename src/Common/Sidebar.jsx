@@ -34,6 +34,17 @@ function Sidebar({notify}) {
           </div>
         </div></NavLink>
 
+        <NavLink to="/createAnother"><div
+          // onClick={() => setOpenDashboard((prev) => !prev)}
+          className={`${window.location.pathname==='/createAnother' ? "act" : ""} dashbord`}
+        >
+          <img src={dashImg} alt="" />
+          <div className="dsad">
+            <p>Create Another Id</p>
+            {/* <img src={downkey} alt="" /> */}
+          </div>
+        </div></NavLink>
+
         {/* {openDashboard && (
           <div className="opeDashWrap">
             <div onClick={() => navigate("/dashboard")} className="SOpeDsh">

@@ -16,6 +16,7 @@ import {
 import Table from './component/Table';
 import GetOtp from './component/Auth/GetOtp';
 import OrderHistory from './component/OrderHistory';
+import CreateAnother from './component/CreateAnother';
 function App() {
   const notify = (status, message) => {
     if (status) {
@@ -41,6 +42,7 @@ function App() {
             <Route path="forgotPassword" element={<ForgotPass notify={notify} />} />
             <Route path="/getOtp" element={<GetOtp notify={notify} />} />
             <Route path="reset-password" element={<ResetPassword notify={notify} />} />
+            <Route path='/createAnother' element={<CreateAnother notify={notify}/>}/>
           </Routes>
         </Router>
       </MainState>

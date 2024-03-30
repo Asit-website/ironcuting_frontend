@@ -387,8 +387,8 @@ function Dashboard({ notify }) {
                       order.map((item, index) => (
                         <tr key={index} class="bg-white border-b border-[#CED4DA]">
                           <td class="px-3 py-4 text-[#293240] ansDataItem ">
-                            {/* {(item._id)?.slice(0,2)} */}
-                            {item?.orderNumber}
+                            {(item._id)?.slice(22,24)}
+                            {/* {item?.orderNumber} */}
                           </td>
                           <td class="px-3 py-4 text-[#293240] ansDataItem ">
                             {item.client}
@@ -444,7 +444,7 @@ function Dashboard({ notify }) {
                                 }}>Delete</p>
                                 <p className='cursor-pointer' onClick={() => {
                                   // navigate(`/selectRound/${item._id}`)
-                                  navigate(`/selectRound/${item._id}` , { state: { index } })
+                                  navigate(`/selectRound/${item._id}` , { state: { item } })
                                 }}>Print this</p>
                                 {/* <p onClick={()=>{
                                   navigate(`/orderHistory/${item._id}`)

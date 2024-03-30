@@ -10,7 +10,7 @@ function Selectround({ notify }) {
   const [item, setItem] = useState({});
 
   const location = useLocation();
-  const product = location?.state?.index;
+  const product = location?.state?.item;
 
   const [allQuality, setAllQuality] = useState([]);
 
@@ -94,7 +94,7 @@ function Selectround({ notify }) {
                   <h2><span>PARTY NAME : </span> {item?.client}</h2>
                 </div>
                 <div className="party1">
-                  <h2><span>ORDER NO : </span>{item?.orderNumber}</h2>
+                  <h2><span>ORDER NO : </span>{(item._id)?.slice(22,24)}</h2>
                 </div>
                 <div className="party1">
                   <h2><span>DATE : </span> {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}</h2>

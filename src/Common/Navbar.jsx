@@ -70,6 +70,13 @@ function Navbar({ hideCreateOrder = false }) {
               )} */}
               </div>
 
+              <NavLink to="/createAnother">
+                <div className="nanItem">
+                  <img src={dashImg} alt="" />
+                  <span>Create another id</span>
+                </div>
+              </NavLink>
+
               {/* navItems  */}
               <NavLink to="/systemSetting">
                 <div className="nanItem">

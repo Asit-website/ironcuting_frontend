@@ -185,9 +185,9 @@ function UserOrder({ notify }) {
 
         }
         else {
-          if (resp?.code === 403) {
-            alert(resp?.message);
-          }
+          // if (resp?.code === 403) {
+          //   alert(resp?.message);
+          // }
         }
       }
     } catch (error) {
@@ -278,6 +278,7 @@ function UserOrder({ notify }) {
 
       const ans = await deleteForm(id, order1?._id);
       fetchUserForm();
+      notify("success","Delete one item")
 
     } catch (error) {
       console.log(error);
@@ -467,27 +468,8 @@ function UserOrder({ notify }) {
 
                 <div className="allFields">
 
-                  {
-                    !order1 &&
-                    <label htmlFor="type">
-                      <p>ORDER NUMBER</p>
+                 
 
-                      <input
-                        onChange={(e) =>
-
-                          setFormData((prev) => ({
-                            ...prev,
-                            orderNumber: e.target.value
-                          }))
-                        }
-                        value={formData.orderNumber}
-                        name="orderNumber"
-                        type="Number"
-                        required
-                      />
-
-                    </label>
-                  }
                   {
                     !order1 &&
 

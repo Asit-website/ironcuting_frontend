@@ -206,6 +206,8 @@
 .select-row-btn{
     max-width: 600px;
     width: 100%;
+    display: block;
+    margin: auto;
 }
 .sss td{
     color: #293240 !important;
