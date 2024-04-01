@@ -672,6 +672,7 @@ input::-webkit-outer-spin-button,
   max-width: 620px;
   width: 100%;
   display: block;
+  border: 1px solid gray;
   margin: auto;
   /* padding: 20px 0px; */
 }
@@ -735,6 +736,13 @@ input::-webkit-outer-spin-button,
     width: 295%;
     position: relative;
     top: -20px;
+}
+.olol{
+  height: 20vh;
+}
+.soko{
+  position: absolute;
+  bottom: 0px;
 }
 @media only screen and (max-width:1100px){
   .shj{
