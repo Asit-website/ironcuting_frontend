@@ -113,6 +113,7 @@ function UserOrder({ notify }) {
       type: formData.type,
       Length: formData.Length,
       Diameter: formData.Diameter,
+      quantity: formData.quantity
     });
 
     if (resp.status) {
@@ -146,6 +147,7 @@ function UserOrder({ notify }) {
       Length: formData.Length,
       Height: formData.Height,
       Width: formData.Width,
+      quantity: formData.quantity
     });
 
 
@@ -249,7 +251,8 @@ function UserOrder({ notify }) {
       if (
         formData.Length !== "" &&
         formData.Height !== "" &&
-        formData.Width !== ""
+        formData.Width !== "" && 
+        formData.quantity !== ""
       ) {
         getFlatweight();
       } else {
@@ -258,7 +261,8 @@ function UserOrder({ notify }) {
     } else if (formData.type === "Round") {
       if (
         formData.Diameter !== "" &&
-        formData.Length
+        formData.Length && 
+        formData.quantity !== ""
       ) {
         getRoundweight();
       } else {
@@ -271,6 +275,7 @@ function UserOrder({ notify }) {
     formData?.Height,
     formData?.Width,
     formData?.Diameter,
+    formData.quantity
   ]);
 
   const deleteOrder = async (id) => {

@@ -220,7 +220,7 @@ const MainState = (props) => {
     return data;
   }
 
-  const getRoundWeight = async ({ type, Length, Diameter }) => {
+  const getRoundWeight = async ({ type, Length, Diameter,quantity }) => {
     const token = localStorage.getItem('iron_token');
     const resp = await fetch(`${baseUrl}/order/getWeight`, {
       method: 'POST',
@@ -229,14 +229,14 @@ const MainState = (props) => {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        type, Length, Diameter
+        type, Length, Diameter,quantity
       })
     });
     const data = await resp.json();
     return data;
   }
 
-  const getFlatWeight = async ({ type, Length, Height, Width }) => {
+  const getFlatWeight = async ({ type, Length, Height, Width,quantity }) => {
     const token = localStorage.getItem('iron_token');
     const resp = await fetch(`${baseUrl}/order/getWeight`, {
       method: 'POST',
@@ -245,7 +245,7 @@ const MainState = (props) => {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        type, Length, Height, Width
+        type, Length, Height, Width,quantity
       })
     });
     const data = await resp.json();
