@@ -94,7 +94,7 @@ function Selectround({ notify }) {
                   <h2><span>PARTY NAME : </span> {item?.client}</h2>
                 </div>
                 <div className="party1">
-                  <h2><span>ORDER NO : </span>{(item._id)?.slice(22,24)}</h2>
+                  <h2><span>ORDER NO : </span>{item?.orderNumber}</h2>
                 </div>
                 <div className="party1">
                   <h2><span>DATE : </span> {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}</h2>
@@ -116,7 +116,7 @@ function Selectround({ notify }) {
                         <th scope="col" class="px-6 py-3">
                           TYPE
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 sizied">
                           SIZE
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -139,7 +139,7 @@ function Selectround({ notify }) {
                                 {/* {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()} */}
                                 {val?.type}
                               </td>
-                              <td class="px-6 py-3">
+                              <td class="px-6 py-3 sizied">
                                 {val.type === "Flat" ? `${(val?.Height)} X ${(val?.Width)} X ${(val?.Length)} ` : `${(val?.Diameter)} Ø  X ${(val?.Length)}`}
                               </td>
                               <td class="px-6 py-3 sitsd">

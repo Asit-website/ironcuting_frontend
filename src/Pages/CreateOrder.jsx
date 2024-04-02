@@ -474,11 +474,29 @@ function UserOrder({ notify }) {
                 <div className="allFields">
 
                  
+                {
+                    !order1 &&
+                    <label htmlFor="type">
+                      <p>ORDER NUMBER</p>
 
+                      <input
+                        onChange={(e) =>
+
+                          setFormData((prev) => ({
+                            ...prev,
+                            orderNumber: e.target.value
+                          }))
+                        }
+                        value={formData?.orderNumber}
+                        name="orderNumber"
+                        type="number"
+                        required
+                      />
+
+                    </label>
+                  }
                   {
                     !order1 &&
-
-
                     <label htmlFor="type">
                       <p>CLIENT NAME</p>
 
@@ -497,8 +515,6 @@ function UserOrder({ notify }) {
                       />
 
                     </label>
-
-
                   }
 
                   <label htmlFor="type">

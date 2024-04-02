@@ -676,6 +676,9 @@ input::-webkit-outer-spin-button,
   margin: auto;
   /* padding: 20px 0px; */
 }
+.sizied{
+  font-size: 17.5px !important;
+}
 .lpo{
   width: 34%;
 }
