@@ -46,6 +46,10 @@ function Dashboard({ notify }) {
 
   const [Filter, setFilter] = useState("Select");
 
+  const [searchbar , setSearchbar] = useState("");
+
+  console.log("ss ",searchbar);
+
   const fetchPrimaryData = async()=>{
     const data = await fetchOrderDetails();
 
@@ -56,18 +60,10 @@ function Dashboard({ notify }) {
       totalOrder : data?.totalOrder
      })
   }
-  const handleChange = (e) => {
-    setValue({ ...value, [e.target.name]: e.target.value });
-  };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    getData();
-  };
 
   const getData = async () => {
     const ans = await getOrders("", value.query, page, perPage);
-    // setOrder(ans?.data);
     setTotal(ans?.count);
   }
 
@@ -75,7 +71,7 @@ function Dashboard({ notify }) {
     const ans = await getOrders("", value.query, "", "");
     const reverseArray = ans?.data?.reverse();
     setOrder1(reverseArray);
-    setOrder(reverseArray.slice(0, step)); // Initialize order with first slice
+    setOrder(reverseArray.slice(0, step)); 
   }
 
   const handleNext = () => {
@@ -231,6 +227,19 @@ function Dashboard({ notify }) {
   const currentPage = Math.floor(currentIndex / step) + 1; // Calculate current page number
 
 
+  useEffect(()=>{
+
+    if(searchbar === ""){
+      getData1();
+        }
+    else {
+      const filterdata = order1.filter((data) => data?.client?.toLowerCase().includes(searchbar.toLowerCase()));
+      setOrder(filterdata);
+    }
+
+  },[searchbar])
+
+
   return (
 
     <div className='dashWrap'>
@@ -339,7 +348,7 @@ function Dashboard({ notify }) {
                   <div className='srch'>
                     <img src={search} alt="" />
 
-                    <input onKeyUp={handleSearch} onChange={handleChange} name='query' value={value.query} type="search" placeholder='Search..' />
+                    <input onChange={(e)=>setSearchbar(e.target.value)}  name='searchbar' value={searchbar} type="search" placeholder='Search..' />
 
                   </div>
 
@@ -468,22 +477,13 @@ function Dashboard({ notify }) {
 
                 <div style={{ width: 'fit-content', margin: '20px auto' }} className="view_all">
                   <button disabled={currentIndex === 0} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist'
-                  //  onClick={() => {
-                  //   if (page > 1) {
-                  //     setPage(page - 1);
-                  //   }
-                  // }} 
+               
                   onClick={handlePrev  }
                   >Previous</button>
                   <span className='btn222'>Page {currentPage}</span>
                   <button  disabled={currentIndex + step >= order1.length}
                   className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist' 
-                  // onClick={() => {
-                  //   if ((page * perPage) < total) {
-                  //     setPage(page + 1);
-                  //   }
-                  // }}
-
+                 
                   onClick={handleNext }
 
                   >Next</button>
