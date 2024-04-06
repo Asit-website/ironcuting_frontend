@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import MainContext from "./MainContext";
 
-const baseUrl = 'http://localhost:5000';
+// const baseUrl = 'http://localhost:5000';
 
-// const baseUrl = 'https://ironcut-backend.onrender.com';
+const baseUrl = 'https://ironcut-backend.onrender.com';
 
 const MainState = (props) => {
 
