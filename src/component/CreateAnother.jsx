@@ -21,7 +21,6 @@ const CreateAnother = ({ notify }) => {
         e.preventDefault();
 
         const ans = await createUser({ ...value });
-        console.log(ans);
         alert(ans.message);
     }
     return (

@@ -19,7 +19,6 @@ const Auth = ({notify}) => {
         e.preventDefault();
 
         const ans = await login(value);
-        console.log(ans);
 
         // alert(ans.message)
         notify("success",ans.message);

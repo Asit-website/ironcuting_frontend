@@ -22,7 +22,6 @@ const ResetPassword = ({notify}) => {
 
         if (value.password === value.password1) {
             const ans = await changePassword({ email: JSON.parse(localStorage.getItem('b-reset')).email, password: value.password });
-            console.log(ans);
 
             if (ans.status) {
                 notify(ans.status, ans.message);

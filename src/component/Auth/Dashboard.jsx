@@ -14,13 +14,17 @@ import das1 from '../../image/das1.svg';
 import das2 from '../../image/das2.svg';
 import das4 from '../../image/das4.svg';
 import OutsideClickHandler from 'react-outside-click-handler';
-import OrderHistory from '../OrderHistory'
 
 function Dashboard({ notify }) {
+
   const navigate = useNavigate();
+
   const { getOrders, deleteOrders , fetchOrderDetails } = useMain();
   const [order, setOrder] = useState([]);
   const [order1, setOrder1] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0); // Index for slicing order1
+  const step = 10; // Step size for pagination
+
   const [refreshFlag, setRefreshFlag] = useState(false);
   
    const [primarydata , setPrimaryData] = useState({
@@ -35,7 +39,7 @@ function Dashboard({ notify }) {
     query: ""
   });
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(4);
+  const [perPage, setPerPage] = useState(10);
   const [total, setTotal] = useState(0);
 
   const user = JSON.parse(localStorage.getItem("iron_user"));
@@ -45,7 +49,6 @@ function Dashboard({ notify }) {
   const fetchPrimaryData = async()=>{
     const data = await fetchOrderDetails();
 
-     console.log("primary ",data);
      
      setPrimaryData({
       completeOrder: data?.completeOrder , 
@@ -64,14 +67,29 @@ function Dashboard({ notify }) {
 
   const getData = async () => {
     const ans = await getOrders("", value.query, page, perPage);
-    setOrder(ans?.data);
+    // setOrder(ans?.data);
     setTotal(ans?.count);
-    // setPage(page);
   }
 
   const getData1 = async () => {
     const ans = await getOrders("", value.query, "", "");
-    setOrder1(ans?.data);
+    const reverseArray = ans?.data?.reverse();
+    setOrder1(reverseArray);
+    setOrder(reverseArray.slice(0, step)); // Initialize order with first slice
+  }
+
+  const handleNext = () => {
+    if (currentIndex + step < order1.length) {
+      setCurrentIndex(prevIndex => prevIndex + step);
+      setOrder(order1.slice(currentIndex + step, currentIndex + step + step));
+    }
+  }
+
+  const handlePrev = () => {
+    if (currentIndex - step >= 0) {
+      setCurrentIndex(prevIndex => prevIndex - step);
+      setOrder(order1.slice(currentIndex - step, currentIndex));
+    }
   }
 
   const deleteOrders1 = async (id) => {
@@ -104,7 +122,6 @@ function Dashboard({ notify }) {
       ]
     });
   };
-
 
   useEffect(() => {
     localStorage.setItem('comp', JSON?.stringify(comp));
@@ -209,7 +226,10 @@ function Dashboard({ notify }) {
 
   useEffect(() => {
     getData1();
-  }, [refreshFlag])
+  }, [refreshFlag]);
+
+  const currentPage = Math.floor(currentIndex / step) + 1; // Calculate current page number
+
 
   return (
 
@@ -231,9 +251,7 @@ function Dashboard({ notify }) {
               <div className="hi">
                 <h2 className='flex items-center'>Hi, {user.name} <img className='ml-2 yr' src={alas} alt="alas" /></h2>
               </div>
-              {/* <select name="" id="">
-                <option value="">This Week</option>
-              </select> */}
+            
             </div>
 
             {/* seconnd  */}
@@ -387,8 +405,7 @@ function Dashboard({ notify }) {
                       order.map((item, index) => (
                         <tr key={index} class="bg-white border-b border-[#CED4DA]">
                           <td class="px-3 py-4 text-[#293240] ansDataItem ">
-                            {/* {(item._id)?.slice(22,24)} */}
-                            {item?.orderNumber}
+                          {currentIndex + index + 1}
                           </td>
                           <td class="px-3 py-4 text-[#293240] ansDataItem ">
                             {item.client}
@@ -396,27 +413,11 @@ function Dashboard({ notify }) {
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}
                           </td>
-                          {/* <td class="px-3 py-4 text-[#293240] ansDataItem">
-                            {item.type}
-                          </td>
-                          <td class="px-3 py-4 text-[#293240] ansDataItem">
-                            {item.ironQuality}
-                          </td> */}
+                        
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {item.quantity}
                           </td>
-                          {/* <td class="px-3 py-4 text-[#293240] ansDataItem">
-                            {item.Diameter}
-                          </td>
-                          <td class="px-3 py-4 text-[#293240] ansDataItem">
-                            {item.Length}
-                          </td>
-                          <td class="px-3 py-4 text-[#293240] ansDataItem">
-                            {item.Height}
-                          </td>
-                          <td class="px-3 py-4 text-[#293240] ansDataItem">
-                            {item.Width}
-                          </td> */}
+                       
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {Number(item.Weight).toFixed(2)}KG
                           </td>
@@ -443,18 +444,14 @@ function Dashboard({ notify }) {
                                   deleteOrders1(item._id)
                                 }}>Delete</p>
                                 <p className='cursor-pointer' onClick={() => {
-                                  // navigate(`/selectRound/${item._id}`)
-                                  navigate(`/selectRound/${item._id}` , { state: { item } })
+                                  navigate(`/selectRound/${item._id}` , { state: { item , orderNumber: currentIndex+index+1 } })
                                 }}>Print this</p>
-                                {/* <p onClick={()=>{
-                                  navigate(`/orderHistory/${item._id}`)
-                                }} className='cursor-pointer'>Order History</p> */}
+                       
                               </div>
                             </OutsideClickHandler>
                           </td>
 
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
-                            {/* <button className='text-[]'>Complete</button> */}
                             <button onClick={()=>{
                                completeOrder(item?._id);
                                compise();
@@ -468,18 +465,28 @@ function Dashboard({ notify }) {
 
                   </tbody>
                 </table>
+
                 <div style={{ width: 'fit-content', margin: '20px auto' }} className="view_all">
-                  <button disabled={page === 1} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist' onClick={() => {
-                    if (page > 1) {
-                      setPage(page - 1);
-                    }
-                  }}>Previous</button>
-                  <span className='btn222'>Page {page}</span>
-                  <button disabled={(page * perPage) >= total} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist' onClick={() => {
-                    if ((page * perPage) < total) {
-                      setPage(page + 1);
-                    }
-                  }}>Next</button>
+                  <button disabled={currentIndex === 0} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist'
+                  //  onClick={() => {
+                  //   if (page > 1) {
+                  //     setPage(page - 1);
+                  //   }
+                  // }} 
+                  onClick={handlePrev  }
+                  >Previous</button>
+                  <span className='btn222'>Page {currentPage}</span>
+                  <button  disabled={currentIndex + step >= order1.length}
+                  className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist' 
+                  // onClick={() => {
+                  //   if ((page * perPage) < total) {
+                  //     setPage(page + 1);
+                  //   }
+                  // }}
+
+                  onClick={handleNext }
+
+                  >Next</button>
                 </div>
 
                 {/* <button onClick={generatePdf}>pdf</button> */}
@@ -488,6 +495,7 @@ function Dashboard({ notify }) {
 
 
             </div>
+
           </div>
 
 

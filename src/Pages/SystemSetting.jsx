@@ -99,11 +99,8 @@ function SystemSetting({notify}) {
       const ans = await updateType({
         ...value,
       });
-      console.log(editData._id);
-      console.log(ans.data);
 
       if (ans?.status) {
-        console.log("hi");
         notify("success", "successfully Updated");
         // alert("successfully updated");
         setRefreshFlag(!refreshFlag);
@@ -147,7 +144,6 @@ function SystemSetting({notify}) {
       }
     } else {
       const resp = await createQuality({ ...value });
-      console.log("rs", resp);
       if (resp.status) {
         notify("success","created successfully")
         fetchAllIronQuality();
@@ -230,8 +226,6 @@ function SystemSetting({notify}) {
       }
      
   },[searchBar])
-
-  console.log("value ",value);
 
 
   return (

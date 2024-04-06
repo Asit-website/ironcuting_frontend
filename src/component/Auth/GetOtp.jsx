@@ -8,7 +8,6 @@ const GetOtp = ({notify}) => {
 
     const resend = async () => {
         let ans = await sendOtp({ email: JSON.parse(localStorage.getItem('b-reset')).email });
-        console.log(ans);
         if (ans.status) {
             localStorage.setItem('b-reset', JSON.stringify({ email: JSON.parse(localStorage.getItem('b-reset')).email, otp: ans.otp }));
             notify(ans.status, ans.message);
@@ -29,7 +28,6 @@ const GetOtp = ({notify}) => {
         }
 
         const ans = await submitOtp({ otp: JSON.parse(localStorage.getItem('b-reset')).otp, otp1 });
-        console.log(ans);
 
         if (ans.status) {
             notify(ans.status, ans.message);

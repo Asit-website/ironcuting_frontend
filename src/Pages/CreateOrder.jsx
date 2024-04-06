@@ -1,9 +1,6 @@
 import Navbar from "../Common/Navbar";
 import Sidebar from "../Common/Sidebar";
 import "./createOrder.css";
-import add from "../image/add1.png"
-import d from "../image/delete1.png"
-import edit from "../image/edit1.png"
 import { useEffect, useState } from "react";
 import { useMain } from "../hooks/useMain";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -22,7 +19,7 @@ function UserOrder({ notify }) {
   const [formData, setFormData] = useState(
     {
       client: "",
-      orderNumber: "",
+      // orderNumber: "",
       type: "",
       ironQuality: "",
       Diameter: "",
@@ -101,7 +98,6 @@ function UserOrder({ notify }) {
     else {
       ans = await fetchUserFormWithId(order1?._id);
     }
-    console.log("fetucn user form ", ans);
     if (ans.status) {
       setOrder(ans?.data);
     }
@@ -193,7 +189,6 @@ function UserOrder({ notify }) {
         }
       }
     } catch (error) {
-      console.log(error);
       //  alert("error")
     }
   }
@@ -474,7 +469,7 @@ function UserOrder({ notify }) {
                 <div className="allFields">
 
                  
-                {
+                {/* {
                     !order1 &&
                     <label htmlFor="type">
                       <p>ORDER NUMBER</p>
@@ -494,7 +489,7 @@ function UserOrder({ notify }) {
                       />
 
                     </label>
-                  }
+                  } */}
                   {
                     !order1 &&
                     <label htmlFor="type">

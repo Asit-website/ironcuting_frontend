@@ -22,8 +22,6 @@ const ForgotPass = ({notify}) => {
         e.preventDefault();
 
         let ans = await sendOtp({ email: value.email });
-        console.log(ans);
-        console.log(ans.status);
         if (ans.status) {
             localStorage.setItem('b-reset', JSON.stringify({ email: value.email, otp: ans.otp }));
             notify(ans.status, ans.message);

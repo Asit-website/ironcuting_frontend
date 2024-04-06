@@ -12,6 +12,10 @@ function Selectround({ notify }) {
   const location = useLocation();
   const product = location?.state?.item;
 
+  const orderNumber = location?.state?.orderNumber;
+
+  console.log("produtc ",orderNumber);
+
   const [allQuality, setAllQuality] = useState([]);
 
   const navigate = useNavigate()
@@ -94,7 +98,7 @@ function Selectround({ notify }) {
                   <h2><span>PARTY NAME : </span> {item?.client}</h2>
                 </div>
                 <div className="party1">
-                  <h2><span>ORDER NO : </span>{item?.orderNumber}</h2>
+                  <h2><span>ORDER NO : </span>{orderNumber}</h2>
                 </div>
                 <div className="party1">
                   <h2><span>DATE : </span> {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}</h2>

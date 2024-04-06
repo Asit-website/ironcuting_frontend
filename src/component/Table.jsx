@@ -19,7 +19,6 @@ const Table = () => {
     const getData = async () => {
         const ans = await getOrders("", "", "", "");
         setOrder(ans?.data);
-        console.log(ans?.data);
     }
 
     return (
