@@ -495,8 +495,14 @@ input::-webkit-outer-spin-button,
   border: 1px solid gray; 
 }
 .pk1 td{
-  border-bottom: 1px solid rgb(223, 222, 222);
-  border-right: 1px solid rgb(223, 222, 222) ;
+  border-bottom: 1px solid rgb(223, 222, 222) !important;
+  border-right: 1px solid rgb(223, 222, 222) !important;
+}
+.quat{
+  width: 20%;
+}
+.quat1{
+  width: 40%;
 }
 .sitsd{
   border-right: none !important;
@@ -677,7 +683,10 @@ input::-webkit-outer-spin-button,
   /* padding: 20px 0px; */
 }
 .sizied{
-  font-size: 17.5px !important;
+  font-size: 15.5px !important;
+}
+.sizied1{
+  font-size: 16.4px !important;
 }
 .singEmp_profileL img{
   width: 50px;
@@ -746,7 +755,15 @@ input::-webkit-outer-spin-button,
     top: -20px;
 }
 .olol{
-  height: 20vh;
+  height: 10vh;
+}
+.opming table tr{
+  background-color: white !important;
+}
+@media print {
+  .selected_print{
+    display: none !important;
+  }
 }
 .soko{
   position: absolute;

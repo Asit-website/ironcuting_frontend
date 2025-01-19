@@ -9,19 +9,34 @@ function Selectround({ notify }) {
   const { id } = useParams();
   const [item, setItem] = useState({});
 
+  const [item1,setItem1] = useState({});
+
   const location = useLocation();
   const product = location?.state?.item;
 
   const orderNumber = location?.state?.orderNumber;
 
-  console.log("produtc ",orderNumber);
+  console.log("produtc ", orderNumber);
 
   const [allQuality, setAllQuality] = useState([]);
 
   const navigate = useNavigate()
   const contonentPDF = useRef()
+  const contonentPDF1 = useRef()
   const generatePdf = useReactToPrint({
     content: () => contonentPDF.current,
+    documentTitle: "Order",
+    parentContainer: {
+      '@media print': {
+        display: 'block',
+      },
+    },
+    onAfterPrint: () => notify("success", "item saved")
+    
+  })
+
+  const generatePdf1 = useReactToPrint({
+    content: () => contonentPDF1.current,
     documentTitle: "Order",
     parentContainer: {
       '@media print': {
@@ -36,7 +51,7 @@ function Selectround({ notify }) {
   const getitem = async () => {
     let ans = await getOrders(id, '', '', '');
     setItem(ans.data[0]);
-
+    console.log(ans)
     const uniqueQualities = new Set();
 
     ans?.data[0]?.form?.forEach(obj => {
@@ -54,6 +69,34 @@ function Selectround({ notify }) {
   useEffect(() => {
     getitem();
   }, [id])
+
+
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [splitItems, setSplitItems] = useState([]);
+
+  const handleCheckboxChange = (item) => {
+    setSelectedItems((prevSelected) => {
+      if (prevSelected.includes(item)) {
+        return prevSelected.filter((selected) => selected !== item);
+      } else {
+        return [...prevSelected, item];
+      }
+    });
+  };
+
+  const handleSplit = () => {
+    setSplitItems(selectedItems);
+  };
+
+  console.log(splitItems);
+
+  const totalSplitPrice = splitItems?.map((price) => price.CuttingPrice)?.reduce((acc,curr) => acc + curr,0);
+  console.log("total",totalSplitPrice);
+
+  const totalSplitWeight = splitItems?.map((weight) => weight.Weight)?.reduce((acc,curr)=> acc + curr,0);
+  console.log(totalSplitWeight);
+
+
 
   //   {item?.form?.filter(x => x.ironQuality !== item.quantity)?.map((val, index) => {
   //     let s = val?.ironQuality
@@ -104,7 +147,7 @@ function Selectround({ notify }) {
                   <h2><span>DATE : </span> {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}</h2>
                 </div>
               </div>
-              <div  class="relative overflow-x-auto lt sing  sm:rounded-lg">
+              <div class="relative overflow-x-auto lt sing  sm:rounded-lg">
 
 
                 <div className='overflow-x-auto'>
@@ -114,17 +157,23 @@ function Selectround({ notify }) {
                         {/* <th scope="col" class="px-10 py-3">
                             ORDER NO.
                           </th> */}
-                        <th scope="col" class="px-6 py-3">
+                        <th  scope="col" class="px-6 py-3 sizied quat selected_print">
+                          SELECT
+                        </th>
+                        <th scope="col" class="px-6 py-3 sizied quat">
                           IRON QUALITY
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        {/* <th scope="col" class="px-6 py-3">
                           TYPE
-                        </th>
-                        <th scope="col" class="px-6 py-3 sizied">
+                        </th> */}
+                        <th scope="col" class="px-6 py-3 sizied quat1">
                           SIZE
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 sizied quat">
                           QUANTITY
+                        </th>
+                        <th scope="col" class="px-6 py-3 sizied quat">
+                          WEIGHT
                         </th>
                       </tr>
                     </thead>
@@ -136,18 +185,34 @@ function Selectround({ notify }) {
                               {/* <td class="px-10 py-3">
                                 #{index+1}
                               </td> */}
-                              <td class="px-6 py-3">
+                              <td  className='selected_print'>
+                                <input
+                                  type="checkbox"
+                                  onChange={() => handleCheckboxChange(val)}
+                                  checked={selectedItems.some(
+                                    (selected) =>
+                                      selected.ironQuality === val.ironQuality &&
+                                      selected.size === val.size &&
+                                      selected.quantity === val.quantity &&
+                                      selected.Weight === val.Weight
+                                  )}
+                                />
+                              </td>
+                              <td class="px-6 py-3 sizied1">
                                 {val?.ironQuality}
                               </td>
-                              <td class="px-6 py-3">
-                                {/* {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()} */}
+                              {/* <td class="px-6 py-3">
+                                
                                 {val?.type}
-                              </td>
-                              <td class="px-6 py-3 sizied">
+                              </td> */}
+                              <td class="px-6 py-3 sizied1">
                                 {val.type === "Flat" ? `${(val?.Height)} X ${(val?.Width)} X ${(val?.Length)} ` : `${(val?.Diameter)} Ø  X ${(val?.Length)}`}
                               </td>
-                              <td class="px-6 py-3 sitsd">
+                              <td class="px-6 py-3 sitsd sizied1">
                                 {val?.quantity}
+                              </td>
+                              <td class="px-6 py-3 sizied1">
+
                               </td>
                             </tr>
                           )
@@ -157,116 +222,27 @@ function Selectround({ notify }) {
                     </tbody>
                   </table>
 
-                  {/* <table class="w-full sall2 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                      <thead class="pk pko">
-                        <tr>
-                          <th  scope="col" class="px-10 py-3 lpo">
-                          APPROX WEIGHT
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                          CUTTING PRICE
-                          </th>
-                        
-                         
-                        </tr>
-                      </thead>
-                      <tbody className='pk1'>
-                        <tr class="odd:bg-white soik odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
-                         
-                          <td class="px-10 py-3">
-                            {val?.Weight}KG
-                          </td>
-                          <td class="px-6 py-3">
-                            {val?.CuttingPrice}
-                          </td>
-                        
-                        </tr>
-                        <div className='lokiu'></div>
-                      </tbody>
-                    </table> */}
+                  {/* ============dusra----------------- */}
+
+
                 </div>
 
-                {/* // <div className='sent1'>
-                    // <table class="w-full sall1 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    //   <thead class="pk pko">
-                    //     <tr>
-                    //       <th scope="col" class="px-10 py-3">
-                    //         ORDER NO.
-                    //       </th>
-                    //       <th scope="col" class="px-6 py-3">
-                    //         TYPE
-                    //       </th>
-                         
-                    //       <th scope="col" class="px-6 py-3">
-                    //         LENGTH
-                    //       </th>
-                    //       <th scope="col" class="px-6 py-3">
-                    //         QUANTITY
-                    //       </th>
-                    //     </tr>
-                    //   </thead>
-                    //   <tbody className='pk1'>
-                    //     <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
-                    //       <td class="px-10 py-3">
-                    //         #{index+1}
-                    //       </td>
-                    //       <td class="px-6 py-3">
-                    //         {val?.type}
-                    //       </td>
-                       
-                    //       <td class="px-6 py-3">
-                    //         {val?.Length}
-                    //       </td>
-                    //       <td class="px-6 py-3">
-                    //         {val?.quantity}
-                    //       </td>
-                    //     </tr>
-                    //   </tbody>
-                    // </table>
-                    // <table class="w-full sall2 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    //   <thead class="pk pko">
-                    //     <tr>
-                    //       <th  scope="col" class="px-10 py-3 lpo">
-                    //       APPROX WEIGHT
-                    //       </th>
-                    //       <th scope="col" class="px-6 py-3">
-                    //       CUTTING PRICE
-                    //       </th>
-                       
-                         
-                    //     </tr>
-                    //   </thead>
-                    //   <tbody className='pk1'>
-                    //     <tr class="odd:bg-white soik odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
-                    //       <td class="px-10 py-3">
-                    //         {val?.Weight}KG
-                    //       </td>
-                    //       <td class="px-6 py-3">
-                    //         {val?.CuttingPrice}
-                    //       </td>
-                         
-                    //     </tr>
-
-                    //     <div className='lokiu'></div>
-                    //   </tbody>
-                    // </table>
-                    // </div> */}
 
 
 
 
 
-                <div class="relative overflow-x-auto olol">
+                <div class="relative overflow-x-auto olol opming">
                   <table class="w-full soko text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                      <tr className='ooo'>
+                      {/* <tr className='ooo'>
                         <th scope="col" class="px-6 py-3">
                           APPROX WEIGHT
                         </th>
                         <th scope="col" class="px-6 py-3 sonm">
                           CUTTING PRICE
                         </th>
-                      </tr>
+                      </tr> */}
                     </thead>
                     <tbody>
                       <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 oo1">
@@ -283,61 +259,167 @@ function Selectround({ notify }) {
                 </div>
 
 
+
+
+
               </div>
             </div>
-            {/* <div className="ordery">
-              
-              <div ref={contonentPDF} className="order_de">
-                {
-                  item?.form?.map((val,index)=>{
-                    return (
-                      <div className='hinh' key={index}>
-                      <div className="order_head">
-                        <h2>Orders Details #{(val?._id)?.slice(0, 4)}</h2>
-                      </div>
-                      <div className="order_head1">
-                        <div className="party1">
-                          <p>Party Name: <span>{val?.client}</span></p>
-                        </div>
-                        <div className="party2">
-                          <p>Date: <span> {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}</span></p>
-                        </div>
-                      </div>
-                      <div className="order_body">
-                        <div className="typed">
-                          <p>Quality: <span className='sites'>{val?.ironQuality}</span></p>
-                        </div>
-                        <div className="typed1">
-                          <p>Size: <span>100x25x1005-1pc</span></p>
-                        </div>
-                        <div className="typed2">
-                          <p>Quantity: <span>{val?.quantity}</span></p>
-                        </div>
-                      </div>
-                      <div className="order_footer">
-                        <div className="order_footer1">
-                          <p>Cutting price total: <span>{val?.CuttingPrice}</span></p>
-                        </div>
-                        <div className="order_footer2">
-                          <p>Approx Weight: <span>{val?.Weight}Kg</span></p>
-                        </div>
-                      </div>
-                      </div>
-                    )
-                  })
-                }
-               
-                </div>
 
-              </div> */}
             <div className="select-row-btn">
               <div className="select-row-btn-flex">
                 <button onClick={() => {
                   navigate(`/createOrder`, { state: { item } })
                 }} type="button" id="edit">Edit</button>
                 <button onClick={generatePdf} type="button" id="print">Print</button>
+                <button
+              onClick={handleSplit}
+              style={{
+               
+                padding: "10px 20px",
+                backgroundColor: "#4CAF50",
+                color: "white",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              Split
+            </button>
               </div>
             </div>
+
+
+
+          
+
+            {splitItems.length > 0 && (
+              <>
+              <div style={{marginTop:"30px"}} ref={contonentPDF1} className='sara11 mt-2'>
+                <div className="party_name">
+                  <div className="party1">
+                    <h2><span>PARTY NAME : </span> {item?.client}</h2>
+                  </div>
+                  <div className="party1">
+                    <h2><span>ORDER NO : </span>{orderNumber}</h2>
+                  </div>
+                  <div className="party1">
+                    <h2><span>DATE : </span> {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}</h2>
+                  </div>
+                </div>
+                <div class="relative overflow-x-auto lt sing  sm:rounded-lg">
+
+
+                  <div className='overflow-x-auto'>
+                    <table class="w-full  sall1 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                      <thead class="pk pko">
+                        <tr>
+                          {/* <th scope="col" class="px-10 py-3">
+            ORDER NO.
+          </th> */}
+
+                          <th scope="col" class="px-6 py-3 sizied quat">
+                            IRON QUALITY
+                          </th>
+                          {/* <th scope="col" class="px-6 py-3">
+          TYPE
+        </th> */}
+                          <th scope="col" class="px-6 py-3 sizied quat1">
+                            SIZE
+                          </th>
+                          <th scope="col" class="px-6 py-3 sizied quat">
+                            QUANTITY
+                          </th>
+                          <th scope="col" class="px-6 py-3 sizied quat">
+                            WEIGHT
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className='pk1 polor'>
+                        {
+                          splitItems?.map((val, index) => {
+                            return (
+                              <tr style={{ background: "white" }} key={index} class="odd:bg-white  odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
+                                {/* <td class="px-10 py-3">
+                #{index+1}
+              </td> */}
+
+                                <td class="px-6 py-3 sizied1">
+                                  {val?.ironQuality}
+                                </td>
+                                {/* <td class="px-6 py-3">
+                
+                {val?.type}
+              </td> */}
+                                <td class="px-6 py-3 sizied1">
+                                  {val.type === "Flat" ? `${(val?.Height)} X ${(val?.Width)} X ${(val?.Length)} ` : `${(val?.Diameter)} Ø  X ${(val?.Length)}`}
+                                </td>
+                                <td class="px-6 py-3 sitsd sizied1">
+                                  {val?.quantity}
+                                </td>
+                                <td class="px-6 py-3 sizied1">
+
+                                </td>
+                              </tr>
+                            )
+                          })
+                        }
+
+                      </tbody>
+                    </table>
+
+                    {/* ============dusra----------------- */}
+
+
+                  </div>
+
+
+
+
+
+
+                  <div class="relative overflow-x-auto olol opming">
+                    <table class="w-full soko text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        {/* <tr className='ooo'>
+        <th scope="col" class="px-6 py-3">
+          APPROX WEIGHT
+        </th>
+        <th scope="col" class="px-6 py-3 sonm">
+          CUTTING PRICE
+        </th>
+      </tr> */}
+                      </thead>
+                      <tbody>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 oo1">
+                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {Number(totalSplitWeight).toFixed(2)}KG
+                          </th>
+                          <td class="px-6 py-4 sonm">
+                            {totalSplitPrice}
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+
+
+
+
+
+                </div>
+
+               
+              </div>
+               <div className="select-row-btn">
+               <div className="select-row-btn-flex">
+                 <button onClick={generatePdf1} type="button" id="print">Print</button>
+               </div>
+             </div>
+             </>
+            )}
+
+
+
           </div>
 
         </div>

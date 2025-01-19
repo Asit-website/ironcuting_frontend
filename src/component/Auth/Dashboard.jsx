@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import "./dashboard.css"
 import Navbar from '../../Common/Navbar'
 import Sidebar from '../../Common/Sidebar'
@@ -19,21 +19,21 @@ function Dashboard({ notify }) {
 
   const navigate = useNavigate();
 
-  const { getOrders, deleteOrders , fetchOrderDetails } = useMain();
+  const { getOrders, deleteOrders, fetchOrderDetails } = useMain();
   const [order, setOrder] = useState([]);
   const [order1, setOrder1] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0); // Index for slicing order1
   const step = 10; // Step size for pagination
 
   const [refreshFlag, setRefreshFlag] = useState(false);
-  
-   const [primarydata , setPrimaryData] = useState({
-    completeOrder:0,
-    todayOrder:0 , 
-    totalOrder:0
-   });
 
-   const [comp,setComp] = useState(0);
+  const [primarydata, setPrimaryData] = useState({
+    completeOrder: 0,
+    todayOrder: 0,
+    totalOrder: 0
+  });
+
+  const [comp, setComp] = useState(0);
 
   const [value, setValue] = useState({
     query: ""
@@ -46,19 +46,19 @@ function Dashboard({ notify }) {
 
   const [Filter, setFilter] = useState("Select");
 
-  const [searchbar , setSearchbar] = useState("");
+  const [searchbar, setSearchbar] = useState("");
 
-  console.log("ss ",searchbar);
+  console.log("ss ", searchbar);
 
-  const fetchPrimaryData = async()=>{
+  const fetchPrimaryData = async () => {
     const data = await fetchOrderDetails();
 
-     
-     setPrimaryData({
-      completeOrder: data?.completeOrder , 
-      todayOrder: data?.todayOrder ,
-      totalOrder : data?.totalOrder
-     })
+
+    setPrimaryData({
+      completeOrder: data?.completeOrder,
+      todayOrder: data?.todayOrder,
+      totalOrder: data?.totalOrder
+    })
   }
 
 
@@ -70,8 +70,9 @@ function Dashboard({ notify }) {
   const getData1 = async () => {
     const ans = await getOrders("", value.query, "", "");
     const reverseArray = ans?.data?.reverse();
+    console.log(reverseArray);
     setOrder1(reverseArray);
-    setOrder(reverseArray.slice(0, step)); 
+    setOrder(reverseArray.slice(0, step));
   }
 
   const handleNext = () => {
@@ -89,7 +90,7 @@ function Dashboard({ notify }) {
   }
 
   const deleteOrders1 = async (id) => {
-    
+
     confirmAlert({
       title: 'Are you sure to delete this data?',
       message: 'All related data to this will be deleted',
@@ -126,19 +127,19 @@ function Dashboard({ notify }) {
   useEffect(() => {
     const comp = JSON.parse(localStorage?.getItem('comp'));
     if (comp) {
-       setComp(comp);
+      setComp(comp);
     }
   }, []);
 
-  const compise = () =>{
-    setComp(comp+1);
+  const compise = () => {
+    setComp(comp + 1);
 
   }
-  useEffect(()=>{
+  useEffect(() => {
     compise()
-  },[])
+  }, [])
 
-  const completeOrder = async(id) =>{
+  const completeOrder = async (id) => {
     const ans = await deleteOrders(id);
     if (ans.status) {
       notify("success", "order completed successfully");
@@ -202,9 +203,9 @@ function Dashboard({ notify }) {
 
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchPrimaryData();
-  },[refreshFlag])
+  }, [refreshFlag])
 
   useEffect(() => {
 
@@ -227,17 +228,17 @@ function Dashboard({ notify }) {
   const currentPage = Math.floor(currentIndex / step) + 1; // Calculate current page number
 
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    if(searchbar === ""){
+    if (searchbar === "") {
       getData1();
-        }
+    }
     else {
       const filterdata = order1.filter((data) => data?.client?.toLowerCase().includes(searchbar.toLowerCase()));
       setOrder(filterdata);
     }
 
-  },[searchbar])
+  }, [searchbar])
 
 
   return (
@@ -260,7 +261,7 @@ function Dashboard({ notify }) {
               <div className="hi">
                 <h2 className='flex items-center'>Hi, {user.name} <img className='ml-2 yr' src={alas} alt="alas" /></h2>
               </div>
-            
+
             </div>
 
             {/* seconnd  */}
@@ -348,7 +349,7 @@ function Dashboard({ notify }) {
                   <div className='srch'>
                     <img src={search} alt="" />
 
-                    <input onChange={(e)=>setSearchbar(e.target.value)}  name='searchbar' value={searchbar} type="search" placeholder='Search..' />
+                    <input onChange={(e) => setSearchbar(e.target.value)} name='searchbar' value={searchbar} type="search" placeholder='Search..' />
 
                   </div>
 
@@ -414,7 +415,8 @@ function Dashboard({ notify }) {
                       order.map((item, index) => (
                         <tr key={index} class="bg-white border-b border-[#CED4DA]">
                           <td class="px-3 py-4 text-[#293240] ansDataItem ">
-                          {currentIndex + index + 1}
+                            {/* {currentIndex + index + 1} */}
+                            {order.length - index}
                           </td>
                           <td class="px-3 py-4 text-[#293240] ansDataItem ">
                             {item.client}
@@ -422,11 +424,11 @@ function Dashboard({ notify }) {
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {new Date(item?.Date).getDate()}/{new Date(item?.Date).getMonth() + 1}/{new Date(item?.Date).getFullYear()}
                           </td>
-                        
+
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {item.quantity}
                           </td>
-                       
+
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
                             {Number(item.Weight).toFixed(2)}KG
                           </td>
@@ -453,17 +455,17 @@ function Dashboard({ notify }) {
                                   deleteOrders1(item._id)
                                 }}>Delete</p>
                                 <p className='cursor-pointer' onClick={() => {
-                                  navigate(`/selectRound/${item._id}` , { state: { item , orderNumber: currentIndex+index+1 } })
+                                  navigate(`/selectRound/${item._id}`, { state: { item, orderNumber: order.length - index } })
                                 }}>Print this</p>
-                       
+
                               </div>
                             </OutsideClickHandler>
                           </td>
 
                           <td class="px-3 py-4 text-[#293240] ansDataItem">
-                            <button onClick={()=>{
-                               completeOrder(item?._id);
-                               compise();
+                            <button onClick={() => {
+                              completeOrder(item?._id);
+                              compise();
                             }} type="button" class="focus:outline-none text-white bg-[#4D3292] hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Complete</button>
                           </td>
 
@@ -477,14 +479,14 @@ function Dashboard({ notify }) {
 
                 <div style={{ width: 'fit-content', margin: '20px auto' }} className="view_all">
                   <button disabled={currentIndex === 0} className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist'
-               
-                  onClick={handlePrev  }
+
+                    onClick={handlePrev}
                   >Previous</button>
                   <span className='btn222'>Page {currentPage}</span>
-                  <button  disabled={currentIndex + step >= order1.length}
-                  className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist' 
-                 
-                  onClick={handleNext }
+                  <button disabled={currentIndex + step >= order1.length}
+                    className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 sist'
+
+                    onClick={handleNext}
 
                   >Next</button>
                 </div>
