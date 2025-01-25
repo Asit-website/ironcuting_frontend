@@ -73,6 +73,7 @@ function Selectround({ notify }) {
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [splitItems, setSplitItems] = useState([]);
+  const [splitTriggered, setSplitTriggered] = useState(false);
 
   const handleCheckboxChange = (item) => {
     setSelectedItems((prevSelected) => {
@@ -86,6 +87,7 @@ function Selectround({ notify }) {
 
   const handleSplit = () => {
     setSplitItems(selectedItems);
+    setSplitTriggered(true);
   };
 
   console.log(splitItems);
@@ -96,6 +98,17 @@ function Selectround({ notify }) {
   const totalSplitWeight = splitItems?.map((weight) => weight.Weight)?.reduce((acc,curr)=> acc + curr,0);
   console.log(totalSplitWeight);
 
+  // const unselectedItems = item.filter(
+  //   (item) =>
+  //     !selectedItems.some(
+  //       (selected) =>
+  //         selected.ironQuality === item.ironQuality &&
+  //         selected.size === item.size &&
+  //         selected.quantity === item.quantity
+  //     )
+  // );
+
+  // console.log("unselected",unselectedItems);
 
 
   //   {item?.form?.filter(x => x.ironQuality !== item.quantity)?.map((val, index) => {
@@ -196,6 +209,7 @@ function Selectround({ notify }) {
                                       selected.quantity === val.quantity &&
                                       selected.Weight === val.Weight
                                   )}
+                                  
                                 />
                               </td>
                               <td class="px-6 py-3 sizied1">

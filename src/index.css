@@ -760,6 +760,9 @@ input::-webkit-outer-spin-button,
 .opming table tr{
   background-color: white !important;
 }
+.talentering label{
+  color: #000000;
+}
 @media print {
   .selected_print{
     display: none !important;

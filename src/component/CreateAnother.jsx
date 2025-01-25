@@ -22,6 +22,11 @@ const CreateAnother = ({ notify }) => {
 
         const ans = await createUser({ ...value });
         alert(ans.message);
+        setValue({
+            name:"",
+            email:"",
+            password:""
+        })
     }
     return (
         <>
@@ -39,7 +44,7 @@ const CreateAnother = ({ notify }) => {
                     <div className="dashRight">
                         <div className='shj'>
                         <h1 className='text-center font-bold'>Create another Admin</h1>
-                            <form  onSubmit={handleSubmit} className="max-w-sm mt-10 mx-auto">
+                            <form  onSubmit={handleSubmit} className="max-w-sm mt-10 mx-auto talentering">
                           
                                 <div className="mb-5">
                                     <label

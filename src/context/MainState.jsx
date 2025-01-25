@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import MainContext from "./MainContext";
 
-// const baseUrl = 'http://localhost:5000';
+const baseUrl = 'http://localhost:5000';
 
 // const baseUrl = 'https://ironcut-backend.onrender.com';
 
-const baseUrl = 'https://backend.shubhalloys.in';
+// const baseUrl = 'https://backend.shubhalloys.in';
 
 // const baseUrl = 'https://productback.enheal.in';
 
@@ -203,9 +203,6 @@ const MainState = (props) => {
     }
 
   }
-
-
-
   const getRoundCuttingPrice = async ({ type, Diameter, quantity, ironQuality }) => {
 
 
@@ -484,7 +481,7 @@ const MainState = (props) => {
     const data = await resp.json();
     return data;
   }
-
+  
   const updateFormHadler = async (formdata, id, orderId) => {
 
 
