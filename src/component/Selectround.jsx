@@ -112,8 +112,11 @@ function Selectround({ notify }) {
 
 
   const totalSplitPrice = splitItems?.map((price) => price.CuttingPrice)?.reduce((acc,curr) => acc + curr,0);
+  const unselectPrice = unselectedItems?.map((price) => price.CuttingPrice)?.reduce((acc,curr) => acc + curr,0);
 
   const totalSplitWeight = splitItems?.map((weight) => weight.Weight)?.reduce((acc,curr)=> acc + curr,0);
+
+  const unselectWeight = unselectedItems?.map((weight) => weight.Weight)?.reduce((acc,curr)=> acc + curr,0);
 
   // const unselectedItems = item.filter(
   //   (item) =>
@@ -458,16 +461,12 @@ function Selectround({ notify }) {
                     <table class="w-full  sall1 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                       <thead class="pk pko">
                         <tr>
-                          {/* <th scope="col" class="px-10 py-3">
-            ORDER NO.
-          </th> */}
+                          
 
                           <th scope="col" class="px-6 py-3 sizied quat">
                             IRON QUALITY
                           </th>
-                          {/* <th scope="col" class="px-6 py-3">
-          TYPE
-        </th> */}
+                          
                           <th scope="col" class="px-6 py-3 sizied quat1">
                             SIZE
                           </th>
@@ -484,17 +483,11 @@ function Selectround({ notify }) {
                           unselectedItems?.map((val, index) => {
                             return (
                               <tr style={{ background: "white" }} key={index} class="odd:bg-white  odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 pk1 ">
-                                {/* <td class="px-10 py-3">
-                #{index+1}
-              </td> */}
-
+                             
                                 <td class="px-6 py-3 sizied1">
                                   {val?.ironQuality}
                                 </td>
-                                {/* <td class="px-6 py-3">
-                
-                {val?.type}
-              </td> */}
+                          
                                 <td class="px-6 py-3 sizied1">
                                   {val.type === "Flat" ? `${(val?.Height)} X ${(val?.Width)} X ${(val?.Length)} ` : `${(val?.Diameter)} Ø  X ${(val?.Length)}`}
                                 </td>
@@ -525,22 +518,15 @@ function Selectround({ notify }) {
                   <div class="relative overflow-x-auto olol opming">
                     <table class="w-full soko text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        {/* <tr className='ooo'>
-        <th scope="col" class="px-6 py-3">
-          APPROX WEIGHT
-        </th>
-        <th scope="col" class="px-6 py-3 sonm">
-          CUTTING PRICE
-        </th>
-      </tr> */}
+                    
                       </thead>
                       <tbody>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 oo1">
                           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {Number(totalSplitWeight).toFixed(2)}KG
+                            {Number(unselectWeight).toFixed(2)}KG
                           </th>
                           <td class="px-6 py-4 sonm">
-                            {totalSplitPrice}
+                            {unselectPrice}
                           </td>
                         </tr>
 
