@@ -22,8 +22,8 @@ function Dashboard({ notify }) {
   const { getOrders, deleteOrders, fetchOrderDetails } = useMain();
   const [order, setOrder] = useState([]);
   const [order1, setOrder1] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0); // Index for slicing order1
-  const step = 10; // Step size for pagination
+  const [currentIndex, setCurrentIndex] = useState(0); 
+  const step = 10; 
 
   const [refreshFlag, setRefreshFlag] = useState(false);
 
