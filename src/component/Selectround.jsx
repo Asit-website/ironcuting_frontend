@@ -118,34 +118,6 @@ function Selectround({ notify }) {
 
   const unselectWeight = unselectedItems?.map((weight) => weight.Weight)?.reduce((acc,curr)=> acc + curr,0);
 
-  // const unselectedItems = item.filter(
-  //   (item) =>
-  //     !selectedItems.some(
-  //       (selected) =>
-  //         selected.ironQuality === item.ironQuality &&
-  //         selected.size === item.size &&
-  //         selected.quantity === item.quantity
-  //     )
-  // );
-
-  // console.log("unselected",unselectedItems);
-
-
-  //   {item?.form?.filter(x => x.ironQuality !== item.quantity)?.map((val, index) => {
-  //     let s = val?.ironQuality
-  //     console.log(s);
-  //   return (
-
-  //     <>
-  //       <div key={index}>
-  //         {s.split(',')}
-  //       </div>
-  //     </>
-  //   )
-  // })}
-
-
-
   return (
     <div className='dashWrap'>
 
